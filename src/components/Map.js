@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import MiniMap from 'leaflet-minimap';
 import 'leaflet/dist/leaflet.css';
 
+import Minimap from './Minimap';
+import Logo from './Logo';
+
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+let DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 export default class Map extends Component {
 
@@ -15,51 +26,47 @@ export default class Map extends Component {
       lng: -112.252417,
       zoom: 14.5,
     };
+
+    this.showPreview = this.showPreview.bind(this);
   }
 
-  componentDidMount() {
-
-    let tileURL = 'https://api.mapbox.com/styles/v1/michellito/ckovvt6ba3qm418qr3dh0qwgz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWljaGVsbGl0byIsImEiOiJja244YnR3aWYwN3ljMm5waWZpMHBlOXdmIn0.kqDL2Srx2HSgNODDENNJfg'
-
-    this.map = L.map('map', {
-      center: [49.8419, 24.0315],
-      zoom: 16,
-      layers: [
-        L.tileLayer(tileURL, {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }),
-      ]
-    });
-
-    // if (this.map != undefined) { this.map.remove(); }
-
-    // this.map = L.map('map').setView([34.501133,-112.252417], 14.5);
-    // let tileURL = 'https://api.mapbox.com/styles/v1/michellito/ckovvt6ba3qm418qr3dh0qwgz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWljaGVsbGl0byIsImEiOiJja244YnR3aWYwN3ljMm5waWZpMHBlOXdmIn0.kqDL2Srx2HSgNODDENNJfg'
-
-    // let tilelayer = L.tileLayer(tileURL, {
-    //     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    //     maxZoom: 15,
-    // }).addTo(this.map);
-
-    // L.svg({clickable:true}).addTo(this.map)
+  showPreview() {
+    this.props.setShowSidebar(!this.props.showSidebar);
   }
 
   render() {
 
+    delete L.Icon.Default.prototype._getIconUrl;
+
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+      iconUrl: require("leaflet/dist/images/marker-icon.png"),
+      shadowUrl: require("leaflet/dist/images/marker-shadow.png")
+    });
+    
     const tileUrl = 'https://api.mapbox.com/styles/v1/michellito/ckovvt6ba3qm418qr3dh0qwgz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWljaGVsbGl0byIsImEiOiJja244YnR3aWYwN3ljMm5waWZpMHBlOXdmIn0.kqDL2Srx2HSgNODDENNJfg'
     
     return (
-      <div id="map"></div>
-      // <MapContainer 
-      //     center={[this.state.lat, this.state.lng]} 
-      //     zoom={this.state.zoom} 
-      //     style={{ width: '100%', height: '100%'}}
-      // >
-      //   <TileLayer
-      //     attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      //     url={tileUrl}
-      //   />
-      // </MapContainer>    
+
+      <MapContainer 
+          center={[this.state.lat, this.state.lng]} 
+          zoom={this.state.zoom} 
+          style={{ width: '100%', height: '100%'}}
+      >
+        <TileLayer
+          attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url={tileUrl}
+        />
+        <Marker
+          position={[this.state.lat, this.state.lng]} 
+          eventHandlers={{ click: () => this.showPreview() }}
+        >
+          <Tooltip>Iron King</Tooltip>
+
+        </Marker>
+        <Minimap position="topright" zoom="8"/>
+        <Logo position="bottomleft"/>
+      </MapContainer>    
     )
   }
 }
