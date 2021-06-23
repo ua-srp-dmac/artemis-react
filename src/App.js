@@ -6,8 +6,11 @@ import {
   Grommet,
   Layer,
   ResponsiveContext,
-  TextInput
+  TextInput,
+  Grid,
+  Text
 } from 'grommet';
+
 import { FormClose, FormSearch, Menu } from 'grommet-icons';
 
 import React, { useState, Component, Fragment } from "react";
@@ -76,8 +79,7 @@ function App() {
                 <Map setShowSidebar={setShowSidebar}
                      showSidebar={showSidebar}>     
                 </Map>
-              </Box>
-              {showSite && (
+                {showSite && (
                 <Layer
                   onEsc={() => setShowSite(false)}
                   onClickOutside={() => setShowSite(false)}
@@ -85,6 +87,8 @@ function App() {
                   <Button label="close" onClick={() => setShowSite(false)} />
                 </Layer>
               )}
+              </Box>
+              
               {(!showSidebar || size !== 'small') ? (
                 <Collapsible direction="horizontal" open={showSidebar}>
                   <Box
@@ -106,6 +110,31 @@ function App() {
                       <Button icon={<FormClose color="control"
                               onClick={() => setShowSidebar(!showSidebar)} />} />
                     </Box>
+                    
+                    <Grid
+                      fill
+                      rows={['auto', 'flex']}
+                      columns={['auto', 'flex']}
+                      areas={[
+                        { name: 'header', start: [0, 0], end: [1, 0] },
+                        { name: 'sidebar', start: [0, 1], end: [0, 1] },
+                        { name: 'main', start: [1, 1], end: [1, 1] },
+                      ]}
+                    >
+                      <Box
+                        gridArea="sidebar"
+                        width="medium"
+                      >
+                        <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
+                          <Text>Visualization options here</Text>
+                        </Box>
+                      
+                      </Box>
+                     
+                      <Box gridArea="main" justify="center" align="center">
+                        <Text>main</Text>
+                      </Box>
+                    </Grid>
        
                   </Box>
                 </Collapsible>
