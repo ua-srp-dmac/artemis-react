@@ -22,9 +22,9 @@ export default class Map extends Component {
     super(props);
 
     this.state = {
-      lat: 34.501133,
-      lng: -112.252417,
-      zoom: 14.5,
+      lat: props.centerLat,
+      lng: props.centerLong,
+      zoom: props.zoom,
     };
 
     this.showPreview = this.showPreview.bind(this);
@@ -52,6 +52,7 @@ export default class Map extends Component {
           center={[this.state.lat, this.state.lng]} 
           zoom={this.state.zoom} 
           style={{ width: '100%', height: '100%'}}
+          whenCreated={this.props.setMap}
       >
         <TileLayer
           attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -64,7 +65,7 @@ export default class Map extends Component {
           <Tooltip>Iron King</Tooltip>
 
         </Marker>
-        <Minimap position="topright" zoom="8"/>
+        h<Minimap position="topright" zoom="8"/>
         <Logo position="bottomleft"/>
       </MapContainer>    
     )

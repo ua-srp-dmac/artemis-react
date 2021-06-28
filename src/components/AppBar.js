@@ -25,7 +25,17 @@ const NavBar = (props) => (
 
 function AppBar(props) {
 
-  const [searchValue, setSearchValue] = useState('');
+  function updateMap() {
+    props.map.panTo([34.501133, -112.252417]);
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      console.log('do validate')
+      props.map.panTo([34.501133, -112.252417]);
+    }
+  }
+  // const [searchValue, setSearchValue] = useState('');
 
   return (
     <NavBar>
@@ -47,8 +57,9 @@ function AppBar(props) {
           <TextInput plain
             placeholder="Search"
             type="search"
-            value={searchValue}
-            onChange={event => setSearchValue(event.target.value)}
+            // value={searchValue}
+            onKeyDown={handleKeyDown}
+            // onChange={event => updateMap()}
           />
         </Box>
       </Box>    

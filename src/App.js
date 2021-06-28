@@ -31,8 +31,12 @@ const theme = {
 
 function App() {
 
+  const [map, setMap] = useState(null)
   const [showSidebar, setShowSidebar] = useState(false);
   const [showSite, setShowSite] = useState(false);
+  const [zoom, setZoom] = useState(14.5);
+  const [centerLat, setCenterLat] = useState(34.501133);
+  const [centerLong, setCenterLong] = useState(-112.252417);
   
   return (
     
@@ -41,12 +45,20 @@ function App() {
         {size => (
           <Box fill>
             <AppBar setShowSidebar={setShowSidebar}
-                    showSidebar={showSidebar}>
+                    showSidebar={showSidebar}
+                    map={map}>
             </AppBar>
             <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
               <Box flex align='center' justify='center'>
                 <Map setShowSidebar={setShowSidebar}
-                     showSidebar={showSidebar}>     
+                     showSidebar={showSidebar}
+                     zoom={zoom}
+                     centerLat={centerLat}
+                     centerLong={centerLong}
+                     setZoom={setZoom}
+                     setCenterLat={setCenterLat}     
+                     setCenterLong={setCenterLong}
+                     setMap={setMap}>
                 </Map>
                 {showSite && (
                 <Layer
