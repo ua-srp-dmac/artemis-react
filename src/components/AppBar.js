@@ -5,7 +5,7 @@ import {
   TextInput,
 } from 'grommet';
 
-import { FormClose, FormSearch, Menu } from 'grommet-icons';
+import { FormSearch, Menu } from 'grommet-icons';
 import React, { useState } from "react";
 
 
@@ -25,17 +25,12 @@ const NavBar = (props) => (
 
 function AppBar(props) {
 
-  function updateMap() {
-    props.map.panTo([34.501133, -112.252417]);
-  }
-
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      console.log('do validate')
       props.map.panTo([34.501133, -112.252417]);
     }
   }
-  // const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState('');
 
   return (
     <NavBar>
@@ -57,15 +52,14 @@ function AppBar(props) {
           <TextInput plain
             placeholder="Search"
             type="search"
-            // value={searchValue}
             onKeyDown={handleKeyDown}
-            // onChange={event => updateMap()}
+            value={searchValue}
+            onChange={event => setSearchValue(event.target.value)}
           />
         </Box>
       </Box>    
     </NavBar>
   );
-
 }
 
 export default AppBar;
