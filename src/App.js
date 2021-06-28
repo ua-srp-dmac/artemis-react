@@ -15,6 +15,7 @@ import { FormClose, FormSearch, Menu } from 'grommet-icons';
 
 import React, { useState, Component, Fragment } from "react";
 import Map from './components/Map';
+import AppBar from './components/AppBar';
 
 const theme = {
   global: {
@@ -28,20 +29,6 @@ const theme = {
   },
 };
 
-const AppBar = (props) => (
-  <Box
-    tag='header'
-    direction='row'
-    align='center'
-    justify='start'
-    background='brand'
-    pad={{ left: 'medium', right: 'small', vertical: 'small' }}
-    elevation='medium'
-    style={{ zIndex: '1' }}
-    {...props}
-  />
-);
-
 function App() {
 
   const [showSidebar, setShowSidebar] = useState(false);
@@ -53,26 +40,8 @@ function App() {
       <ResponsiveContext.Consumer>
         {size => (
           <Box fill>
-            <AppBar>
-              <Button
-                icon={<Menu />}
-                onClick={() => setShowSidebar(!showSidebar)}
-              />
-              <Heading level='3' margin='none'>artemis</Heading>
-              <Box direction="row" align="center">
-                <Box
-                  margin={{ left: "medium" }}
-                  round="xsmall"
-                  background={{ color: "white", opacity: "weak" }}
-                  direction="row"
-                  align="center"
-                  pad={{ horizontal: "small" }}
-                >
-                  <FormSearch color="white" />
-                  <TextInput plain placeholder="Search" type="search" />
-                </Box>
-              </Box>
-              
+            <AppBar setShowSidebar={setShowSidebar}
+                    showSidebar={showSidebar}>
             </AppBar>
             <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
               <Box flex align='center' justify='center'>
