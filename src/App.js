@@ -26,7 +26,11 @@ const theme = {
       family: 'Lato',
       size: '18px',
     },
+    
   },
+  layer: {
+    zIndex: 1000,
+  }
 };
 
 function App() {
@@ -48,10 +52,69 @@ function App() {
                     showSidebar={showSidebar}
                     map={map}>
             </AppBar>
+
             <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
+              
               <Box flex align='center' justify='center'>
-                <Map setShowSidebar={setShowSidebar}
-                     showSidebar={showSidebar}
+
+              {showSite && (
+              <Layer
+                onEsc={() => setShowSite(false)}
+                onClickOutside={() => setShowSite(false)}
+                background='light-2'
+                full='true'
+                margin="medium"
+              >
+                <Box
+                    flex
+                    width='xxlarge'
+                    background='light-2'
+                    elevation='small'
+                  >
+                    <Box
+                      tag="header"
+                      pad={{ horizontal: 'small', top: 'small', bottom: 'medium' }}
+                      direction="row"
+                      justify="between"
+                      align="center"
+                    >
+                      <Heading level={3} size="xsmall" margin="none">
+                        Iron King
+                      </Heading>
+                      <Button icon={<FormClose color="control"
+                              onClick={() => setShowSite(!showSite)} />} />
+                    </Box>
+                    
+                    <Grid
+                      fill
+                      rows={['auto', 'flex']}
+                      columns={['auto', 'flex']}
+                      areas={[
+                        { name: 'header', start: [0, 0], end: [1, 0] },
+                        { name: 'sidebar', start: [0, 1], end: [0, 1] },
+                        { name: 'main', start: [1, 1], end: [1, 1] },
+                      ]}
+                    >
+                      <Box
+                        gridArea="sidebar"
+                        width="medium"
+                      >
+                        <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
+                          <Text>Visualization options here</Text>
+                        </Box>
+                      
+                      </Box>
+                     
+                      <Box gridArea="main" justify="center" align="center">
+                        <Text>main</Text>
+                      </Box>
+                    </Grid>
+       
+                  </Box>
+              </Layer>
+            )}
+                <Map setShowSite={setShowSite}
+                     showSite={showSite}
                      zoom={zoom}
                      centerLat={centerLat}
                      centerLong={centerLong}
@@ -60,16 +123,8 @@ function App() {
                      setCenterLong={setCenterLong}
                      setMap={setMap}>
                 </Map>
-                {showSite && (
-                <Layer
-                  onEsc={() => setShowSite(false)}
-                  onClickOutside={() => setShowSite(false)}
-                >
-                  <Button label="close" onClick={() => setShowSite(false)} />
-                </Layer>
-              )}
               </Box>
-              
+ 
               {(!showSidebar || size !== 'small') ? (
                 <Collapsible direction="horizontal" open={showSidebar}>
                   <Box

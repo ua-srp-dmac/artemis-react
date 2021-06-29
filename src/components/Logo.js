@@ -9,9 +9,6 @@ const POSITION_CLASSES = {
   topright: 'leaflet-top leaflet-right',
 }
 
-const BOUNDS_STYLE = { weight: 1 }
-
-
 function Logo({ position, zoom }) {
 
   // Memoize the minimap so it's not affected by position changes
@@ -28,7 +25,7 @@ function Logo({ position, zoom }) {
     (position && POSITION_CLASSES[position]) || POSITION_CLASSES.topright
   return (
     <div className={positionClass}>
-      <div className="leaflet-control ">
+      <div className="leaflet-control">
         {logo}
       </div>
     </div>
