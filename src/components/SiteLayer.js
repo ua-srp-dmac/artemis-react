@@ -1,14 +1,13 @@
 import {
   Box,
   Button,
-  Collapsible,
   Heading,
-  Grommet,
   Layer,
-  ResponsiveContext,
-  TextInput,
   Grid,
-  Text
+  Text,
+  Tabs,
+  Tab,
+  TextInput
 } from 'grommet';
 
 import { FormClose, FormSearch, Menu } from 'grommet-icons';
@@ -31,42 +30,49 @@ function SiteLayer(props) {
         background='light-2'
         elevation='small'
       >
-        <Box
-          tag="header"
-          pad={{ horizontal: 'small', top: 'small', bottom: 'medium' }}
+        <Button alignSelf="end" icon={<FormClose />} onClick={() => props.setShowSite(!props.showSite)}/>
+        {/* <Box
           direction="row"
-          justify="between"
           align="center"
+          as="header"
+          justify="between"
         >
-          <Heading level={3} size="xsmall" margin="none">
-            Iron King
-          </Heading>
-          <Button icon={<FormClose color="control"
-                  onClick={() => props.setShowSite(!props.showSite)} />} />
-        </Box>
-        
+          <Heading level={3} margin={{ left: 'small' }}>Iron King</Heading>
+          <Button icon={<FormClose />} onClick={() => props.setShowSite(!props.showSite)}/>
+        </Box> */}
+    
         <Grid
           fill
           rows={['auto', 'flex']}
           columns={['auto', 'flex']}
           areas={[
-            { name: 'header', start: [0, 0], end: [1, 0] },
-            { name: 'sidebar', start: [0, 1], end: [0, 1] },
-            { name: 'main', start: [1, 1], end: [1, 1] },
+            { name: 'sidebar', start: [0, 0], end: [0, 0] },
+            { name: 'main', start: [1, 0], end: [1, 0] },
           ]}
         >
+
           <Box
             gridArea="sidebar"
             width="medium"
           >
             <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
-              <Text>Visualization options here</Text>
+              <Text>Iron King</Text>
             </Box>
-          
           </Box>
         
-          <Box gridArea="main" justify="center" align="center">
-            <Text>main</Text>
+          <Box 
+            gridArea="main"
+          >
+          <Tabs justify="start" alignControls="start">
+            <Tab title="tab 1">
+              <Box pad="medium">One</Box>
+            </Tab>
+            <Tab title="tab 2">
+              <Box pad="medium">Two</Box>
+            </Tab>
+          </Tabs>
+
+
           </Box>
         </Grid>
       </Box>
