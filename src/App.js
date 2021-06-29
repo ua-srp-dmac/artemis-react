@@ -14,8 +14,10 @@ import {
 import { FormClose, FormSearch, Menu } from 'grommet-icons';
 
 import React, { useState, Component, Fragment } from "react";
+
 import Map from './components/Map';
 import AppBar from './components/AppBar';
+import SiteLayer from './components/SiteLayer';
 
 const theme = {
   global: {
@@ -57,62 +59,11 @@ function App() {
               
               <Box flex align='center' justify='center'>
 
-              {showSite && (
-              <Layer
-                onEsc={() => setShowSite(false)}
-                onClickOutside={() => setShowSite(false)}
-                background='light-2'
-                full='true'
-                margin="medium"
-              >
-                <Box
-                    flex
-                    width='xxlarge'
-                    background='light-2'
-                    elevation='small'
-                  >
-                    <Box
-                      tag="header"
-                      pad={{ horizontal: 'small', top: 'small', bottom: 'medium' }}
-                      direction="row"
-                      justify="between"
-                      align="center"
-                    >
-                      <Heading level={3} size="xsmall" margin="none">
-                        Iron King
-                      </Heading>
-                      <Button icon={<FormClose color="control"
-                              onClick={() => setShowSite(!showSite)} />} />
-                    </Box>
-                    
-                    <Grid
-                      fill
-                      rows={['auto', 'flex']}
-                      columns={['auto', 'flex']}
-                      areas={[
-                        { name: 'header', start: [0, 0], end: [1, 0] },
-                        { name: 'sidebar', start: [0, 1], end: [0, 1] },
-                        { name: 'main', start: [1, 1], end: [1, 1] },
-                      ]}
-                    >
-                      <Box
-                        gridArea="sidebar"
-                        width="medium"
-                      >
-                        <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
-                          <Text>Visualization options here</Text>
-                        </Box>
-                      
-                      </Box>
-                     
-                      <Box gridArea="main" justify="center" align="center">
-                        <Text>main</Text>
-                      </Box>
-                    </Grid>
-       
-                  </Box>
-              </Layer>
-            )}
+                {showSite && (
+                  <SiteLayer setShowSite={setShowSite}
+                             showSite={showSite}>
+                  </SiteLayer>
+                )}
                 <Map setShowSite={setShowSite}
                      showSite={showSite}
                      zoom={zoom}
