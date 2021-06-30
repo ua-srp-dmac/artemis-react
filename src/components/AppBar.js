@@ -29,11 +29,11 @@ function AppBar(props) {
     if (event.key === 'Enter') {
       props.map.flyTo([34.501133, -112.252417], 18, {
         animate: true,
-        duration: 2
+        duration: 1.5
       });
     }
   }
-  
+
   const [searchValue, setSearchValue] = useState('');
 
   return (

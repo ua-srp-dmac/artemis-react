@@ -37,7 +37,7 @@ function MinimapBounds({ parentMap, zoom }) {
   const onChange = React.useCallback(() => {
     setBounds(parentMap.getBounds())
     // Update the minimap's view to match the parent map's center and zoom
-    minimap.setView(parentMap.getCenter(), zoom)
+    minimap.setView(parentMap.getCenter(), parentMap.getZoom() * .6)
   }, [minimap, parentMap, zoom])
 
   // Listen to events on the parent map
