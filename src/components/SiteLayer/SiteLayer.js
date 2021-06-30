@@ -1,18 +1,20 @@
 import {
   Box,
   Button,
-  Heading,
   Layer,
   Grid,
   Text,
   Tabs,
   Tab,
-  TextInput,
   Stack
 } from 'grommet';
 
 import { FormClose, FormSearch, Menu } from 'grommet-icons';
 import React, { useState } from "react";
+
+import SiteMap from './SiteMap';
+import PeriodicTable from './PeriodicTable';
+
 
 function SiteLayer(props) {
 
@@ -42,25 +44,40 @@ function SiteLayer(props) {
           rows={['auto', 'flex']}
           columns={['auto', 'flex']}
           areas={[
-            { name: 'sidebar', start: [0, 0], end: [0, 0] },
-            { name: 'main', start: [1, 0], end: [1, 0] },
+            { name: 'map', start: [0, 0], end: [0, 1] },
+            { name: 'sidebar', start: [0, 1], end: [1, 0] },
+            { name: 'main', start: [1, 0], end: [1, 1] },
           ]}>
+
+          <Box
+            gridArea="map"
+            width="medium">
+            {/* <Box direction='row' flex overflow={{ horizontal: 'hidden' }}> */}
+              <Box flex align='center' justify='center'>
+              <SiteMap></SiteMap>
+            </Box>
+          {/* </Box> */}
+          </Box>
 
           <Box
             gridArea="sidebar"
             width="medium">
-            <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
-              <Text>Iron King</Text>
+            {/* <Box direction='row' flex overflow={{ horizontal: 'hidden' }}> */}
+              <Box flex align='center' justify='center'>
+              hello
             </Box>
+          {/* </Box> */}
           </Box>
           
           <Box gridArea="main">
             <Tabs justify="start" alignControls="start">
-              <Tab title="tab 1">
-                <Box pad="medium">One</Box>
+              <Tab title="Geochemistry">
+                <Box pad="small">
+                  <PeriodicTable></PeriodicTable>
+                </Box>
               </Tab>
-              <Tab title="tab 2">
-                <Box pad="medium">Two</Box>
+              <Tab title="Minerology">
+                <Box pad="medium">Minerology</Box>
               </Tab>
             </Tabs>
           </Box>

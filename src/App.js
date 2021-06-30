@@ -17,7 +17,7 @@ import React, { useState, Component, Fragment } from "react";
 
 import Map from './components/Map';
 import AppBar from './components/AppBar';
-import SiteLayer from './components/SiteLayer';
+import SiteLayer from './components/SiteLayer/SiteLayer';
 
 const theme = {
   global: {
