@@ -94,7 +94,7 @@ export default class Map extends Component {
           <Tooltip>Iron King</Tooltip>
 
         </Marker>
-        <Polygon pathOptions={purpleOptions} positions={polygon} />
+        {/* <Polygon pathOptions={purpleOptions} positions={polygon} /> */}
         <Minimap position="topright" zoom="8"/>
         <Logo position="bottomleft"/>
       </MapContainer>    

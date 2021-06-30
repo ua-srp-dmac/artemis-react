@@ -14,6 +14,7 @@ import React, { useState } from "react";
 
 import SiteMap from './SiteMap';
 import PeriodicTable from './PeriodicTable';
+import Minerology from './Minerology';
 
 
 function SiteLayer(props) {
@@ -24,7 +25,7 @@ function SiteLayer(props) {
       onClickOutside={() => props.setShowSite(false)}
       background='light-2'
       full='true'
-      margin="medium"
+      margin="small"
       animation="slide"
     >
       
@@ -77,7 +78,9 @@ function SiteLayer(props) {
                 </Box>
               </Tab>
               <Tab title="Minerology">
-                <Box pad="medium">Minerology</Box>
+                <Box pad="small">
+                  <Minerology></Minerology>
+                </Box>
               </Tab>
             </Tabs>
           </Box>

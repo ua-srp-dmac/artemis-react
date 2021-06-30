@@ -22,7 +22,9 @@ import SiteLayer from './components/SiteLayer/SiteLayer';
 const theme = {
   global: {
     colors: {
-      brand: '#000000',
+      brand: '#00739D',
+      'dark-1': '#000000',
+      'accent-2': '#A58FAA'
     },
     font: {
       family: 'Lato',
@@ -40,7 +42,7 @@ function App() {
   const [map, setMap] = useState(null)
   const [showSidebar, setShowSidebar] = useState(false);
   const [showSite, setShowSite] = useState(false);
-  const [zoom, setZoom] = useState(14.5);
+  const [zoom, setZoom] = useState(7);
   const [centerLat, setCenterLat] = useState(34.501133);
   const [centerLong, setCenterLong] = useState(-112.252417);
   

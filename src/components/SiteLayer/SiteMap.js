@@ -53,13 +53,13 @@ function SiteMap(props) {
           attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={tileUrl}
         />
-        <Marker
+        {/* <Marker
           position={[34.501133, -112.252417]}    
-          // eventHandlers={{ click: () => this.showPreview() }}
+          eventHandlers={{ click: () => this.showPreview() }}
           icon={siteIcon}
         >
-          {/* <Tooltip>Iron King</Tooltip> */}
-        </Marker>
+          <Tooltip>Iron King</Tooltip>
+        </Marker> */}
         <Polygon pathOptions={purpleOptions} positions={polygon} />
         {/* <Minimap position="topright" zoom="8"/> */}
       </MapContainer>

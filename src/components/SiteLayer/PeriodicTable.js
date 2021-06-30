@@ -34,7 +34,7 @@ export default class PeriodicTable extends Component {
       });
 
       this.setState({
-        states: states
+        elements: states
       }, this.drawTable)
     });
 
@@ -42,26 +42,21 @@ export default class PeriodicTable extends Component {
 
   drawTable() {
 
-    console.log(this.state.states);
-
     var width = 950;
-    var height = 700;
+    var height = 600;
 
     var svg = d3.select("#table").append("svg")
       .attr("width", width)
       .attr("height", height)
-        
-    
-    console.log(svg)
 
-    var gridWidth = d3.max(this.state.states, function(d) { return d.x; }) + 1,
-        gridHeight = d3.max(this.state.states, function(d) { return d.y; }) + 1,
+    var gridWidth = d3.max(this.state.elements, function(d) { return d.x; }) + 1,
+        gridHeight = d3.max(this.state.elements, function(d) { return d.y; }) + 1,
         cellSize = 50;
 
     var state = svg.append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
         .selectAll(".state")
-        .data(this.state.states)
+        .data(this.state.elements)
         .enter().append("g")
         .attr("class", function(d) { return "state"})
         .attr("transform", function(d) { return "translate(" + (d.x - gridWidth / 2) * cellSize + "," + (d.y - gridHeight / 2) * cellSize + ")"; });
@@ -90,8 +85,8 @@ export default class PeriodicTable extends Component {
         //   });
 
     state.append("text")
-        .attr("dy", ".55em")
-        .text(function(d) { return d.name; });
+      .attr("dy", ".55em")
+      .text(function(d) { return d.name; });
   }
 
   render() {

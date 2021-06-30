@@ -15,7 +15,7 @@ const NavBar = (props) => (
     direction='row'
     align='center'
     justify='start'
-    background='brand'
+    background='dark-1'
     pad={{ left: 'medium', right: 'small', vertical: 'small' }}
     elevation='medium'
     style={{ zIndex: '1' }}
@@ -28,6 +28,7 @@ function AppBar(props) {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       props.map.panTo([34.501133, -112.252417]);
+      props.map.setZoom(20);
     }
   }
   const [searchValue, setSearchValue] = useState('');
