@@ -14,16 +14,17 @@ import 'leaflet/dist/leaflet.css';
 
 import Minimap from './Minimap';
 import Logo from './Logo';
+import SiteDetailLayer from './SiteLayer/SiteDetailLayer';
 
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-let DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow
-});
+// let DefaultIcon = L.icon({
+//     iconUrl: icon,
+//     shadowUrl: iconShadow
+// });
 
-L.Marker.prototype.options.icon = DefaultIcon;
+// L.Marker.prototype.options.icon = DefaultIcon;
 
 export default class Map extends Component {
 
@@ -44,16 +45,6 @@ export default class Map extends Component {
   }
 
   render() {
-
-    delete L.Icon.Default.prototype._getIconUrl;
-
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-      iconUrl: require("leaflet/dist/images/marker-icon.png"),
-      shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-      iconAnchor: [12,41],
-      iconSize: [25,41],
-    });
     
     const tileUrl = 'https://api.mapbox.com/styles/v1/michellito/ckovvt6ba3qm418qr3dh0qwgz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWljaGVsbGl0byIsImEiOiJja244YnR3aWYwN3ljMm5waWZpMHBlOXdmIn0.kqDL2Srx2HSgNODDENNJfg'
     const purpleOptions = { color: 'purple' };
@@ -66,6 +57,7 @@ export default class Map extends Component {
 
     const siteIcon = L.icon({
       iconUrl: "marker-icon.png",
+      shadowUrl: "marker-shadow.png",
       iconSize: [24,36],
       iconAnchor: [12,36]
     });
@@ -97,6 +89,8 @@ export default class Map extends Component {
         {/* <Polygon pathOptions={purpleOptions} positions={polygon} /> */}
         <Minimap position="topright" zoom="8"/>
         <Logo position="bottomleft"/>
+
+        {/* <SiteDetailLayer></SiteDetailLayer> */}
       </MapContainer>    
     )
   }
