@@ -44,12 +44,12 @@ export default class PeriodicTable extends Component {
 
     console.log(this.state.states);
 
-    var width = 700;
-    var height = 500;
+    var width = 950;
+    var height = 700;
 
     var svg = d3.select("#table").append("svg")
-      .attr("width", 700)
-      .attr("height", 500)
+      .attr("width", width)
+      .attr("height", height)
         
     
     console.log(svg)
@@ -98,8 +98,6 @@ export default class PeriodicTable extends Component {
 
     return (
       <>
-        Periodic Table
-        {/* <svg width="960" height="700"></svg> */}
         <div id="table"></div>
       </>
     )
