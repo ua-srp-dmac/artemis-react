@@ -12,7 +12,7 @@ import {
   Stack
 } from 'grommet';
 
-export default class Minerology extends React.Component {
+export default class Mineralogy extends React.Component {
   
   
   render() {
@@ -53,7 +53,7 @@ export default class Minerology extends React.Component {
       <Plot
         data={quartz}
         layout={{
-          width: 500,
+          width: 300,
           height: 350,
           title: 'Quartz',
           paper_bgcolor: 'rgba(0,0,0,0)',
@@ -65,7 +65,7 @@ export default class Minerology extends React.Component {
       <Plot
         data={plagioclase}
         layout={{
-          width: 500,
+          width: 300,
           height: 350,
           title: 'Plagioclase',
           paper_bgcolor: 'rgba(0,0,0,0)',

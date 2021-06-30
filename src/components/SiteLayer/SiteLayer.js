@@ -14,7 +14,7 @@ import React, { useState } from "react";
 
 import SiteMap from './SiteMap';
 import PeriodicTable from './PeriodicTable';
-import Minerology from './Minerology';
+import Mineralogy from './Mineralogy';
 
 
 function SiteLayer(props) {
@@ -77,9 +77,9 @@ function SiteLayer(props) {
                   <PeriodicTable></PeriodicTable>
                 </Box>
               </Tab>
-              <Tab title="Minerology">
+              <Tab title="Mineralogy">
                 <Box pad="small">
-                  <Minerology></Minerology>
+                  <Mineralogy></Mineralogy>
                 </Box>
               </Tab>
             </Tabs>
