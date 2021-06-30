@@ -27,10 +27,13 @@ function AppBar(props) {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      props.map.panTo([34.501133, -112.252417]);
-      props.map.setZoom(20);
+      props.map.flyTo([34.501133, -112.252417], 18, {
+        animate: true,
+        duration: 2
+      });
     }
   }
+  
   const [searchValue, setSearchValue] = useState('');
 
   return (
