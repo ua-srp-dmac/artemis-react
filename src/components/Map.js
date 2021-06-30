@@ -18,6 +18,7 @@ import SiteDetailLayer from './SiteLayer/SiteDetailLayer';
 
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import { zip } from 'd3';
 
 // let DefaultIcon = L.icon({
 //     iconUrl: icon,
@@ -87,7 +88,7 @@ export default class Map extends Component {
 
         </Marker>
         {/* <Polygon pathOptions={purpleOptions} positions={polygon} /> */}
-        <Minimap position="topright" zoom="8"/>
+        <Minimap position="topright" zoom={this.state.zoom < 8 ? this.state.zoom * .6 : 8}/>
         <Logo position="bottomleft"/>
 
         {/* <SiteDetailLayer></SiteDetailLayer> */}
