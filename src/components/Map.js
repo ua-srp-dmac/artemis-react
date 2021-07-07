@@ -88,7 +88,7 @@ export default class Map extends Component {
 
         </Marker>
         {/* <Polygon pathOptions={purpleOptions} positions={polygon} /> */}
-        <Minimap position="topright" zoom={this.state.zoom < 8 ? this.state.zoom * .6 : 8}/>
+        <Minimap position="topright" zoom={this.state.zoom <= 8 ? this.state.zoom * .6 : 8}/>
         <Logo position="bottomleft"/>
 
         {/* <SiteDetailLayer></SiteDetailLayer> */}

@@ -30,11 +30,15 @@ const theme = {
       family: 'Lato',
       size: '18px',
     },
+    drop: {
+      zIndex: 1500,
+    }
     
   },
   layer: {
     zIndex: 1000,
-  }
+  },
+  
 };
 
 function App() {
