@@ -12,3 +12,9 @@
 
   cursor:pointer;
 }
+
+.element {
+  /* font: 15px sans-serif; */
+  font-family: 'Oswald', sans-serif;
+  font-weight: bold;
+}

@@ -11,11 +11,13 @@ import {
 } from 'grommet';
 
 import { FormClose, FormSearch, Menu } from 'grommet-icons';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import * as d3 from "d3";
 
 import {
   MapContainer,
   TileLayer,
+  LayerGroup,
   Marker,
   Tooltip,
   useMap,
@@ -29,8 +31,6 @@ import 'leaflet/dist/leaflet.css';
 
 function SiteMap(props) {
 
-  
-  
   const tileUrl = 'https://api.mapbox.com/styles/v1/michellito/ckovvt6ba3qm418qr3dh0qwgz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWljaGVsbGl0byIsImEiOiJja244YnR3aWYwN3ljMm5waWZpMHBlOXdmIn0.kqDL2Srx2HSgNODDENNJfg'
   
   const siteIcon = L.icon({
@@ -143,6 +143,58 @@ function SiteMap(props) {
     };
   }
 
+  function D3Layer() {
+    const map = useMap();
+
+    console.log(map)
+
+    useEffect(() => {
+
+      console.log(replicates);
+      const svg = d3.select(map.getPanes().overlayPane).append("svg");
+
+      console.log(svg)
+
+      replicates.forEach(function(d){
+        if (d.lat && d.long) {
+          // console.log(d)
+          d.latlng = new L.LatLng(d.lat, d.long);
+        }
+      });
+
+      console.log(replicates)
+      // const g = svg.append("g").attr("class", "leaflet-zoom-hide");
+
+      var feature = svg.append('g')
+        .attr("class", "leaflet-zoom-hide")
+        .selectAll('circle')
+        .data(replicates)
+        .enter()
+        .append('circle')
+        .style('opacity', .8)
+        .style('fill',function(d){
+            // var x = d3.scaleLinear().domain([1,5]).range([1,0]);
+            // return d3.interpolateViridis(x(d.rating))
+            return 'red';
+        })  
+        .attr('r',3)
+        // .on("mouseover", handleMouseOver)
+        // .on("mouseout", handleMouseOut)
+
+      reset();
+
+      function reset(){
+        feature.attr('transform',function(d){
+          d.x = map.latLngToLayerPoint(d.latlng).x;
+          d.y = map.latLngToLayerPoint(d.latlng).y;
+          return 'translate('+ map.latLngToLayerPoint(d.latlng).x +","+ map.latLngToLayerPoint(d.latlng).y +")";
+        });
+        console.log('reset')
+      }
+    }, []);
+    return null;
+  }
+
   return (
     <>
     <MapContainer 
@@ -152,29 +204,29 @@ function SiteMap(props) {
           style={{ 'min-width': '18.75em', 'min-height': '29.75em'}}
           // whenCreated={this.props.setMap}
       >
+        {/* <LayerGroup>
+          <D3Layer />
+        </LayerGroup> */}
+
         <TileLayer
           attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={tileUrl}
         />
+        
         { replicates.map((replicate, i) =>
-          // <Marker
-          //   key= {i}
-          //   position={[replicate.lat, replicate.long]}    
-          //   // eventHandlers={{ click: () => this.showPreview() }}
-          //   icon={siteIcon}
-          // >
-          //   {/* <Tooltip>Iron King</Tooltip> */}
-          // </Marker>
-          <CircleMarker center={[replicate.lat, replicate.long]}
-                        pathOptions={
-                          {
-                            color: renderColor(replicate.treatment),
-                            weight: 1.5,
-                            fillColor: renderColor(replicate.treatment),
-                            fillOpacity: .5 
-                          }
-                        }
-                        radius={3.5}>
+    
+          <CircleMarker
+            center={[replicate.lat, replicate.long]}
+            pathOptions={
+              {
+                color: renderColor(replicate.treatment),
+                weight: 1.5,
+                fillColor: renderColor(replicate.treatment),
+                fillOpacity: .5 
+              }
+            }
+            radius={3.5}
+          >
             <Tooltip>
               Plot {replicate.plot} <br></br>
               Replicate {replicate.replicate}<br></br>
