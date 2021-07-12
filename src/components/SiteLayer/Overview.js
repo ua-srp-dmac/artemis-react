@@ -99,15 +99,39 @@ export default function Overview() {
         </Heading>
 
         <Heading level={6} margin="small">
+          Arsenic
+        </Heading>
+
+        <Grid columns={size !== 'small' ? 'small' : '100%'}  gap="xsmall">
+          {increases.map((increase, index) => (
+            <Card pad="small" key={index}>
+              <Text>
+                <span className="element">{ increase.element }</span>&nbsp;
+                <span className="neutral-1">(+ { increase.percent }%)</span>
+              </Text>
+              <Text size="small">
+                { increase.treatmentName }
+              </Text>
+              <Text size="small">{ increase.depth } cm</Text>
+            </Card>
+          ))}
+        </Grid>
+
+        <Heading level={6} margin="small">
           Greatest Increases
         </Heading>
 
         <Grid columns={size !== 'small' ? 'small' : '100%'}  gap="xsmall">
           {increases.map((increase, index) => (
             <Card pad="small" key={index}>
-              <Text className="element">{ increase.element }</Text>
-              <Text>{ increase.treatmentName }</Text>
-              <Text color="neutral-1">+ { increase.percent }%</Text>
+              <Text>
+                <span className="element">{ increase.element }</span>&nbsp;
+                <span className="neutral-1">(+ { increase.percent }%)</span>
+              </Text>
+              <Text size="small">
+                { increase.treatmentName }
+              </Text>
+              <Text size="small">{ increase.depth } cm</Text>
             </Card>
           ))}
         </Grid>
@@ -119,12 +143,14 @@ export default function Overview() {
         <Grid columns={size !== 'small' ? 'small' : '100%'}  gap="xsmall">
           {decreases.map((decrease, index) => (
             <Card pad="small" key={index}>
-              <Text>
-                <span className="element">{ decrease.element }</span>
-                {/* <span color="status-critical">- { decrease.percent }%</span> */}
+              <Text >
+                <span className="element">{ decrease.element }</span>&nbsp;
+                <span className="neutral-4">(- { decrease.percent }%)</span>
               </Text>
-              <Text>{ decrease.treatmentName }</Text>
-              <Text color="status-critical">- { decrease.percent }%</Text>
+              <Text size="small">
+                { decrease.treatmentName }
+              </Text>
+              <Text size="small">{ decrease.depth } cm</Text>
             </Card>
           ))}
         </Grid>
