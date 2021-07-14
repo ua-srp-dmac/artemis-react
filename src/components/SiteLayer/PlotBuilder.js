@@ -254,7 +254,7 @@ export default function Overview() {
       yAxisTitle = 'mg/kg'
       
     } else if (var1 === 'Time') {
-      x = ['Time 1', 'Time 0'];
+      x = ['Time 0', 'Time 1'];
 
       if (treatment === '15% comp seed') {
         y = [
@@ -322,23 +322,76 @@ export default function Overview() {
         title: yAxisTitle
       },
     }
+  } else if (plotType === 'Two variables') {
+    if (var1 === 'Treatment' && var2 === 'Depth') {
+      
+      plot = [
+        {
+          x: treatments,
+          y: depths1,
+          z: [
+            [
+              treatment1[element]['0-20'],
+              treatment2[element]['0-20'],
+              treatment3[element]['0-20'],
+              treatment4[element]['0-20'],
+              treatment5[element]['0-20'],
+              treatment6[element]['0-20'],
+            ],
+            [
+              treatment1[element]['20-40'],
+              treatment2[element]['20-40'],
+              treatment3[element]['20-40'],
+              treatment4[element]['20-40'],
+              treatment5[element]['20-40'],
+              treatment6[element]['20-40'],
+            ], 
+            [
+              treatment1[element]['40-60'],
+              treatment2[element]['40-60'],
+              treatment3[element]['40-60'],
+              treatment4[element]['40-60'],
+              treatment5[element]['40-60'],
+              treatment6[element]['40-60'],
+            ], 
+            [
+              treatment1[element]['60-90'],
+              treatment2[element]['60-90'],
+              treatment3[element]['60-90'],
+              treatment4[element]['60-90'],
+              treatment5[element]['60-90'],
+              treatment6[element]['60-90'],
+            ], 
+          ],
+          type: 'heatmap',
+          hoverongaps: false,
+          colorscale: 'interpolatePurples'
+        }
+      ];
+      
+      layout = {
+        title: element,
+        annotations: [],
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        xaxis: {
+          ticks: '',
+          side: 'top'
+        },
+        yaxis: {
+          ticks: '',
+          ticksuffix: ' ',
+          width: 700,
+          height: 700,
+          autosize: true
+        }
+      };
+      
+    }
+
   }
 
-  const quartz = [
-    {
-      x: ['0-5', '5-15', '15-25', '25-35', '35-38', '38-54', '180-183'],
-      y: [41.3, 49.3, 38, 53.6, 35.9, 42.7, 31.4],
-      type: 'bar',
-      marker: {
-        color: 'rgb(158,202,225)',
-        opacity: 0.6,
-        line: {
-          color: 'rgb(8,48,107)',
-          width: 1.5
-        }
-      }
-    },
-  ];
+
 
   return (
     
