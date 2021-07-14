@@ -15,6 +15,8 @@ import {
   ResponsiveContext,
 } from 'grommet';
 
+import { StatusInfoSmall } from 'grommet-icons';
+
 export default function Overview() {
 
   const increases = [
@@ -47,6 +49,26 @@ export default function Overview() {
   const [value, setValue] = React.useState('treatment');
   const [element, setElement] = React.useState('Arsenic');
   const [treatment, setTreatment] = React.useState('Arsenic');
+
+  function renderColor(param) {
+    switch(param) {
+
+      case '15% comp seed':
+        return 'purple';
+      case '15% comp':
+        return '#A2423D';
+      case '20% comp seed':
+        return '#3D138D';
+      case '20% comp':
+        return '#00873D';
+      case '10% comp seed':
+        return '#FFCA58';
+      case 'control':
+        return '#00739D';
+      default:
+        return 'purple';
+    };
+  }
 
 
   return (
@@ -102,18 +124,17 @@ export default function Overview() {
         </Heading>
 
         <Grid columns={size !== 'small' ? 'small' : '100%'}  gap="xsmall">
-          {increases.map((increase, index) => (
-            <Card pad="small" key={index}>
-              <Text>
-                <span className="element">{ increase.element }</span>&nbsp;
-                <span className="neutral-1">(+ { increase.percent }%)</span>
-              </Text>
-              <Text size="small">
-                { increase.treatmentName }
-              </Text>
-              <Text size="small">{ increase.depth } cm</Text>
-            </Card>
-          ))}
+          
+          <Card pad="small">
+            <Text size="small">
+              Average Amount
+            </Text>
+            <Text>
+              3387 mg/kg
+            </Text>
+            {/* <Text size="small">{ increase.depth } cm</Text> */}
+          </Card>
+       
         </Grid>
 
         <Heading level={6} margin="small">
@@ -128,7 +149,7 @@ export default function Overview() {
                 <span className="neutral-1">(+ { increase.percent }%)</span>
               </Text>
               <Text size="small">
-                { increase.treatmentName }
+                <StatusInfoSmall size='small' className="treatment1" color={renderColor(increase.treatmentName)}/> { increase.treatmentName }
               </Text>
               <Text size="small">{ increase.depth } cm</Text>
             </Card>
@@ -147,7 +168,8 @@ export default function Overview() {
                 <span className="neutral-4">(- { decrease.percent }%)</span>
               </Text>
               <Text size="small">
-                { decrease.treatmentName }
+                <StatusInfoSmall size='small' className="treatment1" color={renderColor(decrease.treatmentName)}/> { decrease.treatmentName }
+
               </Text>
               <Text size="small">{ decrease.depth } cm</Text>
             </Card>

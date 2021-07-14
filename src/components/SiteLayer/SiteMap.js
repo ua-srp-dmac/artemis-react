@@ -126,22 +126,32 @@ function SiteMap(props) {
 
   function renderColor(param) {
     switch(param) {
-      case 'control':
-        return 'purple';
-      case '10% comp seed':
-        return '#A2423D';
-      case '15% comp':
-        return '#3D138D';
+
       case '15% comp seed':
-        return '#00873D';
-      case '20% comp':
-        return '#FFCA58';
+        return 'purple';
+      case '15% comp':
+        return '#A2423D';
       case '20% comp seed':
+        return '#3D138D';
+      case '20% comp':
+        return '#00873D';
+      case '10% comp seed':
+        return '#FFCA58';
+      case 'control':
         return '#00739D';
       default:
         return 'purple';
     };
   }
+
+  // const treatments = [
+  //   '15% comp seed',
+  //   '15% comp',
+  //   '20% comp seed',
+  //   '20% comp',
+  //   '10% comp seed',
+  //   'control'
+  // ];
 
   function D3Layer() {
     const map = useMap();
