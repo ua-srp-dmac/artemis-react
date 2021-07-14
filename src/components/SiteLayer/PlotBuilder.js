@@ -328,7 +328,7 @@ export default function Overview() {
       plot = [
         {
           x: treatments,
-          y: depths1,
+          y: depths1.reverse(),
           z: [
             [
               treatment1[element]['0-20'],
@@ -362,7 +362,7 @@ export default function Overview() {
               treatment5[element]['60-90'],
               treatment6[element]['60-90'],
             ], 
-          ],
+          ].reverse(),
           type: 'heatmap',
           hoverongaps: false,
           colorscale: 'interpolatePurples'
