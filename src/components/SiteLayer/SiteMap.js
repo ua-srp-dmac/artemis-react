@@ -201,7 +201,7 @@ function SiteMap(props) {
           center={[34.500717, -112.252517]} 
           zoom={20} 
           // style={{ width: '18.75em', height: '18.75em'}}
-          style={{ 'min-width': '18.75em', 'min-height': '29.75em'}}
+          style={{ 'minWidth': '18.75em', 'minHeight': '29.75em'}}
           // whenCreated={this.props.setMap}
       >
         {/* <LayerGroup>
@@ -216,6 +216,7 @@ function SiteMap(props) {
         { replicates.map((replicate, i) =>
     
           <CircleMarker
+            key={i}
             center={[replicate.lat, replicate.long]}
             pathOptions={
               {

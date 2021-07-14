@@ -52,7 +52,6 @@ export default function Overview() {
   return (
     
     <Grid
-        fill="true"
         rows={['auto', 'flex']}
         columns={['auto', 'flex']}
         align="stretch"
