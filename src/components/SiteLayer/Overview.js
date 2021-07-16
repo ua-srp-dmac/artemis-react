@@ -134,6 +134,32 @@ export default function Overview() {
             </Text>
             {/* <Text size="small">{ increase.depth } cm</Text> */}
           </Card>
+
+          <Card pad="small">
+            <Text size="small">
+              Highest Amount
+            </Text>
+            <Text>
+              4520 mg/kg
+            </Text>
+            <Text size="small">
+                <StatusInfoSmall size='small' color={renderColor('control')}/> control
+              </Text>
+            <Text size="small">40-60 cm</Text>
+          </Card>
+
+          <Card pad="small">
+            <Text size="small">
+              Lowest Amount
+            </Text>
+            <Text>
+              2590 mg/kg
+            </Text>
+            <Text size="small">
+                <StatusInfoSmall size='small' color={renderColor('15% comp')}/> 15% comp
+              </Text>
+            <Text size="small">20-40 cm</Text>
+          </Card>
        
         </Grid>
 
