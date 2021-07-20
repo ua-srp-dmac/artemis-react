@@ -30,8 +30,27 @@ export default function PlotGrid() {
         alignContent="stretch"
        >
 
-      <Box><PlotBuilder2></PlotBuilder2></Box>
-      <Box><PlotBuilder2></PlotBuilder2></Box>
+      <Box
+        border={{
+          color: "#d3d3d3",
+          size: "small",
+          side: "all"
+        }}
+        round="medium"
+      >
+        <PlotBuilder2></PlotBuilder2>
+      </Box>
+
+      <Box
+        border={{
+          color: "#d3d3d3",
+          size: "small",
+          side: "all"
+        }}
+        round="medium"
+      >
+        <PlotBuilder2></PlotBuilder2>
+      </Box>
       {/* <Box>Item 3</Box>
       <Box>Item 4</Box> */}
     </Grid>
