@@ -23,7 +23,6 @@ import {
 
 export default function PlotBuilder() {
 
-  // const size = useContext(ResponsiveContext);
   const [treatmentSelected, setTreatmentSelected] = React.useState(false);
   const [depthSelected, setDepthSelected] = React.useState(false);
   const [timeSelected, setTimeSelected] = React.useState(false);
@@ -31,12 +30,7 @@ export default function PlotBuilder() {
   const [selectedVars, setSelectedVars] = React.useState([]);
   const [showPlot, setShowPlot] = React.useState(false);
   
-  const [plotType, setPlotType] = React.useState(false);
-  
-  
   const [element, setElement] = React.useState('');
-  const [var1, setVar1] = React.useState('');
-  const [var2, setVar2] = React.useState('');
   const [treatment, setTreatment] = React.useState('');
   const [time, setTime] = React.useState('');
   const [depth, setDepth] = React.useState('');
