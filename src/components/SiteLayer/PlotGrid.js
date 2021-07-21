@@ -37,6 +37,7 @@ export default function PlotGrid() {
           side: "all"
         }}
         round="medium"
+        margin="small"
       >
         <PlotBuilder2></PlotBuilder2>
       </Box>
@@ -48,6 +49,7 @@ export default function PlotGrid() {
           side: "all"
         }}
         round="medium"
+        margin="small"
       >
         <PlotBuilder2></PlotBuilder2>
       </Box>
