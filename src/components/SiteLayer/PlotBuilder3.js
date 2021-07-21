@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import Plot from 'react-plotly.js';
 import classNames from 'classnames';
 
-// import Plot3 from './Plot3';
+import Plot3 from './Plot3';
 
 import {
   Box,
@@ -128,27 +128,30 @@ export default function PlotBuilder() {
 
     if (replicateVars.length === 1) {
       for (let index = 0; index < eval(replicateVars[0] + 'sSelected').length; index++) {
-        replicatePlots.push({
-          var1: eval(replicateVars[0] + 'sSelected')[index])
-        };
+        replicatePlots.push([
+          eval(replicateVars[0] + 'sSelected')[index]
+        ]);
       }
       console.log(replicatePlots);
     } else if (replicateVars.length === 2) {
       for (let i = 0; i < eval(replicateVars[0] + 'sSelected').length; i++) {
         for (let j = 0; j < eval(replicateVars[1] + 'sSelected').length; j++) {
-          
+          replicatePlots.push([
+            eval(replicateVars[0] + 'sSelected')[i], eval(replicateVars[1] + 'sSelected')[j]
+          ]);
         }
       }
+      console.log(replicatePlots);
+    }
 
     
     
   }
 
 
-  const cards = Array(4)
-  .fill()
-  .map((_, i) => <Text key={i}>{`Card ${i}`}</Text>);
+  
 
+  
   
 
   function selectVar(varName) {
@@ -411,66 +414,19 @@ export default function PlotBuilder() {
       <Box flex
         gridArea="main"
       >
-        {/* { showPlot &&
-          <Box pad="small">
-            { selectedVars.length === 1 && element && (
-                (depth && treatment) || 
-                (depth && time) ||
-                (treatment && time)
-              ) &&
-              <>
-                <Plot
-                  data={plot}
-                  layout={layout}
-                />
-
-                <Box
-                  align="center"
-                  pad="medium">
-                  <Button
-                    icon={<Edit />}
-                    label="Edit"
-                    onClick={() => {setShowPlot(false)}}
-                    primary
-                  />
-                </Box>
-              </> 
-            }
-
-            { selectedVars.length === 2 && element && (
-                (depth || treatment || time)
-              ) &&
-              <>
-                <Plot
-                  data={plot}
-                  layout={layout}
-                />
-
-                <Box
-                  align="center"
-                  pad="medium">
-                  <Button
-                    icon={<Edit />}
-                    label="Edit"
-                    onClick={() => {setShowPlot(false)}}
-                    primary
-                  />
-                </Box>
-              </> 
-            }   
-          </Box>
-        } */}
-
-      <Box pad="small">
-        <Grid columns={size !== 'small' ? 'medium' : '100%'} gap="small">
-          {cards.map((card, index) => (
-            
-            <Card pad="large" key={index}>
-              {card}
-            </Card>
-          ))}
-        </Grid>
-      </Box>
+    
+        {showPlot &&
+        <Box pad="small">
+          <Grid columns={size !== 'small' ? 'medium' : '100%'} gap="small">
+            {replicatePlots.map((plot, index) => (
+              
+              <Card  key={index}>
+                <Plot3 element={element} selectedVars={selectedVars} replicate={replicatePlots[index]}></Plot3>
+              </Card>
+            ))}
+          </Grid>
+        </Box>
+}
 
       </Box>
 

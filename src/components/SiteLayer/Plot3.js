@@ -21,35 +21,48 @@ import {
   BarChart
 } from 'grommet-icons';
 
-export default function PlotBuilder() {
+export default function PlotBuilder(props) {
 
-  const [treatmentSelected, setTreatmentSelected] = React.useState(false);
-  const [depthSelected, setDepthSelected] = React.useState(false);
-  const [timeSelected, setTimeSelected] = React.useState(false);
+  console.log(props.selectedVars);
+  console.log(props.replicate);
+  console.log(props.element);
 
-  // const [selectedVars, setSelectedVars] = React.useState(0);
-  const [showPlot, setShowPlot] = React.useState(false);
+  var element = props.element;
+  var selectedVars = props.selectedVars;
+  var replicate = props.replicate;
 
-  const [treatment1_selected, setTreatment1_selected] = React.useState(false);
-  const [treatment2_selected, setTreatment2_selected] = React.useState(false);
-  const [treatment3_selected, setTreatment3_selected] = React.useState(false);
-  const [treatment4_selected, setTreatment4_selected] = React.useState(false);
-  const [treatment5_selected, setTreatment5_selected] = React.useState(false);
-  const [treatment6_selected, setTreatment6_selected] = React.useState(false);
+  var time, depth, treatment;
 
-  const [time0_selected, set_time0_selected] = React.useState(false);
-  const [time1_selected, set_time1_selected] = React.useState(false);
+  if (replicate.includes('time0')) {
+    time = 'Time 0';
+  } else if (replicate.includes('time1')) {
+    time = 'Time 1';
+  }
 
-  const [depth1_selected, set_depth1_selected] = React.useState(false);
-  const [depth2_selected, set_depth2_selected] = React.useState(false);
-  const [depth3_selected, set_depth3_selected] = React.useState(false);
-  const [depth4_selected, set_depth4_selected] = React.useState(false);
+  if (replicate.includes('depth1')) {
+    depth = '0-20';
+  } else if (replicate.includes('depth2')) {
+    depth = '20-40';
+  } else if (replicate.includes('depth3')) {
+    depth = '40-60';
+  } else if (replicate.includes('depth4')) {
+    depth = '60-90';
+  }
 
+  if (replicate.includes('treatment1')) {
+    treatment = '15% comp seed';
+  } else if (replicate.includes('treatment2')) {
+    treatment = '15% comp';
+  } else if (replicate.includes('treatment3')) {
+    treatment = '20% comp seed';
+  } else if (replicate.includes('treatment4')) {
+    treatment = '20% comp';
+  } else if (replicate.includes('treatment5')) {
+    treatment = '10% comp seed';
+  } else if (replicate.includes('treatment6')) {
+    treatment = 'control';
+  }
 
-  const [element, setElement] = React.useState('');
-  const [treatment, setTreatment] = React.useState('');
-  const [time, setTime] = React.useState('');
-  const [depth, setDepth] = React.useState('');
 
   // time 0 depth ranges
   const depths0 = [
@@ -200,21 +213,11 @@ export default function PlotBuilder() {
 
   var plot, layout, x, y, xAxisTitle, yAxisTitle;
 
-  let selectedVars = []
 
-  if (treatmentSelected) {
-    selectedVars.push('treatment');
-  }
-  if (timeSelected) {
-    selectedVars.push('time');
-  }
-  if (depthSelected) {
-    selectedVars.push('depth');
-  }
 
-  if (showPlot && selectedVars.length === 1) {
+  if (selectedVars.length === 1) {
     
-    if (treatmentSelected) {
+    if (selectedVars.includes('treatment')) {
       x = treatments;
 
       if (time === 'Time 0') {
@@ -240,10 +243,9 @@ export default function PlotBuilder() {
       xAxisTitle = 'Treatment'
       yAxisTitle = 'mg/kg'     
 
-    } else if (depthSelected) {
+    } else if (selectedVars.includes('depth')) {
       x = depths1;
     
-
       if (treatment === '15% comp seed') {
         y = [
           treatment1[element]['0-20'],
@@ -291,7 +293,7 @@ export default function PlotBuilder() {
       xAxisTitle = 'Depth (cm)'
       yAxisTitle = 'mg/kg'
       
-    } else if (timeSelected) {
+    } else if (selectedVars.includes('time')) {
       x = ['Time 0', 'Time 1'];
 
       if (treatment === '15% comp seed') {
@@ -348,7 +350,7 @@ export default function PlotBuilder() {
     ];
 
     layout = {
-      width: 600,
+      width: 400,
       height: 400,
       title: element,
       paper_bgcolor: 'rgba(0,0,0,0)',
@@ -360,8 +362,8 @@ export default function PlotBuilder() {
         title: yAxisTitle
       },
     }
-  } else if (showPlot && selectedVars.length === 2) {
-    if (treatmentSelected && depthSelected) {
+  } else if (selectedVars.length === 2) {
+    if (selectedVars.includes('treatment') && selectedVars.includes('depth')) {
       
       plot = [
         {
@@ -419,8 +421,8 @@ export default function PlotBuilder() {
         yaxis: {
           ticks: '',
           ticksuffix: ' ',
-          width: 700,
-          height: 700,
+          width: 400,
+          height: 400,
           autosize: true
         }
       };
@@ -429,319 +431,40 @@ export default function PlotBuilder() {
 
   }
 
-  function selectVar(varName) {
-    if (varName === 'treatment') {
-      if (treatmentSelected) {
-        setTreatmentSelected(false);
-      } else {
-        if (selectedVars.length < 2) {
-          setTreatmentSelected(true);
-        }
-      }
-    } else if (varName === 'depth') {
-      if (depthSelected) {
-        setDepthSelected(false);
-      } else {
-        if (selectedVars.length < 2) {
-          setDepthSelected(true);
-        }
-      }
-    } else if (varName === 'time') {
-      if (timeSelected) {
-        setTimeSelected(false);
-      } else {
-        if (selectedVars.length < 2) {
-          setTimeSelected(true);
-        }
-      }
-    }
-  }
+
 
   return (
     
-      <Grid
-        fill="true"
-        rows={['auto', 'flex']}
-        columns={['auto', 'flex']}
-        align="stretch"
-        areas={[
-          { name: 'sidebar', start: [0, 0], end: [0, 0] },
-          { name: 'main', start: [1, 0], end: [1, 0] },
-        ]}>
-
-      <Box flex
-        basis="full"
-        gridArea="sidebar"
-        width="medium">
-     
-        <Box pad="small">
-          <Heading
-            level={5}
-            margin={{
-              "horizontal": "none",
-              "top": "xsmall",
-              "bottom": "xsmall",
-            }}>
-              Element
-          </Heading>
-          <Select
-            options={['As', 'Al']}
-            value={element}
-            onChange={({ option }) => setElement(option)}
-            placeholder="Select element"
+    <Box pad="small">
+      { selectedVars.length === 1 && element && (
+          (depth && treatment) || 
+          (depth && time) ||
+          (treatment && time)
+        ) &&
+        <>
+          <Plot
+            data={plot}
+            layout={layout}
           />
-          
-          <Heading
-            level={5}
-            margin={{
-              "horizontal": "none",
-              "top": "xsmall",
-              "bottom": "small",
-            }}>
-            Select Axes (Up to 2)
-          </Heading>
-          
-          <Box direction="row" align="center" gap="small">
-            <Button
-              label="Treatment"
-              primary={treatmentSelected}
-              onClick={() => {selectVar('treatment')}}
-              size="small"
-            />
-            <Button
-              label="Depth"
-              primary={depthSelected}
-              onClick={() => {selectVar('depth')}}
-              size="small"
-            />
-            <Button
-              label="Time"
-              primary={timeSelected}
-              onClick={() => {selectVar('time')}}
-              size="small"
-            />
-          </Box>
 
-          
-          { selectedVars.length >= 1 && 
-          
-            <>
-              <Heading level={4}>Set Parameters</Heading> 
-              
-              { !selectedVars.includes('treatment') &&
-                <Box>
-                  <Heading
-                    level={5}
-                    margin={{
-                      "horizontal": "none",
-                      "top": "xsmall",
-                      "bottom": "xsmall",
-                    }}>
-                      Treatment
-                  </Heading>
-                  {/* <Select
-                    options={treatments}
-                    value={treatment}
-                    onChange={({ option }) => setTreatment(option)}
-                    placeholder="Select treatment"
-                  /> */}
+       
+        </> 
+      }
 
-                  <Box direction="row" align="center" gap="small" >     
-                    <Button
-                      label="Control"
-                      primary={treatment6_selected}
-                      onClick={() => {setTreatment6_selected(!treatment6_selected)}}
-                      size="small"
-                    />
-                    <Button
-                      label="15% C"
-                      primary={treatment2_selected}
-                      onClick={() => {setTreatment2_selected(!treatment2_selected)}}
-                      size="small"
-                    />
-                    <Button
-                      label="20% C"
-                      primary={treatment4_selected}
-                      onClick={() => {setTreatment4_selected(!treatment4_selected)}}
-                      size="small"
-                    />
-                  </Box>
+      { selectedVars.length === 2 && element && (
+          (depth || treatment || time)
+        ) &&
+        <>
+          <Plot
+            data={plot}
+            layout={layout}
+          />
 
-                  <Box direction="row" align="center" gap="small" margin={{top: "xsmall"}}>
-                    <Button
-                      label="10% CS"
-                      primary={treatment5_selected}
-                      onClick={() => {setTreatment5_selected(!treatment5_selected)}}
-                      size="small"
-                    />
-                    <Button
-                      label="15% CS"
-                      primary={treatment1_selected}
-                      onClick={() => {setTreatment1_selected(!treatment1_selected)}}
-                      size="small"
-                    />
-                    <Button
-                      label="20% CS"
-                      primary={treatment3_selected}
-                      onClick={() => {setTreatment3_selected(!treatment3_selected)}}
-                      size="small"
-                    />
-                  </Box>
-                </Box>
-              }
-
-              { !selectedVars.includes('depth') &&
-                <Box>
-                  <Heading
-                    level={5}
-                    margin={{
-                      "horizontal": "none",
-                      "top": "xsmall",
-                      "bottom": "xsmall",
-                    }}>
-                      Depth
-                  </Heading>
-                  {/* <Select
-                    options={depths1}
-                    value={depth}
-                    onChange={({ option }) => setDepth(option)}
-                    placeholder="Select depth"
-                  /> */}
-                  <Box direction="row" align="center" gap="small" >     
-                    <Button
-                      label="0-20"
-                      primary={depth1_selected}
-                      onClick={() => {set_depth1_selected(!depth1_selected)}}
-                      size="small"
-                    />
-                    <Button
-                      label="20-40"
-                      primary={depth2_selected}
-                      onClick={() => {set_depth2_selected(!depth2_selected)}}
-                      size="small"
-                    />
-                    <Button
-                      label="40-60"
-                      primary={depth3_selected}
-                      onClick={() => {set_depth3_selected(!depth3_selected)}}
-                      size="small"
-                    />
-                    <Button
-                      label="60-90"
-                      primary={depth4_selected}
-                      onClick={() => {set_depth4_selected(!depth4_selected)}}
-                      size="small"
-                    />
-                  </Box>
-                </Box>
-              }
-
-              { !selectedVars.includes('time') &&
-                <Box>
-                  <Heading
-                    level={5}
-                    margin={{
-                      "horizontal": "none",
-                      "top": "xsmall",
-                      "bottom": "xsmall",
-                    }}>
-                      Time
-                  </Heading>
-                  {/* <Select
-                    options={['Time 0', 'Time 1']}
-                    value={time}
-                    onChange={({ option }) => setTime(option)}
-                    placeholder="Select time"
-                  /> */}
-                  <Box direction="row" align="center" gap="small" >     
-                    <Button
-                      label="Time 0"
-                      primary={time0_selected}
-                      onClick={() => {set_time0_selected(!time0_selected)}}
-                      size="small"
-                    />
-                    <Button
-                      label="Time 1"
-                      primary={time1_selected}
-                      onClick={() => {set_time1_selected(!time1_selected)}}
-                      size="small"
-                    />
-                  </Box>
-                </Box>
-              }
-
-              <Box
-                align="center"
-                pad="medium">
-                <Button
-                  label="Plot"
-                  icon={<BarChart />}
-                  onClick={() => {setShowPlot(true)}}
-                  color="neutral-1"
-                  // primary
-                />
-              </Box>
-            </>
-          }
-        </Box>
-      </Box>
-        
-      <Box flex
-        gridArea="main"
-      >
-        { showPlot &&
-          <Box pad="small">
-            { selectedVars.length === 1 && element && (
-                (depth && treatment) || 
-                (depth && time) ||
-                (treatment && time)
-              ) &&
-              <>
-                <Plot
-                  data={plot}
-                  layout={layout}
-                />
-
-                <Box
-                  align="center"
-                  pad="medium">
-                  <Button
-                    icon={<Edit />}
-                    label="Edit"
-                    onClick={() => {setShowPlot(false)}}
-                    primary
-                  />
-                </Box>
-              </> 
-            }
-
-            { selectedVars.length === 2 && element && (
-                (depth || treatment || time)
-              ) &&
-              <>
-                <Plot
-                  data={plot}
-                  layout={layout}
-                />
-
-                <Box
-                  align="center"
-                  pad="medium">
-                  <Button
-                    icon={<Edit />}
-                    label="Edit"
-                    onClick={() => {setShowPlot(false)}}
-                    primary
-                  />
-                </Box>
-              </> 
-            }   
-          </Box>
-        }
-
-      </Box>
-
-    </Grid>
+  
+        </> 
+      }   
+    </Box>
+       
 
   );
 }
