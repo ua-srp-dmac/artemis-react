@@ -23,11 +23,6 @@ import {
 
 export default function PlotBuilder() {
 
-  const size = useContext(ResponsiveContext);
-  const cards = Array(4)
-    .fill()
-    .map((_, i) => <Text key={i}>{`Card ${i}`}</Text>);
-
   const [treatmentSelected, setTreatmentSelected] = React.useState(false);
   const [depthSelected, setDepthSelected] = React.useState(false);
   const [timeSelected, setTimeSelected] = React.useState(false);
@@ -55,8 +50,6 @@ export default function PlotBuilder() {
   const [treatment, setTreatment] = React.useState('');
   const [time, setTime] = React.useState('');
   const [depth, setDepth] = React.useState('');
-
-  
 
   // time 0 depth ranges
   const depths0 = [
@@ -696,7 +689,7 @@ export default function PlotBuilder() {
       <Box flex
         gridArea="main"
       >
-        {/* { showPlot &&
+        { showPlot &&
           <Box pad="small">
             { selectedVars.length === 1 && element && (
                 (depth && treatment) || 
@@ -744,18 +737,7 @@ export default function PlotBuilder() {
               </> 
             }   
           </Box>
-        } */}
-
-      <Box pad="small">
-        <Grid columns={size !== 'small' ? 'medium' : '100%'} gap="small">
-          {cards.map((card, index) => (
-            
-            <Card pad="large" key={index}>
-              {card}
-            </Card>
-          ))}
-        </Grid>
-      </Box>
+        }
 
       </Box>
 

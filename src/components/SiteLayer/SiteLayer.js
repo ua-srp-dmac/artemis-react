@@ -60,7 +60,17 @@ function SiteLayer(props) {
               <Mineralogy></Mineralogy>
             </Box>
           </Tab>
-          <Tab title="Plot Builder">
+          <Tab title="Plot Builder 1">
+            <Box pad="small">
+              <PlotBuilder></PlotBuilder>
+            </Box>
+          </Tab>
+          <Tab title="Plot Grid">
+            <Box pad="small">
+              <PlotGrid></PlotGrid>
+            </Box>
+          </Tab>
+          <Tab title="Experiment">
             <Box pad="small">
               {/* <PlotGrid></PlotGrid> */}
               <PlotBuilder3></PlotBuilder3>
