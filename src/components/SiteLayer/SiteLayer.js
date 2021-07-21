@@ -42,7 +42,7 @@ function SiteLayer(props) {
         </Box>
       </Stack>
          
-      <Box flex pad="small" fill>
+      <Box flex pad="small" fill overflow="auto">
         <Tabs justify="start" alignControls="start" flex fill align="stretch">
           <Tab title="Overview">
             {/* <Box pad="small"> */}

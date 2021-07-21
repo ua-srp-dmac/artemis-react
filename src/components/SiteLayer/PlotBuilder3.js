@@ -420,7 +420,7 @@ export default function PlotBuilder() {
           <Grid columns={size !== 'small' ? 'medium' : '100%'} gap="small">
             {replicatePlots.map((plot, index) => (
               
-              <Card  key={index}>
+              <Card key={index}>
                 <Plot3 element={element} selectedVars={selectedVars} replicate={replicatePlots[index]}></Plot3>
               </Card>
             ))}
