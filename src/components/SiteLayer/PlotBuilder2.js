@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import Plot from 'react-plotly.js';
 import classNames from 'classnames';
 
-import PlotReplicate2 from './PlotReplicate2';
+import BarChart from './BarChart';
 
 import {
   Box,
@@ -114,7 +114,14 @@ export default function PlotBuilder2() {
 
   if (plotType === 'bar') {
     if (timesSelected.length === 1) {
-      
+      replicatePlots.push({
+        element: element,
+        type: "bar",
+        x1: [treatmentsSelected],
+        x2: [depthsSelected],
+        varName: "time",
+        varValue: timesSelected[0]
+      });
     }
   }
   
@@ -347,10 +354,14 @@ export default function PlotBuilder2() {
         {showPlot &&
         <Box pad="small">
           <Grid columns={size !== 'small' ? 'medium' : '100%'} gap="small">
-            {replicatePlots.map((plot, index) => (
-              
+            {replicatePlots.map((plot, index) => (       
               <Card key={index}>
-                <PlotReplicate2 element={element} replicate={replicatePlots[index]}></PlotReplicate2>
+                {plot.type === 'bar' &&
+                  <BarChart
+                    element={element}
+                    replicate={replicatePlots[index]}>
+                  </BarChart>
+                }
               </Card>
             ))}
           </Grid>
