@@ -23,7 +23,6 @@ import {
 
 export default function BarChartPlot(props) {
 
-
   // time 0 depth ranges
   const depths0 = [
     '0-5',
@@ -152,9 +151,7 @@ export default function BarChartPlot(props) {
       '38-54': null,
       '180-183': null
     },
-
   };
-
  
   const x1_var = props.replicate.x1_var;
   const x2_var = props.replicate.x2_var;
@@ -163,12 +160,6 @@ export default function BarChartPlot(props) {
   const x1_value = props.replicate.x1_value;
   const x2_value = props.replicate.x2_value;
   const x3_value = props.replicate.x3_value;
-  
-  const element = props.replicate.element;
-  console.log(props.replicate);
-
-  console.log(x2_value);
-  console.log(x3_value);
 
   var plot, layout;
 
@@ -198,7 +189,7 @@ export default function BarChartPlot(props) {
     ];
     
     layout = {
-      title: element + ' - ' + x1_value,
+      title: "Mineralogy - " +  x1_value,
       annotations: [],
       paper_bgcolor: 'rgba(0,0,0,0)',
       plot_bgcolor: 'rgba(0,0,0,0)',
