@@ -185,51 +185,48 @@ export default function BarChartPlot(props) {
   console.log(x2_value);
   console.log(x3_value);
 
-  var plot, layout, trace1, trace2, x, y, xAxisTitle, yAxisTitle;
+  var plot, layout, x, y, xAxisTitle, yAxisTitle;
 
   if (x1_var === 'time' && x1_value === 'time1') {
+    
     if (x2_var === 'treatment') {
-      let x = x2_value;
-      var y = [
-        [0, 0],
-        [0, 0]
-      ];
+      
+      var y = [];
 
-      for (let i = 0; i < x2_value.length; i++) {
-        console.log(x2_value[i]);
-        console.log(eval(x2_value[i]));
-        for (let j = 0; j < x3_value.length; j++) {
-          
-          y[i][j] = eval(x2_value[i])[element][x3_value[j]];
+      for (let i = 0; i < x3_value.length; i++) {
+        y[i] = [];
+      }
+
+      for (let i = 0; i < x3_value.length; i++) {
+        for (let j = 0; j < x2_value.length; j++) {   
+          y[i][j] = eval(x2_value[j])[element][x3_value[i]];
         }
       }
 
-      trace1 = {
-        x: x2_value,
-        y: y[0],
-        name: x3_value[0],
-        type: "bar"
-      };
+      console.log(y)
 
-      trace2 = {
-        x: x2_value,
-        y: y[0],
-        name: x3_value[0],
-        type: "bar"
-      };
+      plot = []
 
-      plot = [trace1, trace2];
+      for (let i = 0; i < x3_value.length; i++) {
+        plot[i] = {
+          x: x2_value,
+          y: y[i],
+          name: x3_value[i],
+          type: "bar"
+        };
+      }
+      console.log(plot)
 
       layout = {
         barmode: 'group',
-        title: element + ' ' + x1_var,
+        title: element + ' - ' + x1_value,
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
         xaxis: {
           title: x2_var
         },
         yaxis: {
-          title: "mg/kg"
+          title: element + " (mg/kg)"
         },
       }
       
