@@ -348,24 +348,31 @@ export default function MineralogyPlotBuilder() {
       >
     
         {showPlot &&
-        <Box pad="small">
-          <Grid columns={size === 'small' ? 'medium' : '100%'} gap="small">
-            {replicatePlots.map((plot, index) => (       
-              <Card key={index}>
-                {plot.type === 'bar' &&
-                  <BarChartPlot
-                    replicate={replicatePlots[index]}>
-                  </BarChartPlot>
-                }
-                {plot.type === 'heat' &&
-                  <HeatMapPlot
-                    replicate={replicatePlots[index]}>
-                  </HeatMapPlot>
-                }
-              </Card>
-            ))}
-          </Grid>
-        </Box>
+          <Box pad="small">
+            <Grid columns={size === 'small' ? 'medium' : '100%'} gap="small">
+              {replicatePlots.map((plot, index) => (       
+                <Card key={index}>
+                  {plot.type === 'bar' &&
+                    <BarChartPlot
+                      replicate={replicatePlots[index]}>
+                    </BarChartPlot>
+                  }
+                  {plot.type === 'heat' &&
+                    <HeatMapPlot
+                      replicate={replicatePlots[index]}>
+                    </HeatMapPlot>
+                  }
+                </Card>
+              ))}
+            </Grid>
+          </Box>
+        }
+
+        {!showPlot &&
+          <Box pad="small" align="center" margin="large">
+            <BarChart size='large'></BarChart>
+            <Text margin="medium">Select variables to build a plot.</Text>
+          </Box>
         }
 
       </Box>

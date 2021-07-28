@@ -364,6 +364,12 @@ export default function PlotBuilder2() {
       <Box flex
         gridArea="main"
       >
+        {!showPlot &&
+          <Box pad="small" align="center" margin="large">
+            <BarChart size='large'></BarChart>
+            <Text margin="medium">Select variables to build a plot.</Text>
+          </Box>
+        }
     
         {showPlot &&
         <Box pad="small">
