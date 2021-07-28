@@ -4,9 +4,25 @@ import classNames from 'classnames';
 
 import {
   Box,
+  Button,
+  Layer,
+  Grid,
+  Text,
+  Tabs,
+  Card,
+  Heading,
+  Select,
+  ResponsiveContext,
 } from 'grommet';
 
+import {
+  Add,
+  Edit,
+  BarChart
+} from 'grommet-icons';
+
 export default function BarChartPlot(props) {
+
 
   // time 0 depth ranges
   const depths0 = [
@@ -213,19 +229,33 @@ export default function BarChartPlot(props) {
           title: element + " (mg/kg)"
         },
       }
-    } 
+      
+
+    }
+    
   }
+
+
+
+  
+
+
+  
+
 
   return (
     
     <Box pad="small">
+      
       <>
         <Plot
           data={plot}
           layout={layout}
         />
       </> 
+      
     </Box>
        
+
   );
 }

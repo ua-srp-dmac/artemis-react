@@ -124,7 +124,18 @@ export default function PlotBuilder2() {
         x3_var: "depth",
         x3_value: depthsSelected,
       });
-    }
+    } 
+  } else if (plotType === 'heat') {
+    replicatePlots.push({
+      element: element,
+      type: "bar",
+      x1_var: "time",
+      x1_value: timesSelected[0],
+      x2_var: "treatment",
+      x2_value: treatmentsSelected,
+      x3_var: "depth",
+      x3_value: depthsSelected,
+    });
   }
   
   // console.log(replicateVars)
