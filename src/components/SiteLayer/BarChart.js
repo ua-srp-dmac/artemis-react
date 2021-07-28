@@ -21,9 +21,8 @@ import {
   BarChart
 } from 'grommet-icons';
 
-export default function BarChart(props) {
+export default function BarChartPlot(props) {
 
-  console.log(props.replicate);
 
   // time 0 depth ranges
   const depths0 = [
@@ -172,258 +171,92 @@ export default function BarChart(props) {
     },
   };
 
-  var plot, layout, x, y, xAxisTitle, yAxisTitle;
+  const x1_var = props.replicate.x1_var;
+  const x2_var = props.replicate.x2_var;
+  const x3_var = props.replicate.x3_var;
 
+  const x1_value = props.replicate.x1_value;
+  const x2_value = props.replicate.x2_value;
+  const x3_value = props.replicate.x3_value;
+  
+  const element = props.replicate.element;
+  console.log(props.replicate);
 
+  console.log(x2_value);
+  console.log(x3_value);
 
-  if (selectedVars.length === 1) {
-    
-    if (selectedVars.includes('treatment')) {
-      x = treatments;
+  var plot, layout, trace1, trace2, x, y, xAxisTitle, yAxisTitle;
 
-      if (time === 'Time 0') {
-        y = [
-          time0_avg[element][depth],
-          time0_avg[element][depth],
-          time0_avg[element][depth],
-          time0_avg[element][depth],
-          time0_avg[element][depth],
-          time0_avg[element][depth]
-        ];
-      } else {
-        y = [
-          treatment1[element][depth],
-          treatment2[element][depth],
-          treatment3[element][depth],
-          treatment4[element][depth],
-          treatment5[element][depth],
-          treatment6[element][depth],
-        ]
-      }
-
-      xAxisTitle = 'Treatment'
-      yAxisTitle = 'mg/kg'     
-
-    } else if (selectedVars.includes('depth')) {
-      x = depths1;
-    
-      if (treatment === '15% comp seed') {
-        y = [
-          treatment1[element]['0-20'],
-          treatment1[element]['20-40'],
-          treatment1[element]['40-60'],
-          treatment1[element]['60-90'],
-        ];
-      } else if (treatment === '15% comp') {
-        y = [
-          treatment2[element]['0-20'],
-          treatment2[element]['20-40'],
-          treatment2[element]['40-60'],
-          treatment2[element]['60-90'],
-        ];
-      } else if (treatment === '20% comp seed') {
-        y = [
-          treatment3[element]['0-20'],
-          treatment3[element]['20-40'],
-          treatment3[element]['40-60'],
-          treatment3[element]['60-90'],
-        ];
-      } else if (treatment === '20% comp') {
-        y = [
-          treatment4[element]['0-20'],
-          treatment4[element]['20-40'],
-          treatment4[element]['40-60'],
-          treatment4[element]['60-90'],
-        ];
-      } else if (treatment === '10% comp seed') {
-        y = [
-          treatment5[element]['0-20'],
-          treatment5[element]['20-40'],
-          treatment5[element]['40-60'],
-          treatment5[element]['60-90'],
-        ];
-      } else if (treatment === 'control') {
-        y = [
-          treatment6[element]['0-20'],
-          treatment6[element]['20-40'],
-          treatment6[element]['40-60'],
-          treatment6[element]['60-90'],
-        ];
-      }
-
-      xAxisTitle = 'Depth (cm)'
-      yAxisTitle = 'mg/kg'
-      
-    } else if (selectedVars.includes('time')) {
-      x = ['Time 0', 'Time 1'];
-
-      if (treatment === '15% comp seed') {
-        y = [
-          time0_avg[element][depth],
-          treatment1[element][depth],
-        ];
-      } else if (treatment === '15% comp') {
-        y = [
-          time0_avg[element][depth],
-          treatment2[element][depth],
-        ];
-      } else if (treatment === '20% comp seed') {
-        y = [
-          time0_avg[element][depth],
-          treatment3[element][depth],
-        ];
-      } else if (treatment === '20% comp') {
-        y = [
-          time0_avg[element][depth],
-          treatment4[element][depth],
-        ];
-      } else if (treatment === '10% comp seed') {
-        y = [
-          time0_avg[element][depth],
-          treatment5[element][depth],
-        ];
-      } else if (treatment === 'control') {
-        y = [
-          time0_avg[element][depth],
-          treatment6[element][depth],
-        ];
-      }
-
-      xAxisTitle = 'Time'
-      yAxisTitle = 'mg/kg'
-
-    }
-
-    plot = [
-      {
-        x: x,
-        y: y,
-        type: 'bar',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rgb(8,48,107)',
-            width: 1.5
-          }
-        }
-      },
-    ];
-
-    layout = {
-      width: 400,
-      height: 400,
-      title: element,
-      paper_bgcolor: 'rgba(0,0,0,0)',
-      plot_bgcolor: 'rgba(0,0,0,0)',
-      xaxis: {
-        title: xAxisTitle
-      },
-      yaxis: {
-        title: yAxisTitle
-      },
-    }
-  } else if (selectedVars.length === 2) {
-    if (selectedVars.includes('treatment') && selectedVars.includes('depth')) {
-      
-      plot = [
-        {
-          x: treatments,
-          y: depths1.reverse(),
-          z: [
-            [
-              treatment1[element]['0-20'],
-              treatment2[element]['0-20'],
-              treatment3[element]['0-20'],
-              treatment4[element]['0-20'],
-              treatment5[element]['0-20'],
-              treatment6[element]['0-20'],
-            ],
-            [
-              treatment1[element]['20-40'],
-              treatment2[element]['20-40'],
-              treatment3[element]['20-40'],
-              treatment4[element]['20-40'],
-              treatment5[element]['20-40'],
-              treatment6[element]['20-40'],
-            ], 
-            [
-              treatment1[element]['40-60'],
-              treatment2[element]['40-60'],
-              treatment3[element]['40-60'],
-              treatment4[element]['40-60'],
-              treatment5[element]['40-60'],
-              treatment6[element]['40-60'],
-            ], 
-            [
-              treatment1[element]['60-90'],
-              treatment2[element]['60-90'],
-              treatment3[element]['60-90'],
-              treatment4[element]['60-90'],
-              treatment5[element]['60-90'],
-              treatment6[element]['60-90'],
-            ], 
-          ].reverse(),
-          type: 'heatmap',
-          hoverongaps: false,
-          colorscale: 'interpolatePurples'
-        }
+  if (x1_var === 'time' && x1_value === 'time1') {
+    if (x2_var === 'treatment') {
+      let x = x2_value;
+      var y = [
+        [0, 0],
+        [0, 0]
       ];
-      
+
+      for (let i = 0; i < x2_value.length; i++) {
+        console.log(x2_value[i]);
+        console.log(eval(x2_value[i]));
+        for (let j = 0; j < x3_value.length; j++) {
+          
+          y[i][j] = eval(x2_value[i])[element][x3_value[j]];
+        }
+      }
+
+      trace1 = {
+        x: x2_value,
+        y: y[0],
+        name: x3_value[0],
+        type: "bar"
+      };
+
+      trace2 = {
+        x: x2_value,
+        y: y[0],
+        name: x3_value[0],
+        type: "bar"
+      };
+
+      plot = [trace1, trace2];
+
       layout = {
-        title: element,
-        annotations: [],
+        barmode: 'group',
+        title: element + ' ' + x1_var,
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
         xaxis: {
-          ticks: '',
-          side: 'top'
+          title: x2_var
         },
         yaxis: {
-          ticks: '',
-          ticksuffix: ' ',
-          width: 400,
-          height: 400,
-          autosize: true
-        }
-      };
+          title: "mg/kg"
+        },
+      }
       
-    }
 
+    }
+    
   }
 
+
+
+  
+
+
+  
 
 
   return (
     
     <Box pad="small">
-      { selectedVars.length === 1 && element && (
-          (depth && treatment) || 
-          (depth && time) ||
-          (treatment && time)
-        ) &&
-        <>
-          <Plot
-            data={plot}
-            layout={layout}
-          />
-
-       
-        </> 
-      }
-
-      { selectedVars.length === 2 && element && (
-          (depth || treatment || time)
-        ) &&
-        <>
-          <Plot
-            data={plot}
-            layout={layout}
-          />
-
-  
-        </> 
-      }   
+      
+      <>
+        <Plot
+          data={plot}
+          layout={layout}
+        />
+      </> 
+      
     </Box>
        
 

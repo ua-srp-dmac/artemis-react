@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import Plot from 'react-plotly.js';
 import classNames from 'classnames';
 
-import BarChart from './BarChart';
+import BarChartPlot from './BarChart';
 
 import {
   Box,
@@ -92,7 +92,7 @@ export default function PlotBuilder2() {
 
   for (let i = 0; i < depths1.length; i++ ) {
     if (eval('depth' + (i + 1).toString() + '_selected')) {
-      depthsSelected.push('depth' + (i + 1).toString());
+      depthsSelected.push(depths1[i]);
     }
   }
 
@@ -117,10 +117,12 @@ export default function PlotBuilder2() {
       replicatePlots.push({
         element: element,
         type: "bar",
-        x1: [treatmentsSelected],
-        x2: [depthsSelected],
-        varName: "time",
-        varValue: timesSelected[0]
+        x1_var: "time",
+        x1_value: timesSelected[0],
+        x2_var: "treatment",
+        x2_value: treatmentsSelected,
+        x3_var: "depth",
+        x3_value: depthsSelected,
       });
     }
   }
@@ -357,10 +359,10 @@ export default function PlotBuilder2() {
             {replicatePlots.map((plot, index) => (       
               <Card key={index}>
                 {plot.type === 'bar' &&
-                  <BarChart
+                  <BarChartPlot
                     element={element}
                     replicate={replicatePlots[index]}>
-                  </BarChart>
+                  </BarChartPlot>
                 }
               </Card>
             ))}
