@@ -48,6 +48,7 @@ export default function PlotBuilder2() {
   const [depth4_selected, set_depth4_selected] = React.useState(false);
 
   const [plotType, setPlotType] = React.useState('bar');
+  const [groupBy, setGroupBy] = React.useState('treatment');
 
 
   const treatments = [
@@ -114,17 +115,30 @@ export default function PlotBuilder2() {
   const varNames = ['treatment', 'depth', 'time'];
 
   if (plotType === 'bar') {
-    if (timesSelected.length === 1) {
-      replicatePlots.push({
-        element: element,
-        type: "bar",
-        x1_var: "time",
-        x1_value: timesSelected[0],
-        x2_var: "treatment",
-        x2_value: treatmentsSelected,
-        x3_var: "depth",
-        x3_value: depthsSelected,
-      });
+    for (let i = 0; i < timesSelected.length; i++) {
+      if (groupBy === 'treatment') {
+        replicatePlots.push({
+          element: element,
+          type: "bar",
+          x1_var: "time",
+          x1_value: timesSelected[i],
+          x2_var: "treatment",
+          x2_value: treatmentsSelected,
+          x3_var: "depth",
+          x3_value: depthsSelected,
+        });
+      } else if (groupBy === 'depth') {
+        replicatePlots.push({
+          element: element,
+          type: "bar",
+          x1_var: "time",
+          x1_value: timesSelected[i],
+          x2_var: "depth",
+          x2_value: depthsSelected,
+          x3_var: "treatment",
+          x3_value: treatmentsSelected,
+        });
+      }
     } 
   } else if (plotType === 'heat') {
     replicatePlots.push({
@@ -377,10 +391,31 @@ export default function PlotBuilder2() {
             {replicatePlots.map((plot, index) => (       
               <Card key={index}>
                 {plot.type === 'bar' &&
-                  <BarChartPlot
-                    element={element}
-                    replicate={replicatePlots[index]}>
-                  </BarChartPlot>
+                  <>
+                    <BarChartPlot
+                      element={element}
+                      replicate={replicatePlots[index]}>
+                    </BarChartPlot>
+                    
+                    <Box margin={{bottom: "large", horizontal: "large"}}>
+                    <Heading
+                      level={5}
+                      margin={{
+                        "horizontal": "none",
+                        "top": "xsmall",
+                        "bottom": "xsmall",
+                      }}>
+                        Group By
+                    </Heading>
+                    
+                    <Select
+                      options={['treatment', 'depth']}
+                      value={groupBy}
+                      onChange={({ option }) => setGroupBy(option)}
+                      placeholder="Select grouping"
+                    />
+                    </Box>
+                  </>
                 }
                 {plot.type === 'heat' &&
                   <HeatMapPlot

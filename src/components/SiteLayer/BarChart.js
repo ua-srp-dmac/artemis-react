@@ -214,7 +214,48 @@ export default function BarChartPlot(props) {
         },
       }
     }
-    
+
+    else if (x2_var === 'depth') {
+      
+      var y = [];
+
+      for (let i = 0; i < x3_value.length; i++) {
+        y[i] = [];
+      }
+
+      for (let i = 0; i < x3_value.length; i++) {
+        for (let j = 0; j < x2_value.length; j++) {    
+          y[i][j] = eval(x3_value[i])[element][x2_value[j]];
+        }
+      }
+
+      console.log(y)
+
+      plot = []
+
+      for (let i = 0; i < x3_value.length; i++) {
+        plot[i] = {
+          x: x2_value,
+          y: y[i],
+          name: treatmentLabels[x3_value[i]],
+          type: "bar"
+        };
+      }
+      console.log(plot)
+
+      layout = {
+        barmode: 'group',
+        title: element + ' - ' + x1_value,
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        xaxis: {
+          title: x2_var.charAt(0).toUpperCase() + x2_var.slice(1)
+        },
+        yaxis: {
+          title: element + " (mg/kg)"
+        },
+      }
+    } 
   }
 
   return (
