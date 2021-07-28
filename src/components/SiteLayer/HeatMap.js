@@ -188,50 +188,51 @@ export default function BarChartPlot(props) {
   var plot, layout, x, y, xAxisTitle, yAxisTitle;
 
   if (x1_var === 'time' && x1_value === 'time1') {
-    
-    if (x2_var === 'treatment') {
+
+    var z = [];
+
+    for (let i = 0; i < x3_value.length; i++) {
+      var row = [];
       
-      var y = [];
-
-      for (let i = 0; i < x3_value.length; i++) {
-        y[i] = [];
+      for (let j = 0; j < x2_value.length; j++) {
+        row.push(eval(x2_value[j])[element][x3_value[i]]);
       }
 
-      for (let i = 0; i < x3_value.length; i++) {
-        for (let j = 0; j < x2_value.length; j++) {   
-          y[i][j] = eval(x2_value[j])[element][x3_value[i]];
-        }
-      }
-
-      console.log(y)
-
-      plot = []
-
-      for (let i = 0; i < x3_value.length; i++) {
-        plot[i] = {
-          x: x2_value.map(function(value) { return treatmentLabels[value]}),
-          y: y[i],
-          name: x3_value[i],
-          type: "bar"
-        };
-      }
-      console.log(plot)
-
-      layout = {
-        barmode: 'group',
-        title: element + ' - ' + x1_value,
-        paper_bgcolor: 'rgba(0,0,0,0)',
-        plot_bgcolor: 'rgba(0,0,0,0)',
-        xaxis: {
-          title: x2_var.charAt(0).toUpperCase() + x2_var.slice(1)
-        },
-        yaxis: {
-          title: element + " (mg/kg)"
-        },
-      }
-      
-
+      z[i] = row;
     }
+
+    console.log(x2_value)
+
+    plot = [
+      {
+        x: x2_value.map(function(value) { return treatmentLabels[value] }),
+        y: x3_value.slice().reverse(),
+        z: z.slice().reverse(),
+        type: 'heatmap',
+        hoverongaps: false,
+        colorscale: 'interpolatePurples'
+      }
+    ];
+
+    console.log(plot)
+    
+    layout = {
+      title: element + ' - ' + x1_value,
+      annotations: [],
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      xaxis: {
+        ticks: '',
+        side: 'top'
+      },
+      yaxis: {
+        ticks: '',
+        ticksuffix: ' ',
+        width: 400,
+        height: 400,
+        autosize: true
+      }
+    };
     
   }
 

@@ -3,6 +3,7 @@ import Plot from 'react-plotly.js';
 import classNames from 'classnames';
 
 import BarChartPlot from './BarChart';
+import HeatMapPlot from './HeatMap';
 
 import {
   Box,
@@ -128,7 +129,7 @@ export default function PlotBuilder2() {
   } else if (plotType === 'heat') {
     replicatePlots.push({
       element: element,
-      type: "bar",
+      type: "heat",
       x1_var: "time",
       x1_value: timesSelected[0],
       x2_var: "treatment",
@@ -374,6 +375,12 @@ export default function PlotBuilder2() {
                     element={element}
                     replicate={replicatePlots[index]}>
                   </BarChartPlot>
+                }
+                {plot.type === 'heat' &&
+                  <HeatMapPlot
+                    element={element}
+                    replicate={replicatePlots[index]}>
+                  </HeatMapPlot>
                 }
               </Card>
             ))}
