@@ -92,7 +92,8 @@ export default function MineralogyPlotBuilder() {
   let mineralsSelected = []
 
   for (let i = 0; i < minerals.length; i++ ) {
-    if (eval(minerals[i]) + '_selected') {
+
+    if (eval(minerals[i] + '_selected') ) {
       mineralsSelected.push(minerals[i]);
     }
   }
@@ -105,7 +106,7 @@ export default function MineralogyPlotBuilder() {
       type: "bar",
       x1_var: "time",
       x1_value: "time0",
-      x2_var: "treatment",
+      x2_var: "mineral",
       x2_value: mineralsSelected,
       x3_var: "depth",
       x3_value: depthsSelected,
@@ -140,23 +141,6 @@ export default function MineralogyPlotBuilder() {
         width="medium">
      
         <Box pad="small">
-          
-          {/* <Heading level={4}>Select Variables</Heading>  */}
-{/* 
-          const minerals = [
-    'quartz',
-    'plagioclase',
-    'illite',
-    'chlorite',
-    'kaolinite',
-    'pyrite',
-    'gypsum',
-    'jarosite',
-    'melanternite',
-    'ankerite',
-    'siderite',
-    'amorphous',
-  ] */}
           
           <Box>
             <Heading
