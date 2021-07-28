@@ -213,7 +213,8 @@ export default function BarChartPlot(props) {
           title: element + " (mg/kg)"
         },
       }
-    } 
+    }
+    
   }
 
   return (
