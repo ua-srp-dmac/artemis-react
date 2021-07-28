@@ -367,7 +367,7 @@ export default function PlotBuilder2() {
     
         {showPlot &&
         <Box pad="small">
-          <Grid columns={size !== 'small' ? 'medium' : '100%'} gap="small">
+          <Grid columns={size === 'small' ? 'medium' : '100%'} gap="small">
             {replicatePlots.map((plot, index) => (       
               <Card key={index}>
                 {plot.type === 'bar' &&

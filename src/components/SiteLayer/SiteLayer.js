@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import Overview from './Overview';
 import Geochemistry from './Geochemistry';
 import Mineralogy from './Mineralogy';
+import MineralogyPlotBuilder from './MineralogyPlotBuilder';
 import PlotBuilder from './PlotBuilder';
 import PlotBuilder2 from './PlotBuilder2';
 
@@ -56,7 +57,7 @@ function SiteLayer(props) {
           </Tab>
           <Tab title="Mineralogy">
             <Box pad="small">
-              <Mineralogy></Mineralogy>
+              <MineralogyPlotBuilder></MineralogyPlotBuilder>
             </Box>
           </Tab>
           <Tab title="Plot Builder">
