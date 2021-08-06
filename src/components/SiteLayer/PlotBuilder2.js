@@ -152,25 +152,25 @@ export default function PlotBuilder2() {
       x3_value: depthsSelected,
     });
   }
-  
-  // console.log(replicateVars)
 
-  // if (replicateVars.length === 1) {
-  //   for (let index = 0; index < eval(replicateVars[0] + 'sSelected').length; index++) {
-  //     replicatePlots.push([
-  //       eval(replicateVars[0] + 'sSelected')[index]
-  //     ]);
-  //   }
-  //   console.log(replicatePlots);
-  // } else if (replicateVars.length === 2) {
-  //   for (let i = 0; i < eval(replicateVars[0] + 'sSelected').length; i++) {
-  //     for (let j = 0; j < eval(replicateVars[1] + 'sSelected').length; j++) {
-  //       replicatePlots.push([
-  //         eval(replicateVars[0] + 'sSelected')[i], eval(replicateVars[1] + 'sSelected')[j]
-  //       ]);
-  //     }
-  //   }
-  //   console.log(replicatePlots);
+  function selectAllTreatments() {
+    set_treatment1_selected(true);
+    set_treatment2_selected(true);
+    set_treatment3_selected(true);
+    set_treatment4_selected(true);
+    set_treatment5_selected(true);
+    set_treatment6_selected(true);
+  }
+
+  function deselectAllTreatments() {
+    set_treatment1_selected(false);
+    set_treatment2_selected(false);
+    set_treatment3_selected(false);
+    set_treatment4_selected(false);
+    set_treatment5_selected(false);
+    set_treatment6_selected(false);
+  }
+  
     
   return (
     
@@ -219,6 +219,9 @@ export default function PlotBuilder2() {
                 "bottom": "xsmall",
               }}>
                 Treatment
+                <Text size="xsmall" margin="small" as="a" onClick={selectAllTreatments}>
+                  Select all
+                </Text>
             </Heading>
 
             <Box direction="row" align="center" gap="small" >     
