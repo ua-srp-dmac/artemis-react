@@ -23,13 +23,25 @@ import {
   Edit,
   BarChart
 } from 'grommet-icons';
+import axios from 'axios';
 
 export default function PlotBuilder2() {
 
   const size = useContext(ResponsiveContext);
+  
+  const getData = () => {
+    axios.get('site-geochemistry/6')
+    .then((response) => {
+      const data = response;
+      setData(data)
+      console.log(data);
+    })
+    .catch(error => console.log(error));
+  }
 
   
   const [showPlot, setShowPlot] = React.useState(false);
+  const [data, setData] = React.useState('')
   const [element, setElement] = React.useState('');
 
   const [treatment1_selected, set_treatment1_selected] = React.useState(false);
@@ -49,6 +61,10 @@ export default function PlotBuilder2() {
 
   const [plotType, setPlotType] = React.useState('bar');
   const [groupBy, setGroupBy] = React.useState('treatment');
+
+  React.useEffect(() => {
+    getData();
+  }, []);
 
 
   const treatments = [
@@ -82,6 +98,70 @@ export default function PlotBuilder2() {
     'Time 1'
   ];
 
+  const elements = [
+    'Ag',
+    'Al',
+    'As',
+    'Au',
+    'Ba',
+    'Be',
+    'Bi',
+    'Br',
+    'Ca',
+    'Cd',
+    'Ce',
+    'Co',
+    'Cr',
+    'Cs',
+    'Cu',
+    'Dy',
+    'Er',
+    'Eu',
+    'Fe',
+    'Ga',
+    'Gd',
+    'Ge',
+    'Hf',
+    'Ho',
+    'In',
+    'Ir',
+    'K',
+    'La',
+    'Lu',
+    'Mg',
+    'Mn',
+    'Mo',
+    'Na',
+    'Nb',
+    'Nd',
+    'Ni',
+    'P',
+    'Pb',
+    'Pr',
+    'Rb',
+    'S',
+    'Sb',
+    'Sc',
+    'Se',
+    'Si',
+    'Sm',
+    'Sn',
+    'Sr',
+    'Ta',
+    'Tb',
+    'Th',
+    'Ti',
+    'Tl',
+    'Tm',
+    'U',
+    'V',
+    'W',
+    'Y',
+    'Yb',
+    'Zn',
+    'Zr',
+  ]
+
   let treatmentsSelected = []
   let depthsSelected = []
   let timesSelected = []
@@ -99,11 +179,11 @@ export default function PlotBuilder2() {
   }
 
   if (time0_selected) {
-    timesSelected.push('time0');
+    timesSelected.push(0);
   }
   
   if (time1_selected) {
-    timesSelected.push('time1');
+    timesSelected.push(1);
   }
 
   console.log(treatmentsSelected);
@@ -204,7 +284,7 @@ export default function PlotBuilder2() {
           </Heading>
           
           <Select
-            options={['As', 'Al']}
+            options={elements}
             value={element}
             onChange={({ option }) => setElement(option)}
             placeholder="Select element"
@@ -397,7 +477,8 @@ export default function PlotBuilder2() {
                   <>
                     <BarChartPlot
                       element={element}
-                      replicate={replicatePlots[index]}>
+                      replicate={replicatePlots[index]}
+                      data={data}>
                     </BarChartPlot>
                     
                     <Box margin={{bottom: "large", horizontal: "large"}}>
@@ -423,7 +504,8 @@ export default function PlotBuilder2() {
                 {plot.type === 'heat' &&
                   <HeatMapPlot
                     element={element}
-                    replicate={replicatePlots[index]}>
+                    replicate={replicatePlots[index]}
+                    data={data}>
                   </HeatMapPlot>
                 }
               </Card>

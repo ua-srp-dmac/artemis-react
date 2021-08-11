@@ -8,6 +8,8 @@ import {
 
 export default function BarChartPlot(props) {
 
+  console.log(props.data)
+
   // time 0 depth ranges
   const depths0 = [
     '0-5',
@@ -27,14 +29,14 @@ export default function BarChartPlot(props) {
     '60-90'
   ];
   
-  const treatments = [
-    '15% comp seed',
-    '15% comp',
-    '20% comp seed',
-    '20% comp',
-    '10% comp seed',
-    'control'
-  ];
+  const treatments = {
+    '15% CS': '15% comp seed',
+    '15% C': '15% comp',
+    '20% CS': '20% comp seed',
+    '20% C': '20% comp',
+    '10% CS': '10% comp seed',
+    'Control': 'control'
+  };
 
   const treatmentLabels = {
     'treatment1': '15% CS',
@@ -171,7 +173,7 @@ export default function BarChartPlot(props) {
 
   var plot, layout, x, y, xAxisTitle, yAxisTitle;
 
-  if (x1_var === 'time' && x1_value === 'time1') {
+  if (x1_var === 'time' && x1_value === 1) {
     
     if (x2_var === 'treatment') {
       
@@ -183,7 +185,8 @@ export default function BarChartPlot(props) {
 
       for (let i = 0; i < x3_value.length; i++) {
         for (let j = 0; j < x2_value.length; j++) {   
-          y[i][j] = eval(x2_value[j])[element][x3_value[i]];
+          console.log(treatments[treatmentLabels[x2_value[j]]])
+          y[i][j] = props.data.data[1][treatments[treatmentLabels[x2_value[j]]]][element][x3_value[i]];
         }
       }
 
