@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
-import Plot from 'react-plotly.js';
-import classNames from 'classnames';
+import axios from 'axios';
 
 import BarChartPlot from './BarChart';
 import HeatMapPlot from './HeatMap';
@@ -8,10 +7,8 @@ import HeatMapPlot from './HeatMap';
 import {
   Box,
   Button,
-  Layer,
   Grid,
   Text,
-  Tabs,
   Card,
   Heading,
   Select,
@@ -19,13 +16,11 @@ import {
 } from 'grommet';
 
 import {
-  Add,
-  Edit,
   BarChart
 } from 'grommet-icons';
-import axios from 'axios';
 
-export default function PlotBuilder2() {
+
+export default function PlotBuilder() {
 
   const size = useContext(ResponsiveContext);
   

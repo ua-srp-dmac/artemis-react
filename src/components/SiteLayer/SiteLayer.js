@@ -17,7 +17,7 @@ import Overview from './Overview';
 import Geochemistry from './Geochemistry';
 import Mineralogy from './Mineralogy';
 import MineralogyPlotBuilder from './Mineralogy/MineralogyPlotBuilder';
-import PlotBuilder2 from './PlotBuilder2';
+import PlotBuilder from './PlotBuilder';
 
 
 function SiteLayer(props) {
@@ -66,7 +66,7 @@ function SiteLayer(props) {
           </Tab> */}
           <Tab title="Plot Builder">
             <Box pad="small">
-              <PlotBuilder2></PlotBuilder2>
+              <PlotBuilder></PlotBuilder>
             </Box>
           </Tab>
         </Tabs>
