@@ -14,6 +14,7 @@ import {
 import { FormClose, FormSearch, Menu } from 'grommet-icons';
 
 import React, { useState, Component, Fragment } from "react";
+import axios from 'axios';
 
 import Map from './components/Map';
 import AppBar from './components/AppBar';
@@ -43,12 +44,26 @@ const theme = {
 
 function App() {
 
+  const getSites = () => {
+    axios.get('sites')
+    .then((response) => {
+      setSites(response.data)
+      console.log(response.data);
+    })
+    .catch(error => console.log(error));
+  }
+
+  const [sites, setSites] = React.useState('')
   const [map, setMap] = useState(null)
   const [showSidebar, setShowSidebar] = useState(false);
   const [showSite, setShowSite] = useState(false);
   const [zoom, setZoom] = useState(7);
   const [centerLat, setCenterLat] = useState(34.501133);
   const [centerLong, setCenterLong] = useState(-112.252417);
+
+  React.useEffect(() => {
+    getSites();
+  }, []);
   
   return (
     
