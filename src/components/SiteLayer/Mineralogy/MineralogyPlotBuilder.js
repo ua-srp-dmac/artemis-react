@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
-import Plot from 'react-plotly.js';
-import classNames from 'classnames';
 
 import BarChartPlot from './BarChart';
 import HeatMapPlot from './HeatMap';
+
+import axios from 'axios';
 
 import {
   Box,
@@ -14,19 +14,26 @@ import {
   Tabs,
   Card,
   Heading,
-  Select,
   ResponsiveContext,
 } from 'grommet';
 
 import {
-  Add,
-  Edit,
   BarChart
 } from 'grommet-icons';
 
 export default function MineralogyPlotBuilder() {
 
   const size = useContext(ResponsiveContext);
+
+  const getData = () => {
+    axios.get('site-mineralogy/6')
+    .then((response) => {
+      const data = response;
+      setData(data)
+      console.log(data);
+    })
+    .catch(error => console.log(error));
+  }
 
   const minerals = [
     'quartz',
@@ -53,6 +60,7 @@ export default function MineralogyPlotBuilder() {
     '180-183'
   ];
 
+  const [data, setData] = React.useState('');
   const [showPlot, setShowPlot] = React.useState(false);
 
   const [quartz_selected, set_quartz_selected] = React.useState(false);
@@ -80,6 +88,10 @@ export default function MineralogyPlotBuilder() {
 
   const [plotType, setPlotType] = React.useState('bar');
 
+  React.useEffect(() => {
+    getData();
+  }, []);
+
 
   let depthsSelected = []
 
@@ -105,7 +117,7 @@ export default function MineralogyPlotBuilder() {
     replicatePlots.push({
       type: "bar",
       x1_var: "time",
-      x1_value: "time0",
+      x1_value: 0,
       x2_var: "mineral",
       x2_value: mineralsSelected,
       x3_var: "depth",
@@ -115,7 +127,7 @@ export default function MineralogyPlotBuilder() {
     replicatePlots.push({
       type: "heat",
       x1_var: "time",
-      x1_value: "time0",
+      x1_value: 0,
       x2_var: "mineral",
       x2_value: mineralsSelected,
       x3_var: "depth",
@@ -354,11 +366,13 @@ export default function MineralogyPlotBuilder() {
                 <Card key={index}>
                   {plot.type === 'bar' &&
                     <BarChartPlot
+                      data={data}
                       replicate={replicatePlots[index]}>
                     </BarChartPlot>
                   }
                   {plot.type === 'heat' &&
                     <HeatMapPlot
+                      data={data}
                       replicate={replicatePlots[index]}>
                     </HeatMapPlot>
                   }

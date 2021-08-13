@@ -61,7 +61,6 @@ export default function PlotBuilder() {
     getData();
   }, []);
 
-
   const treatments = [
     '15% CS',
     '15% C',
@@ -180,10 +179,6 @@ export default function PlotBuilder() {
   if (time1_selected) {
     timesSelected.push(1);
   }
-
-  console.log(treatmentsSelected);
-  console.log(depthsSelected);
-  console.log(timesSelected);
 
   var replicatePlots = [];
 
