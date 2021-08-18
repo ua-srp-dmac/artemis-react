@@ -26,7 +26,7 @@ export default function MineralogyPlotBuilder() {
   const size = useContext(ResponsiveContext);
 
   const getData = () => {
-    axios.get('site-mineralogy/6')
+    axios.get('site-mineralogy-cache/6')
     .then((response) => {
       const data = response;
       setData(data)

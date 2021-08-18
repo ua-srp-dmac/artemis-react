@@ -25,7 +25,7 @@ export default function PlotBuilder() {
   const size = useContext(ResponsiveContext);
   
   const getData = () => {
-    axios.get('site-geochemistry/6')
+    axios.get('site-geochem-cache/6')
     .then((response) => {
       const data = response;
       setData(data)
@@ -211,16 +211,18 @@ export default function PlotBuilder() {
       }
     } 
   } else if (plotType === 'heat') {
-    replicatePlots.push({
-      element: element,
-      type: "heat",
-      x1_var: "time",
-      x1_value: timesSelected[0],
-      x2_var: "treatment",
-      x2_value: treatmentsSelected,
-      x3_var: "depth",
-      x3_value: depthsSelected,
-    });
+    for (let i = 0; i < timesSelected.length; i++) {
+      replicatePlots.push({
+        element: element,
+        type: "heat",
+        x1_var: "time",
+        x1_value: timesSelected[i],
+        x2_var: "treatment",
+        x2_value: treatmentsSelected,
+        x3_var: "depth",
+        x3_value: depthsSelected,
+      });
+    }
   }
 
   function selectAllTreatments() {
@@ -460,7 +462,7 @@ export default function PlotBuilder() {
     
         {showPlot &&
         <Box pad="small">
-          <Grid columns={size === 'small' ? 'medium' : '100%'} gap="small">
+          <Grid columns={size === 'small' ? 'medium' : 'medium'} gap="small">
             {replicatePlots.map((plot, index) => (       
               <Card key={index}>
                 {plot.type === 'bar' &&
@@ -472,22 +474,22 @@ export default function PlotBuilder() {
                     </BarChartPlot>
                     
                     <Box margin={{bottom: "large", horizontal: "large"}}>
-                    <Heading
-                      level={5}
-                      margin={{
-                        "horizontal": "none",
-                        "top": "xsmall",
-                        "bottom": "xsmall",
-                      }}>
-                        Group By
-                    </Heading>
-                    
-                    <Select
-                      options={['treatment', 'depth']}
-                      value={groupBy}
-                      onChange={({ option }) => setGroupBy(option)}
-                      placeholder="Select grouping"
-                    />
+                      <Heading
+                        level={5}
+                        margin={{
+                          "horizontal": "none",
+                          "top": "xsmall",
+                          "bottom": "xsmall",
+                        }}>
+                          Group By
+                      </Heading>
+                      
+                      <Select
+                        options={['treatment', 'depth']}
+                        value={groupBy}
+                        onChange={({ option }) => setGroupBy(option)}
+                        placeholder="Select grouping"
+                      />
                     </Box>
                   </>
                 }

@@ -14,7 +14,6 @@ import React, { useState } from "react";
 
 import SiteMap from './SiteMap';
 import PeriodicTable from './PeriodicTable';
-import Mineralogy from './Mineralogy';
 
 
 function SiteLayer(props) {

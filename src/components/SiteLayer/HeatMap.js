@@ -37,7 +37,7 @@ export default function HeatMapPlot(props) {
 
   var plot, layout;
 
-  if (x1_var === 'time' && x1_value === 1) {
+  if (x1_var === 'time') {
 
     var z = [];
 
@@ -45,7 +45,7 @@ export default function HeatMapPlot(props) {
       var row = [];
       
       for (let j = 0; j < x2_value.length; j++) {
-        row.push(props.data.data[1][treatments[treatmentLabels[x2_value[j]]]][element][x3_value[i]]);
+        row.push(props.data.data[x1_value][treatments[treatmentLabels[x2_value[j]]]][element][x3_value[i]]);
       }
 
       z[i] = row;

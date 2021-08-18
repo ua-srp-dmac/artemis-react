@@ -37,7 +37,7 @@ export default function BarChartPlot(props) {
 
   var plot, layout;
 
-  if (x1_var === 'time' && x1_value === 1) {
+  if (x1_var === 'time') {
     
     if (x2_var === 'treatment') {
       
@@ -49,7 +49,7 @@ export default function BarChartPlot(props) {
 
       for (let i = 0; i < x3_value.length; i++) {
         for (let j = 0; j < x2_value.length; j++) {   
-          y[i][j] = props.data.data[1][treatments[treatmentLabels[x2_value[j]]]][element][x3_value[i]];
+          y[i][j] = props.data.data[x1_value][treatments[treatmentLabels[x2_value[j]]]][element][x3_value[i]];
         }
       }
 
@@ -88,7 +88,7 @@ export default function BarChartPlot(props) {
 
       for (let i = 0; i < x3_value.length; i++) {
         for (let j = 0; j < x2_value.length; j++) {    
-          y[i][j] = props.data.data[1][treatments[treatmentLabels[x3_value[i]]]][element][x2_value[j]];
+          y[i][j] = props.data.data[x1_value][treatments[treatmentLabels[x3_value[i]]]][element][x2_value[j]];
         }
       }
 

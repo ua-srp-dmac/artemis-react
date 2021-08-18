@@ -15,7 +15,6 @@ import React, { useState } from "react";
 
 import Overview from './Overview';
 import Geochemistry from './Geochemistry';
-import Mineralogy from './Mineralogy';
 import MineralogyPlotBuilder from './Mineralogy/MineralogyPlotBuilder';
 import PlotBuilder from './PlotBuilder';
 
@@ -51,7 +50,7 @@ function SiteLayer(props) {
           </Tab>
           <Tab title="Geochemistry">
             <Box pad="small">
-              <Geochemistry></Geochemistry>
+              <PlotBuilder></PlotBuilder>
             </Box>
           </Tab>
           <Tab title="Mineralogy">
@@ -59,16 +58,23 @@ function SiteLayer(props) {
               <MineralogyPlotBuilder></MineralogyPlotBuilder>
             </Box>
           </Tab>
+          <Tab title="Extractions">
+            <Box pad="small">
+              <MineralogyPlotBuilder></MineralogyPlotBuilder>
+            </Box>
+          </Tab>
+          <Tab title="Periodic Table">
+            <Box pad="small">
+              <Geochemistry></Geochemistry>
+            </Box>
+          </Tab>
+          
           {/* <Tab title="Plot Builder">
             <Box pad="small">
               <PlotBuilder></PlotBuilder>
             </Box>
           </Tab> */}
-          <Tab title="Plot Builder">
-            <Box pad="small">
-              <PlotBuilder></PlotBuilder>
-            </Box>
-          </Tab>
+          
         </Tabs>
       </Box>
 
