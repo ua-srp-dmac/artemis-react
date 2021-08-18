@@ -11,7 +11,7 @@ import {
   Layer,
   Grid,
   Text,
-  Tabs,
+  Anchor,
   Card,
   Heading,
   ResponsiveContext,
@@ -134,6 +134,31 @@ export default function MineralogyPlotBuilder() {
       x3_value: depthsSelected,
     });
   }
+
+
+  function selectAllMinerals() {
+    for (let i = 0; i < minerals.length; i++) {
+      eval('set_' + minerals[i] + '_selected')(true);
+    }
+  }
+
+  function clearMinerals() {
+    for (let i = 0; i < minerals.length; i++) {
+      eval('set_' + minerals[i] + '_selected')(false);
+    }
+  }
+
+  function selectAllDepths() {
+    for (let i = 0; i < depths0.length; i++) {
+      eval('set_depth' + (i + 1) + '_selected')(true);
+    }
+  }
+
+  function clearDepths() {
+    for (let i = 0; i < depths0.length; i++) {
+      eval('set_depth' + (i + 1) + '_selected')(false);
+    }
+  }
     
   return (
     
@@ -162,7 +187,18 @@ export default function MineralogyPlotBuilder() {
                 "top": "medium",
                 "bottom": "xsmall",
               }}>
-                Minerals
+                Minerals 
+                { mineralsSelected.length === 0 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={selectAllMinerals}>
+                    Select all
+                  </Anchor>
+                }
+
+                { mineralsSelected.length >= 1 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={clearMinerals}>
+                    Clear All
+                  </Anchor>
+                }
             </Heading>
 
             <Box direction="row" align="center" gap="small" >     
@@ -259,6 +295,17 @@ export default function MineralogyPlotBuilder() {
                 "bottom": "xsmall",
               }}>
                 Depth
+                { depthsSelected.length === 0 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={selectAllDepths}>
+                    Select all
+                  </Anchor>
+                }
+
+                { depthsSelected.length >= 1 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={clearDepths}>
+                    Clear All
+                  </Anchor>
+                }
             </Heading>
 
             <Box direction="row" align="center" gap="small" >     
