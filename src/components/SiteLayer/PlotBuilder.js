@@ -13,6 +13,7 @@ import {
   Heading,
   Select,
   ResponsiveContext,
+  Anchor
 } from 'grommet';
 
 import {
@@ -234,7 +235,7 @@ export default function PlotBuilder() {
     set_treatment6_selected(true);
   }
 
-  function deselectAllTreatments() {
+  function clearTreatments() {
     set_treatment1_selected(false);
     set_treatment2_selected(false);
     set_treatment3_selected(false);
@@ -242,6 +243,31 @@ export default function PlotBuilder() {
     set_treatment5_selected(false);
     set_treatment6_selected(false);
   }
+
+  function selectAllDepths() {
+    set_depth1_selected(true);
+    set_depth2_selected(true);
+    set_depth3_selected(true);
+    set_depth4_selected(true);
+  }
+
+  function clearDepths() {
+    set_depth1_selected(false);
+    set_depth2_selected(false);
+    set_depth3_selected(false);
+    set_depth4_selected(false);
+  }
+
+  function selectAllTimes() {
+    set_time0_selected(true);
+    set_time1_selected(true);
+  }
+
+  function clearTimes() {
+    set_time0_selected(false);
+    set_time1_selected(false);
+  }
+  
   
     
   return (
@@ -291,9 +317,18 @@ export default function PlotBuilder() {
                 "bottom": "xsmall",
               }}>
                 Treatment
-                <Text size="xsmall" margin="small" as="a" onClick={selectAllTreatments}>
-                  Select all
-                </Text>
+                { treatmentsSelected.length === 0 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTreatments}>
+                    Select all
+                  </Anchor>
+                }
+
+                { treatmentsSelected.length >= 1 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={clearTreatments}>
+                    Clear All
+                  </Anchor>
+                }
+                
             </Heading>
 
             <Box direction="row" align="center" gap="small" >     
@@ -348,6 +383,18 @@ export default function PlotBuilder() {
                 "bottom": "xsmall",
               }}>
                 Depth
+
+                { depthsSelected.length === 0 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={selectAllDepths}>
+                    Select all
+                  </Anchor>
+                }
+
+                { depthsSelected.length >= 1 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={clearDepths}>
+                    Clear All
+                  </Anchor>
+                }
             </Heading>
 
             <Box direction="row" align="center" gap="small" >     
@@ -387,6 +434,17 @@ export default function PlotBuilder() {
                 "bottom": "xsmall",
               }}>
                 Time
+                { timesSelected.length === 0 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTimes}>
+                    Select all
+                  </Anchor>
+                }
+
+                { timesSelected.length >= 1 &&
+                  <Anchor size="xsmall" margin="small" as="a" onClick={clearTimes}>
+                    Clear All
+                  </Anchor>
+                }
             </Heading>
 
             <Box direction="row" align="center" gap="small" >     

@@ -66,7 +66,7 @@ export default function BarChartPlot(props) {
 
       layout = {
         barmode: 'group',
-        title: element + ' - ' + x1_value,
+        title: element + ' - ' + x1_var.charAt(0).toUpperCase() + x1_var.slice(1) + ' ' + x1_value,
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
         xaxis: {
