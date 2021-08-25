@@ -4,6 +4,8 @@ import axios from 'axios';
 import BarChartPlot from './BarChart';
 import HeatMapPlot from './HeatMap';
 
+import ReactSelect from 'react-select';
+
 import {
   Box,
   Button,
@@ -38,7 +40,7 @@ export default function PlotBuilder() {
   
   const [showPlot, setShowPlot] = React.useState(false);
   const [data, setData] = React.useState('')
-  const [element, setElement] = React.useState('');
+  const [elementsSelected, setElementsSelected] = React.useState([]);
 
   const [treatment1_selected, set_treatment1_selected] = React.useState(false);
   const [treatment2_selected, set_treatment2_selected] = React.useState(false);
@@ -94,67 +96,67 @@ export default function PlotBuilder() {
   ];
 
   const elements = [
-    'Ag',
-    'Al',
-    'As',
-    'Au',
-    'Ba',
-    'Be',
-    'Bi',
-    'Br',
-    'Ca',
-    'Cd',
-    'Ce',
-    'Co',
-    'Cr',
-    'Cs',
-    'Cu',
-    'Dy',
-    'Er',
-    'Eu',
-    'Fe',
-    'Ga',
-    'Gd',
-    'Ge',
-    'Hf',
-    'Ho',
-    'In',
-    'Ir',
-    'K',
-    'La',
-    'Lu',
-    'Mg',
-    'Mn',
-    'Mo',
-    'Na',
-    'Nb',
-    'Nd',
-    'Ni',
-    'P',
-    'Pb',
-    'Pr',
-    'Rb',
-    'S',
-    'Sb',
-    'Sc',
-    'Se',
-    'Si',
-    'Sm',
-    'Sn',
-    'Sr',
-    'Ta',
-    'Tb',
-    'Th',
-    'Ti',
-    'Tl',
-    'Tm',
-    'U',
-    'V',
-    'W',
-    'Y',
-    'Yb',
-    'Zn',
-    'Zr',
+    { value: 'Ag', label: 'Ag'},
+    { value: 'Al', label: 'Al'},
+    { value: 'As', label: 'As'},
+    { value: 'Au', label: 'Au'},
+    { value: 'Ba', label: 'Ba'},
+    { value: 'Be', label: 'Be'},
+    { value: 'Bi', label: 'Bi'},
+    { value: 'Br', label: 'Br'},
+    { value: 'Ca', label: 'Ca'},
+    { value: 'Cd', label: 'Cd'},
+    { value: 'Ce', label: 'Ce'},
+    { value: 'Co', label: 'Co'},
+    { value: 'Cr', label: 'Cr'},
+    { value: 'Cs', label: 'Cs'},
+    { value: 'Cu', label: 'Cu'},
+    { value: 'Dy', label: 'Dy'},
+    { value: 'Er', label: 'Er'},
+    { value: 'Eu', label: 'Eu'},
+    { value: 'Fe', label: 'Fe'},
+    { value: 'Ga', label: 'Ga'},
+    { value: 'Gd', label: 'Gd'},
+    { value: 'Ge', label: 'Ge'},
+    { value: 'Hf', label: 'Hf'},
+    { value: 'Ho', label: 'Ho'},
+    { value: 'In', label: 'In'},
+    { value: 'Ir', label: 'Ir'},
+    { value: 'K', label: 'K'},
+    { value: 'La', label: 'La'},
+    { value: 'Lu', label: 'Lu'},
+    { value: 'Mg', label: 'Mg'},
+    { value: 'Mn', label: 'Mn'},
+    { value: 'Mo', label: 'Mo'},
+    { value: 'Na', label: 'Na'},
+    { value: 'Nb', label: 'Nb'},
+    { value: 'Nd', label: 'Nd'},
+    { value: 'Ni', label: 'Ni'},
+    { value: 'P', label: 'P'},
+    { value: 'Pb', label: 'Pb'},
+    { value: 'Pr', label: 'Pr'},
+    { value: 'Rb', label: 'Rb'},
+    { value: 'S', label: 'S'},
+    { value: 'Sb', label: 'Sb'},
+    { value: 'Sc', label: 'Sc'},
+    { value: 'Se', label: 'Se'},
+    { value: 'Si', label: 'Si'},
+    { value: 'Sm', label: 'Sm'},
+    { value: 'Sn', label: 'Sn'},
+    { value: 'Sr', label: 'Sr'},
+    { value: 'Ta', label: 'Ta'},
+    { value: 'Tb', label: 'Tb'},
+    { value: 'Th', label: 'Th'},
+    { value: 'Ti', label: 'Ti'},
+    { value: 'Tl', label: 'Tl'},
+    { value: 'Tm', label: 'Tm'},
+    { value: 'U', label: 'U'},
+    { value: 'V', label: 'V'},    
+    { value: 'W', label: 'W'},    
+    { value: 'Y', label: 'Y'},    
+    { value: 'Yb', label: 'Yb'},
+    { value: 'Zn', label: 'Zn'},
+    { value: 'Zr', label: 'Zr'},
   ]
 
   let treatmentsSelected = []
@@ -187,10 +189,38 @@ export default function PlotBuilder() {
 
   if (plotType === 'bar') {
     for (let i = 0; i < timesSelected.length; i++) {
-      if (groupBy === 'treatment') {
+      for (let j = 0; j < elementsSelected.length; j++) {
+        if (groupBy === 'treatment') {
+          replicatePlots.push({
+            element: elementsSelected[j].value,
+            type: "bar",
+            x1_var: "time",
+            x1_value: timesSelected[i],
+            x2_var: "treatment",
+            x2_value: treatmentsSelected,
+            x3_var: "depth",
+            x3_value: depthsSelected,
+          });
+        } else if (groupBy === 'depth') {
+          replicatePlots.push({
+            element: elementsSelected[j].value,
+            type: "bar",
+            x1_var: "time",
+            x1_value: timesSelected[i],
+            x2_var: "depth",
+            x2_value: depthsSelected,
+            x3_var: "treatment",
+            x3_value: treatmentsSelected,
+          });
+        }
+      }
+    } 
+  } else if (plotType === 'heat') {
+    for (let i = 0; i < timesSelected.length; i++) {
+      for (let j = 0; j < elementsSelected.length; j++) {
         replicatePlots.push({
-          element: element,
-          type: "bar",
+          element: elementsSelected[j].value,
+          type: "heat",
           x1_var: "time",
           x1_value: timesSelected[i],
           x2_var: "treatment",
@@ -198,31 +228,7 @@ export default function PlotBuilder() {
           x3_var: "depth",
           x3_value: depthsSelected,
         });
-      } else if (groupBy === 'depth') {
-        replicatePlots.push({
-          element: element,
-          type: "bar",
-          x1_var: "time",
-          x1_value: timesSelected[i],
-          x2_var: "depth",
-          x2_value: depthsSelected,
-          x3_var: "treatment",
-          x3_value: treatmentsSelected,
-        });
-      }
-    } 
-  } else if (plotType === 'heat') {
-    for (let i = 0; i < timesSelected.length; i++) {
-      replicatePlots.push({
-        element: element,
-        type: "heat",
-        x1_var: "time",
-        x1_value: timesSelected[i],
-        x2_var: "treatment",
-        x2_value: treatmentsSelected,
-        x3_var: "depth",
-        x3_value: depthsSelected,
-      });
+      }     
     }
   }
 
@@ -267,8 +273,7 @@ export default function PlotBuilder() {
     set_time0_selected(false);
     set_time1_selected(false);
   }
-  
-  
+
     
   return (
     
@@ -288,8 +293,7 @@ export default function PlotBuilder() {
         width="medium">
      
         <Box pad="small">
-          
-          {/* <Heading level={4}>Select Variables</Heading>  */}
+        
           
           <Heading
             level={5}
@@ -301,11 +305,25 @@ export default function PlotBuilder() {
               Element
           </Heading>
           
-          <Select
+          {/* <Select
             options={elements}
             value={element}
-            onChange={({ option }) => setElement(option)}
+            multiple
+            onChange={({ value: nextValue }) => setElement(nextValue)}
             placeholder="Select element"
+          /> */}
+
+          <ReactSelect
+            value={elementsSelected}
+            isMulti
+            isSearchable
+            options={elements}
+            className="basic-multi-select"
+            onChange={ (selectedOption) => {
+              setElementsSelected(selectedOption);
+              console.log(`Option selected:`, selectedOption);
+            }}
+            classNamePrefix="select"
           />
           
           <Box>
@@ -463,7 +481,7 @@ export default function PlotBuilder() {
             </Box>
           </Box>
 
-          { element && treatmentsSelected.length > 0 && depthsSelected.length > 0 && timesSelected.length > 0 &&
+          { elementsSelected.length && treatmentsSelected.length > 0 && depthsSelected.length > 0 && timesSelected.length > 0 &&
             <>
               <Box>
                 <Heading
@@ -523,10 +541,11 @@ export default function PlotBuilder() {
           <Grid columns={size === 'small' ? 'medium' : 'medium'} gap="small">
             {replicatePlots.map((plot, index) => (       
               <Card key={index}>
+              
                 {plot.type === 'bar' &&
                   <>
                     <BarChartPlot
-                      element={element}
+                      element={plot.element}
                       replicate={replicatePlots[index]}
                       data={data}>
                     </BarChartPlot>
@@ -553,7 +572,7 @@ export default function PlotBuilder() {
                 }
                 {plot.type === 'heat' &&
                   <HeatMapPlot
-                    element={element}
+                    element={plot.element}
                     replicate={replicatePlots[index]}
                     data={data}>
                   </HeatMapPlot>
