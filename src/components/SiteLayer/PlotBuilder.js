@@ -481,7 +481,7 @@ export default function PlotBuilder() {
             </Box>
           </Box>
 
-          { elementsSelected.length && treatmentsSelected.length > 0 && depthsSelected.length > 0 && timesSelected.length > 0 &&
+          { elementsSelected.length > 0 && treatmentsSelected.length > 0 && depthsSelected.length > 0 && timesSelected.length > 0 &&
             <>
               <Box>
                 <Heading
