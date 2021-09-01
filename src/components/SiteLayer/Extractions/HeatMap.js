@@ -8,21 +8,12 @@ import {
 export default function HeatMapPlot(props) {
   
   const treatments = {
-    '15% CS': '15% comp seed',
-    '15% C': '15% comp',
-    '20% CS': '20% comp seed',
-    '20% C': '20% comp',
-    '10% CS': '10% comp seed',
-    'Control': 'control'
-  };
-
-  const treatmentLabels = {
-    'treatment1': '15% CS',
-    'treatment2': '15% C',
-    'treatment3': '20% CS',
-    'treatment4': '20% C',
-    'treatment5': '10% CS',
-    'treatment6': 'Control'
+    'treatment1': 'AAO',
+    'treatment2': 'AmNO3',
+    'treatment3': 'CDB',
+    'treatment4': 'AAc',
+    'treatment5': 'PO4',
+    'treatment6': 'H20'
   };
 
   const x1_var = props.replicate.x1_var;
@@ -45,7 +36,7 @@ export default function HeatMapPlot(props) {
       var row = [];
       
       for (let j = 0; j < x2_value.length; j++) {
-        row.push(props.data.data[x1_value][treatments[treatmentLabels[x2_value[j]]]][element][x3_value[i]]);
+        row.push(props.data.data[x1_value][element][treatments[x2_value[j]]][x3_value[i]]);
       }
 
       z[i] = row;
@@ -53,7 +44,7 @@ export default function HeatMapPlot(props) {
 
     plot = [
       {
-        x: x2_value.map(function(value) { return treatmentLabels[value] }),
+        x: x2_value.map(function(value) { return treatments[value] }),
         y: x3_value.slice().reverse(),
         z: z.slice().reverse(),
         type: 'heatmap',

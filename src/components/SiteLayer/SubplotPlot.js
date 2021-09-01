@@ -5,15 +5,24 @@ import {
   Box,
 } from 'grommet';
 
-export default function BarChartPlot(props) {
+export default function SubplotPlot(props) {
 
   const treatments = {
-    'treatment1': 'AAO',
-    'treatment2': 'AmNO3',
-    'treatment3': 'CDB',
-    'treatment4': 'AAc',
-    'treatment5': 'PO4',
-    'treatment6': 'H20'
+    '15% CS': '15% comp seed',
+    '15% C': '15% comp',
+    '20% CS': '20% comp seed',
+    '20% C': '20% comp',
+    '10% CS': '10% comp seed',
+    'Control': 'control'
+  };
+
+  const treatmentLabels = {
+    'treatment1': '15% CS',
+    'treatment2': '15% C',
+    'treatment3': '20% CS',
+    'treatment4': '20% C',
+    'treatment5': '10% CS',
+    'treatment6': 'Control'
   };
 
   const x1_var = props.replicate.x1_var;
@@ -39,12 +48,8 @@ export default function BarChartPlot(props) {
       }
 
       for (let i = 0; i < x3_value.length; i++) {
-        for (let j = 0; j < x2_value.length; j++) {
-          console.log(x1_value);
-          console.log(element);
-          console.log(x2_value[j]);
-          console.log(x3_value[i]); 
-          y[i][j] = props.data.data[x1_value][element][treatments[x2_value[j]]][x3_value[i]];
+        for (let j = 0; j < x2_value.length; j++) {   
+          y[i][j] = props.data.data[x1_value][treatments[treatmentLabels[x2_value[j]]]][element][x3_value[i]];
         }
       }
 
@@ -52,7 +57,7 @@ export default function BarChartPlot(props) {
 
       for (let i = 0; i < x3_value.length; i++) {
         plot[i] = {
-          x: x2_value.map(function(value) { return treatments[value]}),
+          x: x2_value.map(function(value) { return treatmentLabels[value]}),
           y: y[i],
           name: x3_value[i],
           type: "bar"
@@ -83,7 +88,7 @@ export default function BarChartPlot(props) {
 
       for (let i = 0; i < x3_value.length; i++) {
         for (let j = 0; j < x2_value.length; j++) {    
-          y[i][j] = props.data.data[x1_value][element][treatments[x3_value[i]]][x2_value[j]];
+          y[i][j] = props.data.data[x1_value][treatments[treatmentLabels[x3_value[i]]]][element][x2_value[j]];
         }
       }
 
@@ -93,7 +98,7 @@ export default function BarChartPlot(props) {
         plot[i] = {
           x: x2_value,
           y: y[i],
-          name: treatments[x3_value[i]],
+          name: treatmentLabels[x3_value[i]],
           type: "bar"
         };
       }

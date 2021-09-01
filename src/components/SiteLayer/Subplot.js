@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 import axios from 'axios';
+import Plot from 'react-plotly.js';
 
-import BarChartPlot from './BarChart';
-import HeatMapPlot from './HeatMap';
+import SubplotPlot from './SubplotPlot';
 
 import ReactSelect from 'react-select';
 
@@ -23,12 +23,12 @@ import {
 } from 'grommet-icons';
 
 
-export default function PlotBuilder() {
+export default function Experiment() {
 
   const size = useContext(ResponsiveContext);
   
   const getData = () => {
-    axios.get('site-extractions-cache/6')
+    axios.get('site-geochem-cache/6')
     .then((response) => {
       const data = response;
       setData(data)
@@ -64,6 +64,59 @@ export default function PlotBuilder() {
     getData();
   }, []);
 
+  var trace1 = {
+    x: [1, 2, 3],
+    y: [4, 5, 6],
+    type: 'scatter',
+  };
+
+  var trace5 = {
+    x: [2, 3, 4],
+    y: [8, 9, 10],
+    type: 'scatter',
+    xaxis: 'x'
+  };
+  
+  var trace2 = {
+    x: [20, 30, 40],
+    y: [50, 60, 70],
+    xaxis: 'x2',
+    yaxis: 'y2',
+    type: 'scatter',
+  };
+  
+  var trace3 = {
+    x: [300, 400, 500],
+    y: [600, 700, 800],
+    xaxis: 'x3',
+    yaxis: 'y3',
+    type: 'scatter'
+  };
+  
+  var trace4 = {
+    x: [4000, 5000, 6000],
+    y: [7000, 8000, 9000],
+    xaxis: 'x4',
+    yaxis: 'y4',
+    domain: [0,5],
+    type: 'scatter'
+  };
+  
+  var plotData = [trace1, trace2, trace3, trace4, trace5];
+  
+  var layout = {
+    grid: {rows: 2, columns: 2, pattern: 'independent'},
+    xaxis: {range: [2, 5]},
+    yaxis: {range: [2, 5]},
+    xaxis2: {range: [2, 5]},
+    yaxis2: {range: [2, 5]},
+    xaxis3: {range: [2, 5]},
+    yaxis3: {range: [2, 5]},
+    xaxis4: {range: [2, 5]},
+    yaxis4: {range: [2, 5]}
+
+  };
+
   const treatments = [
     '15% CS',
     '15% C',
@@ -96,18 +149,68 @@ export default function PlotBuilder() {
   ];
 
   const elements = [
+    { value: 'Ag', label: 'Ag'},
     { value: 'Al', label: 'Al'},
     { value: 'As', label: 'As'},
+    { value: 'Au', label: 'Au'},
+    { value: 'Ba', label: 'Ba'},
+    { value: 'Be', label: 'Be'},
+    { value: 'Bi', label: 'Bi'},
+    { value: 'Br', label: 'Br'},
     { value: 'Ca', label: 'Ca'},
+    { value: 'Cd', label: 'Cd'},
+    { value: 'Ce', label: 'Ce'},
+    { value: 'Co', label: 'Co'},
     { value: 'Cr', label: 'Cr'},
+    { value: 'Cs', label: 'Cs'},
+    { value: 'Cu', label: 'Cu'},
+    { value: 'Dy', label: 'Dy'},
+    { value: 'Er', label: 'Er'},
+    { value: 'Eu', label: 'Eu'},
     { value: 'Fe', label: 'Fe'},
+    { value: 'Ga', label: 'Ga'},
+    { value: 'Gd', label: 'Gd'},
+    { value: 'Ge', label: 'Ge'},
+    { value: 'Hf', label: 'Hf'},
+    { value: 'Ho', label: 'Ho'},
+    { value: 'In', label: 'In'},
+    { value: 'Ir', label: 'Ir'},
     { value: 'K', label: 'K'},
+    { value: 'La', label: 'La'},
+    { value: 'Lu', label: 'Lu'},
     { value: 'Mg', label: 'Mg'},
     { value: 'Mn', label: 'Mn'},
+    { value: 'Mo', label: 'Mo'},
+    { value: 'Na', label: 'Na'},
+    { value: 'Nb', label: 'Nb'},
+    { value: 'Nd', label: 'Nd'},
+    { value: 'Ni', label: 'Ni'},
+    { value: 'P', label: 'P'},
     { value: 'Pb', label: 'Pb'},
+    { value: 'Pr', label: 'Pr'},
+    { value: 'Rb', label: 'Rb'},
+    { value: 'S', label: 'S'},
+    { value: 'Sb', label: 'Sb'},
+    { value: 'Sc', label: 'Sc'},
+    { value: 'Se', label: 'Se'},
+    { value: 'Si', label: 'Si'},
+    { value: 'Sm', label: 'Sm'},
+    { value: 'Sn', label: 'Sn'},
+    { value: 'Sr', label: 'Sr'},
+    { value: 'Ta', label: 'Ta'},
+    { value: 'Tb', label: 'Tb'},
+    { value: 'Th', label: 'Th'},
+    { value: 'Ti', label: 'Ti'},
     { value: 'Tl', label: 'Tl'},
+    { value: 'Tm', label: 'Tm'},
+    { value: 'U', label: 'U'},
+    { value: 'V', label: 'V'},    
+    { value: 'W', label: 'W'},    
+    { value: 'Y', label: 'Y'},    
+    { value: 'Yb', label: 'Yb'},
     { value: 'Zn', label: 'Zn'},
-  ];
+    { value: 'Zr', label: 'Zr'},
+  ]
 
   let treatmentsSelected = []
   let depthsSelected = []
@@ -284,7 +387,7 @@ export default function PlotBuilder() {
                 "top": "medium",
                 "bottom": "xsmall",
               }}>
-                Solvents
+                Treatment
                 { treatmentsSelected.length === 0 &&
                   <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTreatments}>
                     Select all
@@ -301,19 +404,19 @@ export default function PlotBuilder() {
 
             <Box direction="row" align="center" gap="small" >     
               <Button
-                label="H20"
+                label="Control"
                 primary={treatment6_selected}
                 onClick={() => {set_treatment6_selected(!treatment6_selected)}}
                 size="small"
               />
               <Button
-                label="AmNO3"
+                label="15% C"
                 primary={treatment2_selected}
                 onClick={() => {set_treatment2_selected(!treatment2_selected)}}
                 size="small"
               />
               <Button
-                label="AAc"
+                label="20% C"
                 primary={treatment4_selected}
                 onClick={() => {set_treatment4_selected(!treatment4_selected)}}
                 size="small"
@@ -322,19 +425,19 @@ export default function PlotBuilder() {
 
             <Box direction="row" align="center" gap="small" margin={{top: "xsmall"}}>
               <Button
-                label="PO4"
+                label="10% CS"
                 primary={treatment5_selected}
                 onClick={() => {set_treatment5_selected(!treatment5_selected)}}
                 size="small"
               />
               <Button
-                label="AAO"
+                label="15% CS"
                 primary={treatment1_selected}
                 onClick={() => {set_treatment1_selected(!treatment1_selected)}}
                 size="small"
               />
               <Button
-                label="CDB"
+                label="20% CS"
                 primary={treatment3_selected}
                 onClick={() => {set_treatment3_selected(!treatment3_selected)}}
                 size="small"
@@ -422,12 +525,12 @@ export default function PlotBuilder() {
                 onClick={() => {set_time0_selected(!time0_selected)}}
                 size="small"
               />
-              {/* <Button
+              <Button
                 label="Time 1"
                 primary={time1_selected}
                 onClick={() => {set_time1_selected(!time1_selected)}}
                 size="small"
-              /> */}
+              />
             </Box>
           </Box>
 
@@ -489,46 +592,10 @@ export default function PlotBuilder() {
         {showPlot &&
         <Box pad="small">
           <Grid columns={size === 'small' ? 'medium' : 'medium'} gap="small">
-            {replicatePlots.map((plot, index) => (       
-              <Card key={index}>
-              
-                {plot.type === 'bar' &&
-                  <>
-                    <BarChartPlot
-                      element={plot.element}
-                      replicate={replicatePlots[index]}
-                      data={data}>
-                    </BarChartPlot>
-                    
-                    <Box margin={{bottom: "large", horizontal: "large"}}>
-                      <Heading
-                        level={5}
-                        margin={{
-                          "horizontal": "none",
-                          "top": "xsmall",
-                          "bottom": "xsmall",
-                        }}>
-                          Group By
-                      </Heading>
-                      
-                      <Select
-                        options={['treatment', 'depth']}
-                        value={groupBy}
-                        onChange={({ option }) => setGroupBy(option)}
-                        placeholder="Select grouping"
-                      />
-                    </Box>
-                  </>
-                }
-                {plot.type === 'heat' &&
-                  <HeatMapPlot
-                    element={plot.element}
-                    replicate={replicatePlots[index]}
-                    data={data}>
-                  </HeatMapPlot>
-                }
-              </Card>
-            ))}
+            <Plot
+              data={plotData}
+              layout={layout}
+            />
           </Grid>
         </Box>
         }
