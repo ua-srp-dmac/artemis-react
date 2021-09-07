@@ -8,7 +8,8 @@ import {
   ResponsiveContext,
   TextInput,
   Grid,
-  Text
+  Text,
+  Spinner
 } from 'grommet';
 
 import { FormClose, FormSearch, Menu } from 'grommet-icons';
@@ -47,13 +48,15 @@ function App() {
   const getSites = () => {
     axios.get('sites')
     .then((response) => {
-      setSites(response.data)
-      console.log(response.data);
+      setSites(response.data);
+      setLoading(false);
+      // console.log(response.data);
     })
     .catch(error => console.log(error));
   }
 
-  const [sites, setSites] = React.useState('')
+  const [sites, setSites] = useState([])
+  const [loading, setLoading] = useState(true)
   const [map, setMap] = useState(null)
   const [showSidebar, setShowSidebar] = useState(false);
   const [showSite, setShowSite] = useState(false);
@@ -85,16 +88,23 @@ function App() {
                              showSite={showSite}>
                   </SiteLayer>
                 )}
-                <Map setShowSite={setShowSite}
-                     showSite={showSite}
-                     zoom={zoom}
-                     centerLat={centerLat}
-                     centerLong={centerLong}
-                     setZoom={setZoom}
-                     setCenterLat={setCenterLat}     
-                     setCenterLong={setCenterLong}
-                     setMap={setMap}>
-                </Map>
+                {!loading && 
+                  <Map setShowSite={setShowSite}
+                      showSite={showSite}
+                      zoom={zoom}
+                      centerLat={centerLat}
+                      centerLong={centerLong}
+                      setZoom={setZoom}
+                      setCenterLat={setCenterLat}     
+                      setCenterLong={setCenterLong}
+                      setMap={setMap}
+                      sites={sites}>
+                  </Map>
+                }
+
+                {loading &&
+                  <Spinner />
+                }
               </Box>
  
               {(!showSidebar || size !== 'small') ? (
