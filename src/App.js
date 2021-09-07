@@ -46,7 +46,7 @@ const theme = {
 function App() {
 
   const getSites = () => {
-    axios.get('sites')
+    axios.get('https://artemis-dev.pharmacy.arizona.edu/sites')
     .then((response) => {
       setSites(response.data);
       setLoading(false);
