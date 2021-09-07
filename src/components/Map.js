@@ -29,8 +29,8 @@ export default class Map extends Component {
     this.showPreview = this.showPreview.bind(this);
   }
 
-  showPreview() {
-    this.props.setShowSite(!this.props.showSite);
+  showPreview(site) {
+    this.props.setShowSite(site);
   }
 
   render() {
@@ -63,7 +63,7 @@ export default class Map extends Component {
           <Marker
             key={i}
             position={[site.latitude, site.longitude]} 
-            eventHandlers={{ click: () => this.showPreview(site.id) }}
+            eventHandlers={{ click: () => this.showPreview(site) }}
             icon={siteIcon}
           >
             <Tooltip>Iron King</Tooltip>
@@ -71,7 +71,6 @@ export default class Map extends Component {
   
         )}
 
-       
 
         {/* <Polygon pathOptions={purpleOptions} positions={polygon} /> */}
         <Minimap position="topright" zoom={this.state.zoom <= 8 ? this.state.zoom * .6 : 8}/>

@@ -23,12 +23,12 @@ import {
 } from 'grommet-icons';
 
 
-export default function PlotBuilder() {
+export default function PlotBuilder(props) {
 
   const size = useContext(ResponsiveContext);
   
   const getData = () => {
-    axios.get('site-geochem-cache/6')
+    axios.get('site-geochem-cache/' + props.site.id)
     .then((response) => {
       const data = response;
       setData(data)

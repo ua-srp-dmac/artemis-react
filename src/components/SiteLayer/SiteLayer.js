@@ -35,10 +35,10 @@ function SiteLayer(props) {
       
       <Stack>
         <Box flex>
-          <Text size="large" margin="medium">Iron King</Text>
+          <Text size="large" margin="medium">{props.showSite.name}</Text>
         </Box>
         <Box flex>
-          <Button alignSelf="end" icon={<FormClose />} onClick={() => props.setShowSite(!props.showSite)}/>
+          <Button alignSelf="end" icon={<FormClose />} onClick={() => props.setShowSite(false)}/>
         </Box>
       </Stack>
          
@@ -52,35 +52,29 @@ function SiteLayer(props) {
           </Tab>
           <Tab title="Geochemistry">
             <Box pad="small">
-              <PlotBuilder></PlotBuilder>
+              <PlotBuilder site={props.showSite}></PlotBuilder>
             </Box>
           </Tab>
           <Tab title="Mineralogy">
             <Box pad="small">
-              <MineralogyPlotBuilder></MineralogyPlotBuilder>
+              <MineralogyPlotBuilder site={props.showSite}></MineralogyPlotBuilder>
             </Box>
           </Tab>
           <Tab title="Extractions">
             <Box pad="small">
-              <ExtractionPlotBuilder></ExtractionPlotBuilder>
+              <ExtractionPlotBuilder site={props.showSite}></ExtractionPlotBuilder>
             </Box>
           </Tab>
           <Tab title="Periodic Table">
             <Box pad="small">
-              <Geochemistry></Geochemistry>
+              <Geochemistry site={props.showSite}></Geochemistry>
             </Box>
           </Tab>
           <Tab title="Subplot">
             <Box pad="small">
-              <Subplot></Subplot>
+              <Subplot site={props.showSite}></Subplot>
             </Box>
           </Tab>
-          
-          {/* <Tab title="Plot Builder">
-            <Box pad="small">
-              <PlotBuilder></PlotBuilder>
-            </Box>
-          </Tab> */}
           
         </Tabs>
       </Box>

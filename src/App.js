@@ -83,7 +83,7 @@ function App() {
               
               <Box flex align='center' justify='center'>
 
-                {showSite && (
+                {showSite !== false && (
                   <SiteLayer setShowSite={setShowSite}
                              showSite={showSite}>
                   </SiteLayer>
