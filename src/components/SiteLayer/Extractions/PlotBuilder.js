@@ -28,7 +28,7 @@ export default function PlotBuilder(props) {
   const size = useContext(ResponsiveContext);
   
   const getData = () => {
-    axios.get('site-extractions-cache/' + props.site.id)
+    axios.get('https://artemis-dev.pharmacy.arizona.edu/site-extractions-cache/' + props.site.id)
     .then((response) => {
       const data = response;
       setData(data)

@@ -26,7 +26,7 @@ export default function MineralogyPlotBuilder(props) {
   const size = useContext(ResponsiveContext);
 
   const getData = () => {
-    axios.get('site-mineralogy-cache/' + props.site.id)
+    axios.get('https://artemis-dev.pharmacy.arizona.edu/site-mineralogy-cache/' + props.site.id)
     .then((response) => {
       const data = response;
       setData(data)
