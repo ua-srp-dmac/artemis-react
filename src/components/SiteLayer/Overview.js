@@ -88,14 +88,14 @@ export default function Overview() {
         width="medium">
           <Box pad="small">
             <SiteMap></SiteMap>
-            <Box>
+            {/* <Box>
             Color by
             <Select
               options={['treatment', 'pH', 'pHCa', 'EC']}
               value={value}
               onChange={({ option }) => setValue(option)}
             />
-            </Box>
+            </Box> */}
           </Box>
       </Box>
 

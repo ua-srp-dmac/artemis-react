@@ -65,16 +65,16 @@ function SiteLayer(props) {
               <ExtractionPlotBuilder site={props.showSite}></ExtractionPlotBuilder>
             </Box>
           </Tab>
-          <Tab title="Periodic Table">
+          {/* <Tab title="Periodic Table">
             <Box pad="small">
               <Geochemistry site={props.showSite}></Geochemistry>
             </Box>
-          </Tab>
-          <Tab title="Subplot">
+          </Tab> */}
+          {/* <Tab title="Subplot">
             <Box pad="small">
               <Subplot site={props.showSite}></Subplot>
             </Box>
-          </Tab>
+          </Tab> */}
           
         </Tabs>
       </Box>
