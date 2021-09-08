@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import Overview from './Overview';
 import Geochemistry from './Geochemistry';
 import Subplot from './Subplot';
+import Scatterplot from './Scatterplot';
 import MineralogyPlotBuilder from './Mineralogy/MineralogyPlotBuilder';
 import PlotBuilder from './PlotBuilder';
 import ExtractionPlotBuilder from './Extractions/PlotBuilder';
@@ -75,6 +76,12 @@ function SiteLayer(props) {
               <Subplot site={props.showSite}></Subplot>
             </Box>
           </Tab> */}
+          <Tab title="Scatterplot">
+            <Box pad="small">
+              <Scatterplot site={props.showSite}></Scatterplot>
+            </Box>
+          </Tab>
+          
           
         </Tabs>
       </Box>
