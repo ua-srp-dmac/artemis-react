@@ -17,6 +17,7 @@ import Overview from './Overview';
 import Geochemistry from './Geochemistry';
 import Subplot from './Subplot';
 import Scatterplot from './Scatterplot';
+import Calculator from './Calculator/Calculator';
 import MineralogyPlotBuilder from './Mineralogy/MineralogyPlotBuilder';
 import PlotBuilder from './PlotBuilder';
 import ExtractionPlotBuilder from './Extractions/PlotBuilder';
@@ -79,6 +80,12 @@ function SiteLayer(props) {
           <Tab title="Scatterplot">
             <Box pad="small">
               <Scatterplot site={props.showSite}></Scatterplot>
+            </Box>
+          </Tab>
+
+          <Tab title="Calculator">
+            <Box pad="small">
+              <Calculator site={props.showSite}></Calculator>
             </Box>
           </Tab>
           
