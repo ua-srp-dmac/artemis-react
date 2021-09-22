@@ -40,6 +40,12 @@ const theme = {
   layer: {
     zIndex: 1000,
   },
+  card: {
+    container: {
+      background: '#FFFFFF12',
+      elevation: 'none',
+    },
+  }
   
 };
 
