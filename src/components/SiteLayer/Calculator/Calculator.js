@@ -242,8 +242,8 @@ export default function CalculatorComponent(props) {
     set_time1_selected(false);
   }
 
-  function updateEquation1() {
-    text.write('\\sum')
+  function updateEquation1(symbol) {
+    text.write(symbol)
     text.keystroke('Enter');
 
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Close, Calculator } from 'grommet-icons';
+import { Close, Calculator, Subtract, Add } from 'grommet-icons';
 
 import { Grommet, Box, Button, DropButton, Heading, Text } from 'grommet';
 import { grommet } from 'grommet/themes';
@@ -24,9 +24,30 @@ export default function MathDrop (props) {
   const DropContent = ({ onClose }) => (
     <Box pad="small">
       <Box direction="row" justify="between" align="center">
-        <Button size="small" onClick={() => {props.updateEquation1(); setOpen(false) }}>
-          <p><BlockMath math="\sqrt{x}"/></p>
+        <Button
+          size="medium"
+          onClick={() => {props.updateEquation1("\\sum"); setOpen(false) }}
+          label={<InlineMath math="\sum"/>}>
         </Button>
+
+        <Button
+          size="medium"
+          onClick={() => {props.updateEquation1("+"); setOpen(false) }}
+          label={<InlineMath math="+"/>}>
+        </Button>
+
+        <Button
+          size="medium"
+          onClick={() => {props.updateEquation1("+"); setOpen(false) }}
+          label={<InlineMath math="-"/>}>
+        </Button>
+
+        <Button
+          size="medium"
+          onClick={() => {props.updateEquation1("^{}"); setOpen(false) }}
+          label={<InlineMath math="x^e"/>}>
+        </Button>
+
       </Box>
     </Box>
   );
