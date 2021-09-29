@@ -23,32 +23,57 @@ export default function MathDrop (props) {
 
   const DropContent = ({ onClose }) => (
     <Box pad="small">
+      
       <Box direction="row" justify="between" align="center">
+        
         <Button
           size="medium"
-          onClick={() => {props.updateEquation1("\\sum"); setOpen(false) }}
-          label={<InlineMath math="\sum"/>}>
+          onClick={() => {props.updateEquation1("+"); setOpen(false) }}
+          label={<InlineMath math="+"/>}
+          margin="xsmall">
         </Button>
 
         <Button
           size="medium"
-          onClick={() => {props.updateEquation1("+"); setOpen(false) }}
-          label={<InlineMath math="+"/>}>
-        </Button>
-
-        <Button
-          size="medium"
-          onClick={() => {props.updateEquation1("+"); setOpen(false) }}
-          label={<InlineMath math="-"/>}>
+          onClick={() => {props.updateEquation1("-"); setOpen(false) }}
+          label={<InlineMath math="-"/>}
+          margin="xsmall">
         </Button>
 
         <Button
           size="medium"
           onClick={() => {props.updateEquation1("^{}"); setOpen(false) }}
-          label={<InlineMath math="x^e"/>}>
+          label={<InlineMath math="x^e"/>}
+          margin="xsmall">
         </Button>
 
       </Box>
+
+      <Box direction="row" justify="between" align="center">
+
+        <Button
+          size="medium"
+          onClick={() => {props.updateEquation1("\\times"); setOpen(false) }}
+          label={<InlineMath math="\times"/>}
+          margin="xsmall">
+        </Button>
+
+        <Button
+          size="medium"
+          onClick={() => {props.updateEquation1("\\frac{}{}"); setOpen(false) }}
+          label={<InlineMath math="\frac{x}{y}"/>}
+          margin="xsmall">
+        </Button>
+
+        <Button
+          size="medium"
+          onClick={() => {props.updateEquation1("\\sum"); setOpen(false) }}
+          label={<InlineMath math="\sum"/>}
+          margin="xsmall">
+        </Button>
+
+      </Box>
+
     </Box>
   );
 
