@@ -1,10 +1,15 @@
-import React, {useContext, useState} from 'react';
+
+import React, {createRef, useContext, useState} from 'react';
 
 import axios from 'axios';
 
 import EquationEditor from "equation-editor-react";
 import 'mathquill/build/mathquill.css';
 import ReactSelect from 'react-select';
+import { addStyles, EditableMathField } from 'react-mathquill'
+
+
+import MathDrop from "./MathDrop"
 
 import {
   Box,
@@ -22,13 +27,14 @@ import {
 } from 'grommet';
 
 import {
-  BarChart, Add, AddCircle
+  BarChart, Add, AddCircle, Favorite, Calculator, Edit
 } from 'grommet-icons';
 
-export default function Calculator(props) {
+export default function CalculatorComponent(props) {
 
   const size = useContext(ResponsiveContext);
   const [equation1, setEquation1] = useState("y=\\frac{A}{B}");
+  const [text, setText] = useState('')
   const [equation2, setEquation2] = useState("y=A*B");
   const [equation3, setEquation3] = useState("y=");
 
@@ -168,6 +174,8 @@ export default function Calculator(props) {
     { value: 'Zr', label: 'Zr'},
   ]
 
+  
+
   let treatmentsSelected = []
   let depthsSelected = []
   let timesSelected = []
@@ -233,6 +241,16 @@ export default function Calculator(props) {
     set_time0_selected(false);
     set_time1_selected(false);
   }
+
+  function updateEquation1() {
+    text.write('\\sum')
+    text.keystroke('Enter');
+
+  }
+
+  const myinput = createRef();
+
+
     
   return (
     
@@ -272,15 +290,28 @@ export default function Calculator(props) {
               border="medium" onClick={() => {
                 setSelectedEquation(1);
               }}>
-              <CardHeader>Molar ratio</CardHeader>
+              <CardHeader>
+                Molar ratio
+                <Button icon={<Edit color="plain" />} hoverIndicator />
+              </CardHeader>
               <CardBody>
-              <EquationEditor
-              value={equation1}
-              onChange={setEquation1}
-              autoCommands="pi theta sqrt sum prod alpha beta gamma rho"
-              autoOperatorNames="sin cos tan"
-            />
-                </CardBody>
+              <EditableMathField
+                // className="mathquill-example-field"
+                latex={equation1}
+                onChange={(mathField) => {
+                  setEquation1(mathField.latex())
+                  // setText(mathField.text())
+                  console.log('Editable mathfield changed:', mathField.latex())
+                }}
+                mathquillDidMount={(mathField) => {
+                  setText(mathField)
+                }}
+              />
+              </CardBody>
+              <CardFooter pad={{horizontal: "small"}} background="light-2">
+                <MathDrop updateEquation1={updateEquation1}></MathDrop>
+                {/* <Button icon={<Calculator color="plain" />} hoverIndicator /> */}
+              </CardFooter>
               
 
             </Card>
