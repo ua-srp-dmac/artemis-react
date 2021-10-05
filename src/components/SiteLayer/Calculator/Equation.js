@@ -7,7 +7,6 @@ import EquationEditor from "equation-editor-react";
 import 'mathquill/build/mathquill.css';
 import ReactSelect from 'react-select';
 import { addStyles, EditableMathField } from 'react-mathquill'
-import MathExpression from 'math-expressions';
 
 
 import MathDrop from "./MathDrop"
@@ -42,52 +41,10 @@ export default function CalculatorComponent(props) {
   const [selectedEquation, setSelectedEquation] = useState(null)
   const [newEquation, setNewEquation] = useState(false)
 
-  const [elementsSelected, setElementsSelected] = React.useState([]);
-
-  const [treatment1_selected, set_treatment1_selected] = React.useState(false);
-  const [treatment2_selected, set_treatment2_selected] = React.useState(false);
-  const [treatment3_selected, set_treatment3_selected] = React.useState(false);
-  const [treatment4_selected, set_treatment4_selected] = React.useState(false);
-  const [treatment5_selected, set_treatment5_selected] = React.useState(false);
-  const [treatment6_selected, set_treatment6_selected] = React.useState(false);
-
-  const [time0_selected, set_time0_selected] = React.useState(false);
-  const [time1_selected, set_time1_selected] = React.useState(false);
-
-  const [depth1_selected, set_depth1_selected] = React.useState(false);
-  const [depth2_selected, set_depth2_selected] = React.useState(false);
-  const [depth3_selected, set_depth3_selected] = React.useState(false);
-  const [depth4_selected, set_depth4_selected] = React.useState(false);
-
-  const [elementsSelectedB, setElementsSelectedB] = React.useState([]);
-
-  const [treatment1_selectedB, set_treatment1_selectedB] = React.useState(false);
-  const [treatment2_selectedB, set_treatment2_selectedB] = React.useState(false);
-  const [treatment3_selectedB, set_treatment3_selectedB] = React.useState(false);
-  const [treatment4_selectedB, set_treatment4_selectedB] = React.useState(false);
-  const [treatment5_selectedB, set_treatment5_selectedB] = React.useState(false);
-  const [treatment6_selectedB, set_treatment6_selectedB] = React.useState(false);
-
-  const [time0_selectedB, set_time0_selectedB] = React.useState(false);
-  const [time1_selectedB, set_time1_selectedB] = React.useState(false);
-
-  const [depth1_selectedB, set_depth1_selectedB] = React.useState(false);
-  const [depth2_selectedB, set_depth2_selectedB] = React.useState(false);
-  const [depth3_selectedB, set_depth3_selectedB] = React.useState(false);
-  const [depth4_selectedB, set_depth4_selectedB] = React.useState(false);
 
   console.log(equation1)
-
-  try {
-    const equation1Expression = MathExpression.fromLatex(equation1);
-    console.log(equation1Expression);
-    console.log(equation1Expression.v)
-  } catch(error) {
-    console.log(error)
-  }
-  
-  // console.log(equation2)
-  // console.log(equation3)
+  console.log(equation2)
+  console.log(equation3)
 
   const treatments = [
     '15% CS',
@@ -257,6 +214,9 @@ export default function CalculatorComponent(props) {
     text.keystroke('Enter');
   }
 
+  
+
+  const myinput = createRef();
 
 
     
