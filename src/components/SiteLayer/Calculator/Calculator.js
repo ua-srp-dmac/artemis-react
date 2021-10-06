@@ -60,7 +60,7 @@ export default function CalculatorComponent() {
     }
   },[equationText]) // <-- here put the parameter to listen
 
-  const [variables, setVariables] = useState([]);
+  const [variables, setVariables] = useState([1]);
 
   const [variable1, setVariable1] = useState(null);
   const [variable2, setVariable2] = useState(null);
@@ -75,8 +75,8 @@ export default function CalculatorComponent() {
   const [variable5_value, setVariable5_value] = useState("");
 
 
-  const [selectedVariable, setSelectedVariable] = useState(null)
-  const [newVariable, setNewVariable] = useState(false)
+  const [selectedVariable, setSelectedVariable] = useState(1)
+
 
   const [elementsSelected, setElementsSelected] = React.useState([]);
 
@@ -195,7 +195,6 @@ export default function CalculatorComponent() {
     { value: 'Zr', label: 'Zr'},
   ]
 
-  
 
   let treatmentsSelected = []
   let depthsSelected = []
@@ -267,7 +266,6 @@ export default function CalculatorComponent() {
     text.write(symbol)
     text.keystroke('Enter');
   }
-
   
 
   function selectVariable(index) {
@@ -287,6 +285,8 @@ export default function CalculatorComponent() {
     }
   }
 
+
+  
     
   return (
     
