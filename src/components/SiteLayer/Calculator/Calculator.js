@@ -1,5 +1,5 @@
 
-import React, {createRef, useContext, useState} from 'react';
+import React, {createRef, useContext, useState, useEffect} from 'react';
 
 import axios from 'axios';
 
@@ -8,6 +8,11 @@ import 'mathquill/build/mathquill.css';
 import ReactSelect from 'react-select';
 import { addStyles, EditableMathField } from 'react-mathquill'
 import MathExpression from 'math-expressions';
+import algebra from 'algebra.js';
+import math from 'mathjs';
+
+import 'katex/dist/katex.min.css';
+import { InlineMath, BlockMath } from 'react-katex';
 
 
 import MathDrop from "./MathDrop"
@@ -25,22 +30,41 @@ import {
   CardBody,
   Heading,
   ResponsiveContext,
+  TextInput,
+  RadioButtonGroup
 } from 'grommet';
 
 import {
-  BarChart, Add, AddCircle, Favorite, Calculator, Edit
+  BarChart, Add, AddCircle, Favorite, Calculator, Edit, Checkmark
 } from 'grommet-icons';
 
-export default function CalculatorComponent(props) {
+export default function CalculatorComponent() {
 
-  const size = useContext(ResponsiveContext);
-  const [equation1, setEquation1] = useState("y=\\frac{A}{B}");
+  const [equationLatex, setEquationLatex] = useState("");
+  const [equationText, setEquationText] = useState("");
   const [text, setText] = useState('')
-  const [equation2, setEquation2] = useState("y=A*B");
-  const [equation3, setEquation3] = useState("y=");
+  const [equationInput, setEquationInput] = useState("text");
+  const [latexDisplay, setLatexDisplay] = useState("text");
 
-  const [selectedEquation, setSelectedEquation] = useState(null)
-  const [newEquation, setNewEquation] = useState(false)
+  useEffect(() => {
+    try {
+      let latex = math.parse(equationText).toTex()    
+      setLatexDisplay(latex);
+      console.log(latex)
+    } catch(error) {
+      console.log(error)
+    }
+  },[equationText]) // <-- here put the parameter to listen
+
+
+  const [variable1, setVariable1] = useState("");
+  const [variable2, setVariable2] = useState("");
+  const [variable3, setVariable3] = useState("");
+  const [variable4, setVariable4] = useState("");
+  const [variable5, setVariable5] = useState("");
+
+  const [selectedVariable, setSelectedVariable] = useState(null)
+  const [newVariable, setNewVariable] = useState(false)
 
   const [elementsSelected, setElementsSelected] = React.useState([]);
 
@@ -76,15 +100,6 @@ export default function CalculatorComponent(props) {
   const [depth3_selectedB, set_depth3_selectedB] = React.useState(false);
   const [depth4_selectedB, set_depth4_selectedB] = React.useState(false);
 
-  console.log(equation1)
-
-  try {
-    const equation1Expression = MathExpression.fromLatex(equation1);
-    console.log(equation1Expression);
-    console.log(equation1Expression.v)
-  } catch(error) {
-    console.log(error)
-  }
   
   // console.log(equation2)
   // console.log(equation3)
@@ -98,15 +113,6 @@ export default function CalculatorComponent(props) {
     'control'
   ];
 
-  const depths0 = [
-    '0-5',
-    '5-15',
-    '15-25',
-    '25-35',
-    '35-38',
-    '38-54',
-    '180-183'
-  ];
 
   const depths1 = [
     '0-20',
@@ -115,10 +121,6 @@ export default function CalculatorComponent(props) {
     '60-90'
   ];
 
-  const times = [
-    'Time 0',
-    'Time 1'
-  ];
 
   const elements = [
     { value: 'Ag', label: 'Ag'},
@@ -281,47 +283,36 @@ export default function CalculatorComponent(props) {
           
           <Box>
             <Heading
-              level={5}
+              level={4}
               margin={{
                 "horizontal": "none",
                 "top": "medium",
                 "bottom": "xsmall",
               }}>
-                Equations 
+                Set Variables
 
-            
             </Heading>
 
             <Card pad="small"
               margin="small" 
               gap="medium"
               border="medium" onClick={() => {
-                setSelectedEquation(1);
+                setSelectedVariable(1);
               }}>
               <CardHeader>
-                Molar ratio
-                <Button icon={<Edit color="plain" />} hoverIndicator />
+                Variable 1
+                {<Button icon={<Edit color="plain" />} hoverIndicator />}
               </CardHeader>
               <CardBody>
-              <EditableMathField
-                // className="mathquill-example-field"
-                latex={equation1}
-                onChange={(mathField) => {
-                  setEquation1(mathField.latex())
-                  // setText(mathField.text())
-                  console.log('Editable mathfield changed:', mathField.latex())
-                }}
-                mathquillDidMount={(mathField) => {
-                  setText(mathField)
-                }}
+              <TextInput
+                placeholder="type here"
+                value={variable1}
+                onChange={event => setVariable1(event.target.value)}
               />
               </CardBody>
               <CardFooter pad={{horizontal: "small"}} background="light-2">
-                <MathDrop updateEquation1={updateEquation1}></MathDrop>
-                {/* <Button icon={<Calculator color="plain" />} hoverIndicator /> */}
+                <Button label="Save" icon={<Checkmark color="plain" />} hoverIndicator />
               </CardFooter>
-              
-
             </Card>
 
             <Card pad="small"
@@ -329,47 +320,37 @@ export default function CalculatorComponent(props) {
               gap="medium"
               border="medium"
               border="medium" onClick={() => {
-                setSelectedEquation(2);
+                setSelectedVariable(2);
               }}>
-            <CardHeader>Equation 2</CardHeader>
+            <CardHeader>Variable 2</CardHeader>
               <CardBody>
-              <EquationEditor
-              value={equation2}
-              onChange={setEquation2}
-              autoCommands="pi theta sqrt sum prod alpha beta gamma rho"
-              autoOperatorNames="sin cos tan"
-            />
+              <TextInput
+                placeholder="type here"
+                value={variable2}
+                onChange={event => setVariable2(event.target.value)}
+              />
               </CardBody>
-              
             </Card>
 
-            { newEquation === true &&
+            { newVariable === true &&
               <Card pad="small"
                     margin="small"
                     gap="medium"
                     border="medium"border="medium" onClick={() => {
-                    setSelectedEquation(3);
                   }}>
-                <CardHeader>Equation 3</CardHeader>
+                <CardHeader>New Variable,</CardHeader>
                 <CardBody>
-                <EquationEditor
-                  value={equation3}
-                  onChange={setEquation3}
-                  autoCommands="pi theta sqrt sum prod alpha beta gamma rho"
-                  autoOperatorNames="sin cos tan"
-                />
+                
                 </CardBody>
               </Card>
             }
-
-            
 
             <Card pad="small"
               margin="small"
               gap="medium"
               border="medium"
               onClick={() => {
-                setNewEquation(true);
+                setNewVariable(true);
               }}>
 
               <CardBody align="center">
@@ -396,10 +377,10 @@ export default function CalculatorComponent(props) {
             "top": "medium",
             "bottom": "xsmall",
           }}>
-            Set Variables 
+    
         </Heading>
 
-        { selectedEquation === 1 &&
+
           
           <Grid
               fill="true"
@@ -606,6 +587,8 @@ export default function CalculatorComponent(props) {
 
             </Box>
 
+            {/* Equation Builder */}
+
             <Box flex
               basis="full"
               gridArea="right"
@@ -618,155 +601,52 @@ export default function CalculatorComponent(props) {
                   "top": "xsmall",
                   "bottom": "xsmall",
                 }}>
-                  B 
+                  Build Equation
               </Heading> 
-              <Heading
-                level={5}
-                margin={{
-                  "horizontal": "none",
-                  "top": "xsmall",
-                  "bottom": "xsmall",
-                }}>
-                  Element
-              </Heading>
 
-              <ReactSelect
-                value={elementsSelectedB}
-                isMulti
-                isSearchable
-                options={elements}
-                className="basic-multi-select"
-                onChange={ (selectedOption) => {
-                  setElementsSelected(selectedOption);
-                  console.log(`Option selected:`, selectedOption);
-                }}
-                classNamePrefix="select"
+              <RadioButtonGroup
+                name="radio"
+                options={[
+                  { label: 'Simple Text', value: 'text' },
+                  { label: 'Latex', value: 'latex' },
+                ]}
+                value={equationInput}
+                onChange={event => setEquationInput(event.target.value)}
               />
+              { equationInput === "text" &&
+                <> 
+                <TextInput
+                  placeholder="type here"
+                  value={equationText}
+                  onChange={event => setEquationText(event.target.value)}
+                />
+                <InlineMath math={latexDisplay}/>
+                </>
+              }
+              
+              { equationInput === "latex" && 
+                <>
+                <EditableMathField
+                  // className="mathquill-example-field"
+                  latex={equationLatex}
+                  onChange={(mathField) => {
+                    setEquationLatex(mathField.latex())
+                    // setText(mathField.text())
+                    console.log('Editable mathfield changed:', mathField.latex())
+                  }}
+                  mathquillDidMount={(mathField) => {
+                    setText(mathField)
+                  }}
+                />
+                <MathDrop updateEquation1={updateEquation1}></MathDrop>
+                </>
+              }
 
-              <Box>
-                <Heading
-                  level={5}
-                  margin={{
-                    "horizontal": "none",
-                    "top": "medium",
-                    "bottom": "xsmall",
-                  }}>
-                    Treatment
-                    
-                </Heading>
+              
+              
 
-                <Box direction="row" align="center" gap="small" >     
-                  <Button
-                    label="Control"
-                    primary={treatment6_selectedB}
-                    onClick={() => {set_treatment6_selectedB(!treatment6_selectedB)}}
-                    size="small"
-                  />
-                  <Button
-                    label="15% C"
-                    primary={treatment2_selectedB}
-                    onClick={() => {set_treatment2_selectedB(!treatment2_selectedB)}}
-                    size="small"
-                  />
-                  <Button
-                    label="20% C"
-                    primary={treatment4_selectedB}
-                    onClick={() => {set_treatment4_selectedB(!treatment4_selectedB)}}
-                    size="small"
-                  />
-                </Box>
-
-                <Box direction="row" align="center" gap="small" margin={{top: "xsmall"}}>
-                  <Button
-                    label="10% CS"
-                    primary={treatment5_selectedB}
-                    onClick={() => {set_treatment5_selectedB(!treatment5_selectedB)}}
-                    size="small"
-                  />
-                  <Button
-                    label="15% CS"
-                    primary={treatment1_selectedB}
-                    onClick={() => {set_treatment1_selectedB(!treatment1_selectedB)}}
-                    size="small"
-                  />
-                  <Button
-                    label="20% CS"
-                    primary={treatment3_selectedB}
-                    onClick={() => {set_treatment3_selectedB(!treatment3_selectedB)}}
-                    size="small"
-                  />
-                </Box>
-              </Box>
-        
-              <Box>
-                <Heading
-                  level={5}
-                  margin={{
-                    "horizontal": "none",
-                    "top": "medium",
-                    "bottom": "xsmall",
-                  }}>
-                    Depth
-
-
-                </Heading>
-
-                <Box direction="row" align="center" gap="small" >     
-                  <Button
-                    label="0-20"
-                    primary={depth1_selectedB}
-                    onClick={() => {set_depth1_selectedB(!depth1_selectedB)}}
-                    size="small"
-                  />
-                  <Button
-                    label="20-40"
-                    primary={depth2_selectedB}
-                    onClick={() => {set_depth2_selectedB(!depth2_selectedB)}}
-                    size="small"
-                  />
-                  <Button
-                    label="40-60"
-                    primary={depth3_selectedB}
-                    onClick={() => {set_depth3_selectedB(!depth3_selectedB)}}
-                    size="small"
-                  />
-                  <Button
-                    label="60-90"
-                    primary={depth4_selectedB}
-                    onClick={() => {set_depth4_selectedB(!depth4_selectedB)}}
-                    size="small"
-                  />
-                </Box>
-              </Box>
-
-              <Box>
-                <Heading
-                  level={5}
-                  margin={{
-                    "horizontal": "none",
-                    "top": "medium",
-                    "bottom": "xsmall",
-                  }}>
-                    Time
-
-                </Heading>
-
-                <Box direction="row" align="center" gap="small" >     
-                  <Button
-                    label="Time 0"
-                    primary={time0_selectedB}
-                    onClick={() => {set_time0_selectedB(!time0_selectedB)}}
-                    size="small"
-                  />
-                  <Button
-                    label="Time 1"
-                    primary={time1_selectedB}
-                    onClick={() => {set_time1_selectedB(!time1_selectedB)}}
-                    size="small"
-                  />
-                </Box>
-              </Box>
-
+  
+              
               <Box
                 align="center"
                 pad="large">
@@ -782,7 +662,6 @@ export default function CalculatorComponent(props) {
           </Grid>
 
           
-        }
   
       </Box>
 
