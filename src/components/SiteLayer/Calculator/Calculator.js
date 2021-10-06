@@ -327,7 +327,13 @@ export default function CalculatorComponent() {
                     pad="small"
                     margin="small" 
                     gap="medium"
-                    border="medium"
+                    // border="medium"
+                    border={{
+                      color: selectedVariable === index ? "#00739D" : "#D3D3D3",
+                      size: selectedVariable === index ? "medium" : "small" ,
+                      // style: "dashed",
+                      side: "all"
+                    }}   
                     // onClick={() => {
                     //   setSelectedVariable(index);
                     // }}
