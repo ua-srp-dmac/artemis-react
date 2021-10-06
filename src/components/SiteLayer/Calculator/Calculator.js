@@ -31,11 +31,13 @@ import {
   Heading,
   ResponsiveContext,
   TextInput,
-  RadioButtonGroup
+  RadioButtonGroup,
+  CheckBox,
+  Tip
 } from 'grommet';
 
 import {
-  BarChart, Add, AddCircle, Favorite, Calculator, Edit, Checkmark
+  BarChart, Add, AddCircle, Favorite, Calculator, Edit, Checkmark, CircleInformation
 } from 'grommet-icons';
 
 export default function CalculatorComponent() {
@@ -43,7 +45,7 @@ export default function CalculatorComponent() {
   const [equationLatex, setEquationLatex] = useState("");
   const [equationText, setEquationText] = useState("");
   const [text, setText] = useState('')
-  const [equationInput, setEquationInput] = useState("text");
+  const [useLatexInput, setUseLatexInput] = useState(false);
   const [latexDisplay, setLatexDisplay] = useState("text");
 
   useEffect(() => {
@@ -595,57 +597,79 @@ export default function CalculatorComponent() {
               width="medium"
               pad="small">
               <Heading
-                level={3}
+                level={4}
                 margin={{
                   "horizontal": "none",
                   "top": "xsmall",
                   "bottom": "xsmall",
                 }}>
                   Build Equation
+                  
               </Heading> 
-
-              <RadioButtonGroup
-                name="radio"
-                options={[
-                  { label: 'Simple Text', value: 'text' },
-                  { label: 'Latex', value: 'latex' },
-                ]}
-                value={equationInput}
-                onChange={event => setEquationInput(event.target.value)}
-              />
-              { equationInput === "text" &&
-                <> 
-                <TextInput
-                  placeholder="type here"
-                  value={equationText}
-                  onChange={event => setEquationText(event.target.value)}
+              
+              <Box pad={{vertical: "medium"}}>
+                <CheckBox label={
+                    <>
+                      <Text>Latex Editor</Text>
+                      <Tip content={
+                          <Box
+                            pad="small"
+                            gap="small"
+                            width={{ max: 'small' }}
+                            round="small"
+                            background="background-front"
+                            responsive={false}
+                          >
+                            <Text weight="bold">Latex Editor</Text>
+                            <Text size="small">
+                              Use the Latex Editor if you need special operations like sum or product.
+                            </Text>
+                          </Box>
+                        }
+                          dropProps={{ align: { left: 'right' } }}>
+                        <Button icon={<CircleInformation size="medium" />} />
+                      </Tip>
+                    </>
+                  }
+                  checked={useLatexInput}
+                  onChange={(event) => setUseLatexInput(event.target.checked)}
+                  toggle
                 />
-                <InlineMath math={latexDisplay}/>
-                </>
-              }
-              
-              { equationInput === "latex" && 
-                <>
-                <EditableMathField
-                  // className="mathquill-example-field"
-                  latex={equationLatex}
-                  onChange={(mathField) => {
-                    setEquationLatex(mathField.latex())
-                    // setText(mathField.text())
-                    console.log('Editable mathfield changed:', mathField.latex())
-                  }}
-                  mathquillDidMount={(mathField) => {
-                    setText(mathField)
-                  }}
-                />
-                <MathDrop updateEquation1={updateEquation1}></MathDrop>
-                </>
-              }
+      
+              </Box>
 
-              
-              
-
-  
+              <Box >
+                { useLatexInput === false &&
+                  <> 
+                  <TextInput
+                    placeholder="Enter equation"
+                    value={equationText}
+                    onChange={event => setEquationText(event.target.value)}
+                  />
+                  <BlockMath math={latexDisplay}/>
+                  </>
+                }
+                
+                { useLatexInput === true && 
+                  <>
+                  <EditableMathField
+                    // className="mathquill-example-field"
+                    latex={equationLatex}
+                    onChange={(mathField) => {
+                      setEquationLatex(mathField.latex())
+                      // setText(mathField.text())
+                      console.log('Editable mathfield changed:', mathField.latex())
+                    }}
+                    mathquillDidMount={(mathField) => {
+                      setText(mathField)
+                    }}
+                  />
+                  <Box pad={{vertical: "medium"}}>
+                    <MathDrop updateEquation1={updateEquation1}></MathDrop>
+                  </Box>
+                  </>
+                }
+              </Box>
               
               <Box
                 align="center"
