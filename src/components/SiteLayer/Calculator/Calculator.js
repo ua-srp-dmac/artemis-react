@@ -16,6 +16,7 @@ import { InlineMath, BlockMath } from 'react-katex';
 
 
 import MathDrop from "./MathDrop"
+import classNames from "classnames";
 
 import {
   Box,
@@ -58,12 +59,20 @@ export default function CalculatorComponent() {
     }
   },[equationText]) // <-- here put the parameter to listen
 
+  const [variables, setVariables] = useState([]);
 
-  const [variable1, setVariable1] = useState("");
-  const [variable2, setVariable2] = useState("");
-  const [variable3, setVariable3] = useState("");
-  const [variable4, setVariable4] = useState("");
-  const [variable5, setVariable5] = useState("");
+  const [variable1, setVariable1] = useState(null);
+  const [variable2, setVariable2] = useState(null);
+  const [variable3, setVariable3] = useState(null);
+  const [variable4, setVariable4] = useState(null);
+  const [variable5, setVariable5] = useState(null);
+
+  const [variable1_value, setVariable1_value] = useState("");
+  const [variable2_value, setVariable2_value] = useState("");
+  const [variable3_value, setVariable3_value] = useState("");
+  const [variable4_value, setVariable4_value] = useState("");
+  const [variable5_value, setVariable5_value] = useState("");
+
 
   const [selectedVariable, setSelectedVariable] = useState(null)
   const [newVariable, setNewVariable] = useState(false)
@@ -102,9 +111,6 @@ export default function CalculatorComponent() {
   const [depth3_selectedB, set_depth3_selectedB] = React.useState(false);
   const [depth4_selectedB, set_depth4_selectedB] = React.useState(false);
 
-  
-  // console.log(equation2)
-  // console.log(equation3)
 
   const treatments = [
     '15% CS',
@@ -261,7 +267,24 @@ export default function CalculatorComponent() {
     text.keystroke('Enter');
   }
 
+  
 
+  function selectVariable(index) {
+    console.log(index)
+
+    if (variables.includes(index)) {
+      setSelectedVariable(index);
+    } else {
+      // eval("setVariable"+index)("");
+      // set['variable' + index] = [];
+
+      setVariables((prevState) => (
+        [...prevState, index]
+      ));
+
+      setSelectedVariable(index);
+    }
+  }
 
     
   return (
@@ -295,7 +318,59 @@ export default function CalculatorComponent() {
 
             </Heading>
 
-            <Card pad="small"
+            { variables.length > 0 && 
+              <>
+              {variables.map((index, i) => {
+                return (
+                  <Card key={index}
+                    pad="small"
+                    margin="small" 
+                    gap="medium"
+                    border="medium"
+                    onClick={() => {
+                      setSelectedVariable(1);
+                    }}
+                    className={classNames({
+                      activeSegment: selectedVariable === index,
+                    })}>
+                    <CardHeader>
+                      Variable {index}
+                      {<Button icon={<Edit color="plain" />} hoverIndicator />}
+                    </CardHeader>
+                    <CardBody>
+                    <TextInput
+                      placeholder="type here"
+                      value={variable1}
+                      onChange={event => setVariable1(event.target.value)}
+                    />
+                    </CardBody>
+                    <CardFooter pad={{horizontal: "small"}} background="light-2">
+                      <Button label="Save" icon={<Checkmark color="plain" />} hoverIndicator />
+                    </CardFooter>
+                  </Card>
+                ) 
+              })}
+              </>
+            }
+
+            { variables.length < 8 && 
+              <>
+                <Card pad="small"
+                  margin="small"
+                  gap="medium"
+                  border="medium"
+                  onClick={() => {
+                    selectVariable(variables.length + 1);
+                  }}>
+
+                  <CardBody align="center">
+                  <Add></Add>
+                  </CardBody>
+                </Card>
+              </>
+            }
+
+            {/* <Card pad="small"
               margin="small" 
               gap="medium"
               border="medium" onClick={() => {
@@ -315,39 +390,15 @@ export default function CalculatorComponent() {
               <CardFooter pad={{horizontal: "small"}} background="light-2">
                 <Button label="Save" icon={<Checkmark color="plain" />} hoverIndicator />
               </CardFooter>
-            </Card>
+            </Card> */}
 
-            <Card pad="small"
-              margin="small" 
-              gap="medium"
-              border="medium"
-              border="medium" onClick={() => {
-                setSelectedVariable(2);
-              }}>
-            <CardHeader>Variable 2</CardHeader>
-              <CardBody>
-              <TextInput
-                placeholder="type here"
-                value={variable2}
-                onChange={event => setVariable2(event.target.value)}
-              />
-              </CardBody>
-            </Card>
 
-            { newVariable === true &&
-              <Card pad="small"
-                    margin="small"
-                    gap="medium"
-                    border="medium"border="medium" onClick={() => {
-                  }}>
-                <CardHeader>New Variable,</CardHeader>
-                <CardBody>
-                
-                </CardBody>
-              </Card>
-            }
 
-            <Card pad="small"
+            
+
+        
+
+            {/* <Card pad="small"
               margin="small"
               gap="medium"
               border="medium"
@@ -358,11 +409,8 @@ export default function CalculatorComponent() {
               <CardBody align="center">
               <Add></Add>
               </CardBody>
-            </Card>
+            </Card> */}
 
-            
-
-  
           </Box>
         </Box>
       </Box>
@@ -381,8 +429,6 @@ export default function CalculatorComponent() {
           }}>
     
         </Heading>
-
-
           
           <Grid
               fill="true"
@@ -393,6 +439,8 @@ export default function CalculatorComponent() {
                 { name: 'left', start: [0, 0], end: [0, 0] },
                 { name: 'right', start: [1, 0], end: [1, 0] },
               ]}>
+
+            {/* Variable Assignment */}
 
             <Box flex
               basis="full"
