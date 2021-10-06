@@ -38,7 +38,7 @@ import {
 } from 'grommet';
 
 import {
-  BarChart, Add, AddCircle, Favorite, Calculator, Edit, Checkmark, CircleInformation
+  BarChart, Add, AddCircle, Favorite, Calculator, Edit, Checkmark, CircleInformation, Select, Cubes
 } from 'grommet-icons';
 
 export default function CalculatorComponent() {
@@ -47,13 +47,14 @@ export default function CalculatorComponent() {
   const [equationText, setEquationText] = useState("");
   const [text, setText] = useState('')
   const [useLatexInput, setUseLatexInput] = useState(false);
-  const [latexDisplay, setLatexDisplay] = useState("text");
+  const [latexDisplay, setLatexDisplay] = useState("");
 
   useEffect(() => {
     try {
-      let latex = math.parse(equationText).toTex()    
-      setLatexDisplay(latex);
-      console.log(latex)
+      let latex = math.parse(equationText).toTex()   
+      if (latex !== 'undefined') {
+        setLatexDisplay(latex);
+      }
     } catch(error) {
       console.log(error)
     }
@@ -311,10 +312,10 @@ export default function CalculatorComponent() {
               level={4}
               margin={{
                 "horizontal": "none",
-                "top": "medium",
+                "top": "xsmall",
                 "bottom": "xsmall",
               }}>
-                Set Variables
+                Create Variables
 
             </Heading>
 
@@ -327,26 +328,55 @@ export default function CalculatorComponent() {
                     margin="small" 
                     gap="medium"
                     border="medium"
-                    onClick={() => {
-                      setSelectedVariable(1);
-                    }}
+                    // onClick={() => {
+                    //   setSelectedVariable(index);
+                    // }}
                     className={classNames({
                       activeSegment: selectedVariable === index,
                     })}>
-                    <CardHeader>
-                      Variable {index}
-                      {<Button icon={<Edit color="plain" />} hoverIndicator />}
-                    </CardHeader>
-                    <CardBody>
-                    <TextInput
-                      placeholder="type here"
-                      value={variable1}
-                      onChange={event => setVariable1(event.target.value)}
-                    />
-                    </CardBody>
-                    <CardFooter pad={{horizontal: "small"}} background="light-2">
-                      <Button label="Save" icon={<Checkmark color="plain" />} hoverIndicator />
-                    </CardFooter>
+
+
+                    { selectedVariable !== index &&
+                      <>
+                        <CardHeader>
+                          <Text>Variable {index}</Text>
+                          <Button icon={<Edit color="plain" />}
+                            hoverIndicator
+                            onClick={() => {
+                              setSelectedVariable(index);
+                            }}
+                          />
+                        </CardHeader>
+                        <CardBody>
+                          <Text>{eval("variable" + index)}</Text>
+                        </CardBody>
+                      </>
+                    }
+
+                    { selectedVariable === index &&
+                      <>
+                        <CardHeader>
+                          <Text>Variable {index}</Text>
+                        </CardHeader>
+                        <CardBody>
+                        <Box pad={{vertical: "small"}}>
+                          <TextInput
+                            placeholder="type here"
+                            value={eval("variable"+index)}
+                            onChange={event => eval("setVariable" + index)(event.target.value)}
+                          />
+                        </Box>
+                        </CardBody>
+
+                        <CardFooter pad={{horizontal: "small"}} background="light-2">
+                          <Button label="Save"
+                            icon={<Checkmark color="plain" />}
+                            hoverIndicator
+                            onClick={() => setSelectedVariable(null)}
+                          />
+                        </CardFooter>
+                      </>
+                    }
                   </Card>
                 ) 
               })}
@@ -368,48 +398,7 @@ export default function CalculatorComponent() {
                   </CardBody>
                 </Card>
               </>
-            }
-
-            {/* <Card pad="small"
-              margin="small" 
-              gap="medium"
-              border="medium" onClick={() => {
-                setSelectedVariable(1);
-              }}>
-              <CardHeader>
-                Variable 1
-                {<Button icon={<Edit color="plain" />} hoverIndicator />}
-              </CardHeader>
-              <CardBody>
-              <TextInput
-                placeholder="type here"
-                value={variable1}
-                onChange={event => setVariable1(event.target.value)}
-              />
-              </CardBody>
-              <CardFooter pad={{horizontal: "small"}} background="light-2">
-                <Button label="Save" icon={<Checkmark color="plain" />} hoverIndicator />
-              </CardFooter>
-            </Card> */}
-
-
-
-            
-
-        
-
-            {/* <Card pad="small"
-              margin="small"
-              gap="medium"
-              border="medium"
-              onClick={() => {
-                setNewVariable(true);
-              }}>
-
-              <CardBody align="center">
-              <Add></Add>
-              </CardBody>
-            </Card> */}
+            }       
 
           </Box>
         </Box>
@@ -420,16 +409,7 @@ export default function CalculatorComponent() {
         gridArea="main"
       >
         
-        <Heading
-          level={5}
-          margin={{
-            "horizontal": "none",
-            "top": "medium",
-            "bottom": "xsmall",
-          }}>
-    
-        </Heading>
-          
+       
           <Grid
               fill="true"
               rows={['auto', 'flex']}
@@ -441,200 +421,224 @@ export default function CalculatorComponent() {
               ]}>
 
             {/* Variable Assignment */}
-
+            
             <Box flex
               basis="full"
               gridArea="left"
               width="medium"
               pad="small">
 
-              <Heading
-                level={3}
-                margin={{
-                  "horizontal": "none",
-                  "top": "xsmall",
-                  "bottom": "xsmall",
-                }}>
-                  A
-              </Heading> 
-              <Heading
-                level={5}
-                margin={{
-                  "horizontal": "none",
-                  "top": "xsmall",
-                  "bottom": "xsmall",
-                }}>
-                  Element
-              </Heading>
+            <Heading
+              level={4}
+              margin={{
+                "horizontal": "none",
+                "top": "xsmall",
+                "bottom": "xsmall",
+              }}>
+                Assign Variables
+            </Heading>
 
-              <ReactSelect
-                value={elementsSelected}
-                isMulti
-                isSearchable
-                options={elements}
-                className="basic-multi-select"
-                onChange={ (selectedOption) => {
-                  setElementsSelected(selectedOption);
-                  console.log(`Option selected:`, selectedOption);
-                }}
-                classNamePrefix="select"
-              />
-
-              <Box>
-                <Heading
-                  level={5}
-                  margin={{
-                    "horizontal": "none",
-                    "top": "medium",
-                    "bottom": "xsmall",
-                  }}>
-                    Treatment
-                    { treatmentsSelected.length === 0 &&
-                      <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTreatments}>
-                        Select all
-                      </Anchor>
-                    }
-
-                    { treatmentsSelected.length >= 1 &&
-                      <Anchor size="xsmall" margin="small" as="a" onClick={clearTreatments}>
-                        Clear All
-                      </Anchor>
-                    }
-                    
-                </Heading>
-
-                <Box direction="row" align="center" gap="small" >     
-                  <Button
-                    label="Control"
-                    primary={treatment6_selected}
-                    onClick={() => {set_treatment6_selected(!treatment6_selected)}}
-                    size="small"
-                  />
-                  <Button
-                    label="15% C"
-                    primary={treatment2_selected}
-                    onClick={() => {set_treatment2_selected(!treatment2_selected)}}
-                    size="small"
-                  />
-                  <Button
-                    label="20% C"
-                    primary={treatment4_selected}
-                    onClick={() => {set_treatment4_selected(!treatment4_selected)}}
-                    size="small"
-                  />
+              {
+                selectedVariable === null &&
+                <>
+                <Box pad="small" align="center" margin="large">
+                  <Select size='large'></Select>
+                  <Text margin="small" align="center">Create or select a variable on the left.</Text>
                 </Box>
+                </>
+              }
 
-                <Box direction="row" align="center" gap="small" margin={{top: "xsmall"}}>
-                  <Button
-                    label="10% CS"
-                    primary={treatment5_selected}
-                    onClick={() => {set_treatment5_selected(!treatment5_selected)}}
-                    size="small"
-                  />
-                  <Button
-                    label="15% CS"
-                    primary={treatment1_selected}
-                    onClick={() => {set_treatment1_selected(!treatment1_selected)}}
-                    size="small"
-                  />
-                  <Button
-                    label="20% CS"
-                    primary={treatment3_selected}
-                    onClick={() => {set_treatment3_selected(!treatment3_selected)}}
-                    size="small"
-                  />
-                </Box>
-              </Box>
-        
-              <Box>
-                <Heading
-                  level={5}
-                  margin={{
-                    "horizontal": "none",
-                    "top": "medium",
-                    "bottom": "xsmall",
-                  }}>
-                    Depth
+              { selectedVariable !== null && 
+                <>
+                  <Heading
+                    level={4}
+                    margin={{
+                      "horizontal": "none",
+                      "top": "small",
+                      "bottom": "xsmall",
+                    }}>
+                      Variable {selectedVariable}: {eval("variable" + selectedVariable)}
+                  </Heading> 
 
-                    { depthsSelected.length === 0 &&
-                      <Anchor size="xsmall" margin="small" as="a" onClick={selectAllDepths}>
-                        Select all
-                      </Anchor>
-                    }
+                  <Heading
+                    level={5}
+                    margin={{
+                      "horizontal": "none",
+                      "top": "xsmall",
+                      "bottom": "xsmall",
+                    }}>
+                      Element
+                  </Heading>
 
-                    { depthsSelected.length >= 1 &&
-                      <Anchor size="xsmall" margin="small" as="a" onClick={clearDepths}>
-                        Clear All
-                      </Anchor>
-                    }
-                </Heading>
+                  <ReactSelect
+                    value={elementsSelected}
+                    isMulti
+                    isSearchable
+                    options={elements}
+                    className="basic-multi-select"
+                    onChange={ (selectedOption) => {
+                      setElementsSelected(selectedOption);
+                      console.log(`Option selected:`, selectedOption);
+                    }}
+                    classNamePrefix="select"
+                  />
 
-                <Box direction="row" align="center" gap="small" >     
-                  <Button
-                    label="0-20"
-                    primary={depth1_selected}
-                    onClick={() => {set_depth1_selected(!depth1_selected)}}
-                    size="small"
-                  />
-                  <Button
-                    label="20-40"
-                    primary={depth2_selected}
-                    onClick={() => {set_depth2_selected(!depth2_selected)}}
-                    size="small"
-                  />
-                  <Button
-                    label="40-60"
-                    primary={depth3_selected}
-                    onClick={() => {set_depth3_selected(!depth3_selected)}}
-                    size="small"
-                  />
-                  <Button
-                    label="60-90"
-                    primary={depth4_selected}
-                    onClick={() => {set_depth4_selected(!depth4_selected)}}
-                    size="small"
-                  />
-                </Box>
-              </Box>
+                  <Box>
+                    <Heading
+                      level={5}
+                      margin={{
+                        "horizontal": "none",
+                        "top": "medium",
+                        "bottom": "xsmall",
+                      }}>
+                        Treatment
+                        { treatmentsSelected.length === 0 &&
+                          <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTreatments}>
+                            Select all
+                          </Anchor>
+                        }
 
-              <Box>
-                <Heading
-                  level={5}
-                  margin={{
-                    "horizontal": "none",
-                    "top": "medium",
-                    "bottom": "xsmall",
-                  }}>
-                    Time
-                    { timesSelected.length === 0 &&
-                      <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTimes}>
-                        Select all
-                      </Anchor>
-                    }
+                        { treatmentsSelected.length >= 1 &&
+                          <Anchor size="xsmall" margin="small" as="a" onClick={clearTreatments}>
+                            Clear All
+                          </Anchor>
+                        }
+                        
+                    </Heading>
 
-                    { timesSelected.length >= 1 &&
-                      <Anchor size="xsmall" margin="small" as="a" onClick={clearTimes}>
-                        Clear All
-                      </Anchor>
-                    }
-                </Heading>
+                    <Box direction="row" align="center" gap="small" >     
+                      <Button
+                        label="Control"
+                        primary={treatment6_selected}
+                        onClick={() => {set_treatment6_selected(!treatment6_selected)}}
+                        size="small"
+                      />
+                      <Button
+                        label="15% C"
+                        primary={treatment2_selected}
+                        onClick={() => {set_treatment2_selected(!treatment2_selected)}}
+                        size="small"
+                      />
+                      <Button
+                        label="20% C"
+                        primary={treatment4_selected}
+                        onClick={() => {set_treatment4_selected(!treatment4_selected)}}
+                        size="small"
+                      />
+                    </Box>
 
-                <Box direction="row" align="center" gap="small" >     
-                  <Button
-                    label="Time 0"
-                    primary={time0_selected}
-                    onClick={() => {set_time0_selected(!time0_selected)}}
-                    size="small"
-                  />
-                  <Button
-                    label="Time 1"
-                    primary={time1_selected}
-                    onClick={() => {set_time1_selected(!time1_selected)}}
-                    size="small"
-                  />
-                </Box>
-              </Box>
+                    <Box direction="row" align="center" gap="small" margin={{top: "xsmall"}}>
+                      <Button
+                        label="10% CS"
+                        primary={treatment5_selected}
+                        onClick={() => {set_treatment5_selected(!treatment5_selected)}}
+                        size="small"
+                      />
+                      <Button
+                        label="15% CS"
+                        primary={treatment1_selected}
+                        onClick={() => {set_treatment1_selected(!treatment1_selected)}}
+                        size="small"
+                      />
+                      <Button
+                        label="20% CS"
+                        primary={treatment3_selected}
+                        onClick={() => {set_treatment3_selected(!treatment3_selected)}}
+                        size="small"
+                      />
+                    </Box>
+                  </Box>
+            
+                  <Box>
+                    <Heading
+                      level={5}
+                      margin={{
+                        "horizontal": "none",
+                        "top": "medium",
+                        "bottom": "xsmall",
+                      }}>
+                        Depth
 
+                        { depthsSelected.length === 0 &&
+                          <Anchor size="xsmall" margin="small" as="a" onClick={selectAllDepths}>
+                            Select all
+                          </Anchor>
+                        }
+
+                        { depthsSelected.length >= 1 &&
+                          <Anchor size="xsmall" margin="small" as="a" onClick={clearDepths}>
+                            Clear All
+                          </Anchor>
+                        }
+                    </Heading>
+
+                    <Box direction="row" align="center" gap="small" >     
+                      <Button
+                        label="0-20"
+                        primary={depth1_selected}
+                        onClick={() => {set_depth1_selected(!depth1_selected)}}
+                        size="small"
+                      />
+                      <Button
+                        label="20-40"
+                        primary={depth2_selected}
+                        onClick={() => {set_depth2_selected(!depth2_selected)}}
+                        size="small"
+                      />
+                      <Button
+                        label="40-60"
+                        primary={depth3_selected}
+                        onClick={() => {set_depth3_selected(!depth3_selected)}}
+                        size="small"
+                      />
+                      <Button
+                        label="60-90"
+                        primary={depth4_selected}
+                        onClick={() => {set_depth4_selected(!depth4_selected)}}
+                        size="small"
+                      />
+                    </Box>
+                  </Box>
+
+                  <Box>
+                    <Heading
+                      level={5}
+                      margin={{
+                        "horizontal": "none",
+                        "top": "medium",
+                        "bottom": "xsmall",
+                      }}>
+                        Time
+                        { timesSelected.length === 0 &&
+                          <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTimes}>
+                            Select all
+                          </Anchor>
+                        }
+
+                        { timesSelected.length >= 1 &&
+                          <Anchor size="xsmall" margin="small" as="a" onClick={clearTimes}>
+                            Clear All
+                          </Anchor>
+                        }
+                    </Heading>
+
+                    <Box direction="row" align="center" gap="small" >     
+                      <Button
+                        label="Time 0"
+                        primary={time0_selected}
+                        onClick={() => {set_time0_selected(!time0_selected)}}
+                        size="small"
+                      />
+                      <Button
+                        label="Time 1"
+                        primary={time1_selected}
+                        onClick={() => {set_time1_selected(!time1_selected)}}
+                        size="small"
+                      />
+                    </Box>
+                  </Box>
+                </>
+              }
             </Box>
 
             {/* Equation Builder */}
@@ -694,7 +698,15 @@ export default function CalculatorComponent() {
                     value={equationText}
                     onChange={event => setEquationText(event.target.value)}
                   />
-                  <BlockMath math={latexDisplay}/>
+
+                  { latexDisplay.length > 0 && equationText.length > 0 &&
+                    <BlockMath math={latexDisplay}/>
+                  }
+
+                  { latexDisplay.length === 0 && 
+                    <Box pad="small"></Box>
+                  }
+                 
                   </>
                 }
                 
