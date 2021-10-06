@@ -334,9 +334,9 @@ export default function CalculatorComponent() {
                       // style: "dashed",
                       side: "all"
                     }}   
-                    // onClick={() => {
-                    //   setSelectedVariable(index);
-                    // }}
+                    onClick={() => {
+                      setSelectedVariable(index);
+                    }}
                     className={classNames({
                       activeSegment: selectedVariable === index,
                     })}>
@@ -346,12 +346,12 @@ export default function CalculatorComponent() {
                       <>
                         <CardHeader>
                           <Text>Variable {index}</Text>
-                          <Button icon={<Edit color="plain" />}
+                          {/* <Button icon={<Edit color="plain" />}
                             hoverIndicator
                             onClick={() => {
                               setSelectedVariable(index);
                             }}
-                          />
+                          /> */}
                         </CardHeader>
                         <CardBody>
                           <Text>{eval("variable" + index)}</Text>
@@ -367,7 +367,7 @@ export default function CalculatorComponent() {
                         <CardBody>
                         <Box pad={{vertical: "small"}}>
                           <TextInput
-                            placeholder="type here"
+                            placeholder="Enter variable name"
                             value={eval("variable"+index)}
                             onChange={event => eval("setVariable" + index)(event.target.value)}
                           />
@@ -375,11 +375,7 @@ export default function CalculatorComponent() {
                         </CardBody>
 
                         <CardFooter pad={{horizontal: "small"}} background="light-2">
-                          <Button label="Save"
-                            icon={<Checkmark color="plain" />}
-                            hoverIndicator
-                            onClick={() => setSelectedVariable(null)}
-                          />
+                          
                         </CardFooter>
                       </>
                     }
@@ -642,6 +638,19 @@ export default function CalculatorComponent() {
                         size="small"
                       />
                     </Box>
+                    
+                  </Box>
+
+                  <Box
+                    align="center"
+                    pad="large">
+                  
+                  <Button label="Save"
+                    icon={<Checkmark color="plain" />}
+                    hoverIndicator
+                    onClick={() => setSelectedVariable(null)}
+                  />
+
                   </Box>
                 </>
               }
