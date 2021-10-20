@@ -61,6 +61,22 @@ export default function CalculatorComponent() {
     }
   },[equationText]) // <-- here put the parameter to listen
 
+  const treatments = [
+    '15% CS',
+    '15% C',
+    '20% CS',
+    '20% C',
+    '10% CS',
+    'control'
+  ];
+
+  const depths1 = [
+    '0-20',
+    '20-40',
+    '40-60',
+    '60-90'
+  ];
+
   const initialVariableValue = {
     elementsSelected: [],
     treatment1_selected: false,
@@ -86,23 +102,83 @@ export default function CalculatorComponent() {
   const [variable5_name, setVariable5_name] = useState("");
 
   const [variable1_value, setVariable1_value] = useState({
-    initialVariableValue
+    elementsSelected: [],
+    treatment1_selected: false,
+    treatment2_selected: false,
+    treatment3_selected: false,
+    treatment4_selected: false,
+    treatment5_selected: false,
+    treatment6_selected: false,
+    time0_selected: false,
+    time1_selected: false,
+    depth1_selected: false,
+    depth2_selected: false,
+    depth3_selected: false,
+    depth4_selected: false,
   });
 
   const [variable2_value, setVariable2_value] = useState({
-    initialVariableValue
+    elementsSelected: [],
+    treatment1_selected: false,
+    treatment2_selected: false,
+    treatment3_selected: false,
+    treatment4_selected: false,
+    treatment5_selected: false,
+    treatment6_selected: false,
+    time0_selected: false,
+    time1_selected: false,
+    depth1_selected: false,
+    depth2_selected: false,
+    depth3_selected: false,
+    depth4_selected: false,
   });
   
   const [variable3_value, setVariable3_value] = useState({
-    initialVariableValue
+    elementsSelected: [],
+    treatment1_selected: false,
+    treatment2_selected: false,
+    treatment3_selected: false,
+    treatment4_selected: false,
+    treatment5_selected: false,
+    treatment6_selected: false,
+    time0_selected: false,
+    time1_selected: false,
+    depth1_selected: false,
+    depth2_selected: false,
+    depth3_selected: false,
+    depth4_selected: false,
   });
   
   const [variable4_value, setVariable4_value] = useState({
-    initialVariableValue
+    elementsSelected: [],
+    treatment1_selected: false,
+    treatment2_selected: false,
+    treatment3_selected: false,
+    treatment4_selected: false,
+    treatment5_selected: false,
+    treatment6_selected: false,
+    time0_selected: false,
+    time1_selected: false,
+    depth1_selected: false,
+    depth2_selected: false,
+    depth3_selected: false,
+    depth4_selected: false,
   });
   
   const [variable5_value, setVariable5_value] = useState({
-    initialVariableValue
+    elementsSelected: [],
+    treatment1_selected: false,
+    treatment2_selected: false,
+    treatment3_selected: false,
+    treatment4_selected: false,
+    treatment5_selected: false,
+    treatment6_selected: false,
+    time0_selected: false,
+    time1_selected: false,
+    depth1_selected: false,
+    depth2_selected: false,
+    depth3_selected: false,
+    depth4_selected: false,
   });
 
   const [selectedVariable, setSelectedVariable] = useState(1)
@@ -160,6 +236,31 @@ export default function CalculatorComponent() {
             { variables.length > 0 && 
               <>
               {variables.map((index, i) => {
+
+                let treatmentsSelected = []
+                let depthsSelected = []
+                let timesSelected = []
+
+                for (let j = 0; j < treatments.length; j++ ) {
+                  if (eval('variable' + (i+1) + '_value.treatment' + (j + 1).toString() + '_selected')) {
+                    treatmentsSelected.push(treatments[j]);
+                  }
+                }
+
+                for (let j = 0; j < depths1.length; j++ ) {
+                  if (eval('variable' + (i+1) + '_value.depth' + (j + 1).toString() + '_selected')) {
+                    depthsSelected.push(depths1[j]);
+                  }
+                }
+
+                if (eval('variable' + (i+1) + '_value.time0_selected')) {
+                  timesSelected.push("Time 0");
+                }
+
+                if (eval('variable' + (i+1) + '_value.time1_selected')) {
+                  timesSelected.push("Time 1");
+                }
+
                 return (
                   <Card key={index}
                     pad="small"
@@ -180,43 +281,89 @@ export default function CalculatorComponent() {
                     })}>
 
 
-                    { selectedVariable !== index &&
+                    {
                       <>
                         <CardHeader>
-                          <Text>Variable {index}</Text>
+                          <Text weight="bold">Variable {index}: {eval("variable" + index + "_name")}</Text>
                           {/* <Button icon={<Edit color="plain" />}
                             hoverIndicator
                             onClick={() => {
                               setSelectedVariable(index);
                             }}
                           /> */}
+
                         </CardHeader>
                         <CardBody>
-                          <Text>{eval("variable" + index + "_name")}</Text>
+
+                          { treatmentsSelected.length > 0 &&
+                            <>
+                              <Box pad={{top: "xsmall"}}>
+                                <Text size="small" weight="bold">Treatments</Text>
+                              </Box>
+                              
+                              <Text size="xsmall">
+                                { treatmentsSelected.map((treatment, k) => {
+                                    return (<>
+                                    {treatment} { k !== treatmentsSelected.length - 1 && <>&#8226;&nbsp;</>}
+                                    </>);
+                                  })
+                                }
+                              </Text>
+                            </>
+                          }
+
+                          { depthsSelected.length > 0 &&
+                            <>
+                              <Box pad={{top: "xsmall"}}>
+                                <Text size="small" weight="bold">Depths</Text>
+                              </Box>
+                              
+                              <Text size="xsmall">
+                                { depthsSelected.map((depth, k) => {
+                                    return (<>
+                                    {depth} { k !== depthsSelected.length - 1 && <>&#8226;&nbsp;</>}
+                                    </>);
+                                  })
+                                }
+                              </Text>
+                            </>
+                          }
+
+                          { timesSelected.length > 0 &&
+                            <>
+                              <Box pad={{top: "xsmall"}}>
+                                <Text size="small" weight="bold">Times</Text>
+                              </Box>
+                              
+                              <Text size="xsmall">
+                                { timesSelected.map((time, k) => {
+                                    return (<>
+                                    {time} { k !== timesSelected.length - 1 && <>&#8226;&nbsp;</>}
+                                    </>);
+                                  })
+                                }
+                              </Text>
+                            </>
+                          }
+                          
                         </CardBody>
                       </>
                     }
 
-                    { selectedVariable === index &&
+                    {/* { selectedVariable === index &&
                       <>
                         <CardHeader>
                           <Text>Variable {index}</Text>
                         </CardHeader>
                         <CardBody>
-                        {/* <Box pad={{vertical: "small"}}>
-                          <TextInput
-                            placeholder="Enter variable name"
-                            value={eval("variable"+index)}
-                            onChange={event => eval("setVariable" + index)(event.target.value)}
-                          />
-                        </Box> */}
+                        
                         </CardBody>
 
                         <CardFooter pad={{horizontal: "small"}} background="light-2">
                           
                         </CardFooter>
                       </>
-                    }
+                    } */}
                   </Card>
                 ) 
               })}

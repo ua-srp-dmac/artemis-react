@@ -232,7 +232,8 @@ export default function CalculatorComponent(props) {
           "horizontal": "none",
           "top": "small",
           "bottom": "xsmall",
-        }}>
+        }}
+        color="#00739D">
           Variable {props.selectedVariable}
       </Heading> 
 
