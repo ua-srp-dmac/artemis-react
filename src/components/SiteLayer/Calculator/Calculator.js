@@ -437,7 +437,9 @@ export default function CalculatorComponent() {
             basis="full"
             gridArea="right"
             width="medium"
-            pad="small">
+            pad="small"
+            margin={{left: "large"}}>
+            
             <Heading
               level={4}
               margin={{
@@ -514,8 +516,108 @@ export default function CalculatorComponent() {
                     setText(mathField)
                   }}
                 />
-                <Box pad={{vertical: "medium"}}>
+                {/* <Box pad={{vertical: "medium"}}>
                   <MathDrop updateEquation1={updateEquation1}></MathDrop>
+                </Box> */}
+
+                <Box pad="small">
+      
+                  <Box direction="row" justify="between" align="center">
+                    
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("+")}}
+                      label={<InlineMath math="+"/>}
+                      margin="xsmall">
+                    </Button>
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("-")}}
+                      label={<InlineMath math="-"/>}
+                      margin="xsmall">
+                    </Button>
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("^{}")}}
+                      label={<InlineMath math="x^y"/>}
+                      margin="xsmall">
+                    </Button>
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("^{}")}}
+                      label={<InlineMath math="\log"/>}
+                      margin="xsmall">
+                    </Button>
+
+                  </Box>
+
+                  <Box direction="row" justify="between" align="center">
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("\\times") }}
+                      label={<InlineMath math="\times"/>}
+                      margin="xsmall">
+                    </Button>
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("\\frac{}{}") }}
+                      label={<InlineMath math="\div"/>}
+                      margin="xsmall">
+                    </Button>
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("\\sum") }}
+                      label={<InlineMath math="\sum"/>}
+                      margin="xsmall">
+                    </Button>
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("\\sum") }}
+                      label={<InlineMath math="\ln"/>}
+                      margin="xsmall">
+                    </Button>
+
+                  </Box>
+
+                  <Box direction="row" justify="between" align="center">
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("\\times") }}
+                      label={<InlineMath math="x!"/>}
+                      margin="xsmall">
+                    </Button>
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("\\frac{}{}") }}
+                      label={<InlineMath math="e"/>}
+                      margin="xsmall">
+                    </Button>
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("\\sum") }}
+                      label={<InlineMath math="("/>}
+                      margin="xsmall">
+                    </Button>
+
+                    <Button
+                      size="medium"
+                      onClick={() => {updateEquation1("\\sum") }}
+                      label={<InlineMath math=")"/>}
+                      margin="xsmall">
+                    </Button>
+
+                  </Box>
+
                 </Box>
                 </>
               }
