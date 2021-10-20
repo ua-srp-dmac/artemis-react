@@ -281,7 +281,6 @@ export default function CalculatorComponent() {
                       activeSegment: selectedVariable === index,
                     })}>
 
-
                     {
                       <>
                         <CardHeader>
@@ -294,12 +293,6 @@ export default function CalculatorComponent() {
                               eval("variable" + index + "_name")
                             
                             }</Text>
-                          {/* <Button icon={<Edit color="plain" />}
-                            hoverIndicator
-                            onClick={() => {
-                              setSelectedVariable(index);
-                            }}
-                          /> */}
 
                         </CardHeader>
                         <CardBody>
@@ -365,20 +358,6 @@ export default function CalculatorComponent() {
                       </>
                     }
 
-                    {/* { selectedVariable === index &&
-                      <>
-                        <CardHeader>
-                          <Text>Variable {index}</Text>
-                        </CardHeader>
-                        <CardBody>
-                        
-                        </CardBody>
-
-                        <CardFooter pad={{horizontal: "small"}} background="light-2">
-                          
-                        </CardFooter>
-                      </>
-                    } */}
                   </Card>
                 ) 
               })}
