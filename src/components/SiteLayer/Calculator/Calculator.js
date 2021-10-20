@@ -241,6 +241,7 @@ export default function CalculatorComponent() {
                 let treatmentsSelected = []
                 let depthsSelected = []
                 let timesSelected = []
+                let elementsSelected = eval('variable' + (i + 1).toString() + '_value.elementsSelected');
 
                 for (let j = 0; j < treatments.length; j++ ) {
                   if (eval('variable' + (i+1) + '_value.treatment' + (j + 1).toString() + '_selected')) {
@@ -301,6 +302,30 @@ export default function CalculatorComponent() {
                             <Box pad={{top: "xsmall"}}>
                               <Text size="small" weight="bold" color="green">Solution</Text>
                             </Box>
+                          }
+
+                          { elementsSelected.length > 0 &&
+                            <>
+                              <Box pad={{top: "xsmall"}}>
+                                <Text size="small" weight="bold">
+                                  Elements &nbsp; 
+                                  <Text weight="normal" size="small">
+                                  { elementsSelected.map((element, k) => {
+                                    return (<>
+                                      {element.label} { k !== elementsSelected.length - 1 && <>&#8226;&nbsp;</>}
+                                      </>);
+                                    })
+                                  }
+                                  </Text>
+                                  
+                                </Text>
+                   
+                                
+                          
+                              </Box>
+                              
+                              
+                            </>
                           }
 
                           { treatmentsSelected.length > 0 &&
