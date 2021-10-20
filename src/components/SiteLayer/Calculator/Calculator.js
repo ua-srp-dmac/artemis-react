@@ -78,6 +78,7 @@ export default function CalculatorComponent() {
   ];
 
   const initialVariableValue = {
+    isSolution: false,
     elementsSelected: [],
     treatment1_selected: false,
     treatment2_selected: false,
@@ -284,7 +285,15 @@ export default function CalculatorComponent() {
                     {
                       <>
                         <CardHeader>
-                          <Text weight="bold">Variable {index}: {eval("variable" + index + "_name")}</Text>
+                          <Text weight="bold">
+                            { eval("variable" + index + "_name").length === 0 ? 
+                            
+                              <>Variable {index}</> 
+                              : 
+
+                              eval("variable" + index + "_name")
+                            
+                            }</Text>
                           {/* <Button icon={<Edit color="plain" />}
                             hoverIndicator
                             onClick={() => {
@@ -294,6 +303,12 @@ export default function CalculatorComponent() {
 
                         </CardHeader>
                         <CardBody>
+
+                          {eval('variable' + (i+1) + '_value.isSolution') &&
+                            <Box pad={{top: "xsmall"}}>
+                              <Text size="small" weight="bold" color="green">Solution</Text>
+                            </Box>
+                          }
 
                           { treatmentsSelected.length > 0 &&
                             <>

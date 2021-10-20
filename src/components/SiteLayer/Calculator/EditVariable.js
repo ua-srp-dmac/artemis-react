@@ -226,7 +226,7 @@ export default function CalculatorComponent(props) {
           Assign Variables
       </Heading>
 
-      <Heading
+      {/* <Heading
         level={4}
         margin={{
           "horizontal": "none",
@@ -235,7 +235,9 @@ export default function CalculatorComponent(props) {
         }}
         color="#00739D">
           Variable {props.selectedVariable}
-      </Heading> 
+      </Heading>  */}
+
+
 
       <Box pad={{vertical: "small"}}>
         <TextInput
@@ -245,246 +247,261 @@ export default function CalculatorComponent(props) {
         />
       </Box>
 
-      <Heading
-        level={5}
-        margin={{
-          "horizontal": "none",
-          "top": "xsmall",
-          "bottom": "xsmall",
-        }}>
-          Element
-      </Heading>
-
-      <ReactSelect
-        value={props.variableValue.elementsSelected}
-        isMulti
-        isSearchable
-        options={elements}
-        className="basic-multi-select"
-        onChange={ (selectedOption) => {
-          props.setVariableValue({
+      <Box pad={{vertical: "small"}}>
+        <CheckBox
+          checked={props.variableValue.isSolution}
+          label="Solve for this variable"
+          onChange={(event) => props.setVariableValue({
             ...props.variableValue,
-            elementsSelected: selectedOption
-          });
-        }}
-        classNamePrefix="select"
-      />
+            isSolution: event.target.checked
+          })}
+        />
+      </Box>
 
-      <Box>
+      {!props.variableValue.isSolution &&
+        <>
         <Heading
           level={5}
           margin={{
             "horizontal": "none",
-            "top": "medium",
+            "top": "xsmall",
             "bottom": "xsmall",
           }}>
-            Treatment
-            { treatmentsSelected.length === 0 &&
-              <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTreatments}>
-                Select all
-              </Anchor>
-            }
-
-            { treatmentsSelected.length >= 1 &&
-              <Anchor size="xsmall" margin="small" as="a" onClick={clearTreatments}>
-                Clear All
-              </Anchor>
-            }
-            
+            Element
         </Heading>
 
-        <Box direction="row" align="center" gap="small" >     
-          <Button
-            label="Control"
-            primary={props.variableValue.treatment6_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                treatment6_selected: !props.variableValue.treatment6_selected
-              });
-            }}
-            size="small"
-          />
-          <Button
-            label="15% C"
-            primary={props.variableValue.treatment2_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                treatment2_selected: !props.variableValue.treatment2_selected
-              });
-            }}
-            size="small"
-          />
-          <Button
-            label="20% C"
-            primary={props.variableValue.treatment4_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                treatment4_selected: !props.variableValue.treatment4_selected
-              });
-            }}
-            size="small"
-          />
+        <ReactSelect
+          value={props.variableValue.elementsSelected}
+          isMulti
+          isSearchable
+          options={elements}
+          className="basic-multi-select"
+          onChange={ (selectedOption) => {
+            props.setVariableValue({
+              ...props.variableValue,
+              elementsSelected: selectedOption
+            });
+          }}
+          classNamePrefix="select"
+        />
+
+        <Box>
+          <Heading
+            level={5}
+            margin={{
+              "horizontal": "none",
+              "top": "medium",
+              "bottom": "xsmall",
+            }}>
+              Treatment
+              { treatmentsSelected.length === 0 &&
+                <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTreatments}>
+                  Select all
+                </Anchor>
+              }
+
+              { treatmentsSelected.length >= 1 &&
+                <Anchor size="xsmall" margin="small" as="a" onClick={clearTreatments}>
+                  Clear All
+                </Anchor>
+              }
+              
+          </Heading>
+
+          <Box direction="row" align="center" gap="small" >     
+            <Button
+              label="Control"
+              primary={props.variableValue.treatment6_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  treatment6_selected: !props.variableValue.treatment6_selected
+                });
+              }}
+              size="small"
+            />
+            <Button
+              label="15% C"
+              primary={props.variableValue.treatment2_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  treatment2_selected: !props.variableValue.treatment2_selected
+                });
+              }}
+              size="small"
+            />
+            <Button
+              label="20% C"
+              primary={props.variableValue.treatment4_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  treatment4_selected: !props.variableValue.treatment4_selected
+                });
+              }}
+              size="small"
+            />
+          </Box>
+
+          <Box direction="row" align="center" gap="small" margin={{top: "xsmall"}}>
+            <Button
+              label="10% CS"
+              primary={props.variableValue.treatment5_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  treatment5_selected: !props.variableValue.treatment5_selected
+                });
+              }}
+              size="small"
+            />
+            <Button
+              label="15% CS"
+              primary={props.variableValue.treatment1_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  treatment1_selected: !props.variableValue.treatment1_selected
+                });
+              }}
+              size="small"
+            />
+            <Button
+              label="20% CS"
+              primary={props.variableValue.treatment3_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  treatment3_selected: !props.variableValue.treatment3_selected
+                });
+              }}
+              size="small"
+            />
+          </Box>
         </Box>
 
-        <Box direction="row" align="center" gap="small" margin={{top: "xsmall"}}>
-          <Button
-            label="10% CS"
-            primary={props.variableValue.treatment5_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                treatment5_selected: !props.variableValue.treatment5_selected
-              });
-            }}
-            size="small"
-          />
-          <Button
-            label="15% CS"
-            primary={props.variableValue.treatment1_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                treatment1_selected: !props.variableValue.treatment1_selected
-              });
-            }}
-            size="small"
-          />
-          <Button
-            label="20% CS"
-            primary={props.variableValue.treatment3_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                treatment3_selected: !props.variableValue.treatment3_selected
-              });
-            }}
-            size="small"
-          />
+        <Box>
+          <Heading
+            level={5}
+            margin={{
+              "horizontal": "none",
+              "top": "medium",
+              "bottom": "xsmall",
+            }}>
+              Depth
+
+              { depthsSelected.length === 0 &&
+                <Anchor size="xsmall" margin="small" as="a" onClick={selectAllDepths}>
+                  Select all
+                </Anchor>
+              }
+
+              { depthsSelected.length >= 1 &&
+                <Anchor size="xsmall" margin="small" as="a" onClick={clearDepths}>
+                  Clear All
+                </Anchor>
+              }
+          </Heading>
+
+          <Box direction="row" align="center" gap="small" >     
+            <Button
+              label="0-20"
+              primary={props.variableValue.depth1_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  depth1_selected: !props.variableValue.depth1_selected
+                });
+              }}
+              size="small"
+            />
+            <Button
+              label="20-40"
+              primary={props.variableValue.depth2_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  depth2_selected: !props.variableValue.depth2_selected
+                });
+              }}
+              size="small"
+            />
+            <Button
+              label="40-60"
+              primary={props.variableValue.depth3_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  depth3_selected: !props.variableValue.depth3_selected
+                });
+              }}
+              size="small"
+            />
+            <Button
+              label="60-90"
+              primary={props.variableValue.depth4_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  depth4_selected: !props.variableValue.depth4_selected
+                });
+              }}
+              size="small"
+            />
+          </Box>
         </Box>
-      </Box>
 
-      <Box>
-        <Heading
-          level={5}
-          margin={{
-            "horizontal": "none",
-            "top": "medium",
-            "bottom": "xsmall",
-          }}>
-            Depth
+        <Box>
+          <Heading
+            level={5}
+            margin={{
+              "horizontal": "none",
+              "top": "medium",
+              "bottom": "xsmall",
+            }}>
+              Time
+              { timesSelected.length === 0 &&
+                <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTimes}>
+                  Select all
+                </Anchor>
+              }
 
-            { depthsSelected.length === 0 &&
-              <Anchor size="xsmall" margin="small" as="a" onClick={selectAllDepths}>
-                Select all
-              </Anchor>
-            }
+              { timesSelected.length >= 1 &&
+                <Anchor size="xsmall" margin="small" as="a" onClick={clearTimes}>
+                  Clear All
+                </Anchor>
+              }
+          </Heading>
 
-            { depthsSelected.length >= 1 &&
-              <Anchor size="xsmall" margin="small" as="a" onClick={clearDepths}>
-                Clear All
-              </Anchor>
-            }
-        </Heading>
-
-        <Box direction="row" align="center" gap="small" >     
-          <Button
-            label="0-20"
-            primary={props.variableValue.depth1_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                depth1_selected: !props.variableValue.depth1_selected
-              });
-            }}
-            size="small"
-          />
-          <Button
-            label="20-40"
-            primary={props.variableValue.depth2_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                depth2_selected: !props.variableValue.depth2_selected
-              });
-            }}
-            size="small"
-          />
-          <Button
-            label="40-60"
-            primary={props.variableValue.depth3_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                depth3_selected: !props.variableValue.depth3_selected
-              });
-            }}
-            size="small"
-          />
-          <Button
-            label="60-90"
-            primary={props.variableValue.depth4_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                depth4_selected: !props.variableValue.depth4_selected
-              });
-            }}
-            size="small"
-          />
+          <Box direction="row" align="center" gap="small" >     
+            <Button
+              label="Time 0"
+              primary={props.variableValue.time0_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  time0_selected: !props.variableValue.time0_selected
+                });
+              }}
+              size="small"
+            />
+            <Button
+              label="Time 1"
+              primary={props.variableValue.time1_selected}
+              onClick={() => {
+                props.setVariableValue({
+                  ...props.variableValue,
+                  time1_selected: !props.variableValue.time1_selected
+                });
+              }}
+              size="small"
+            />
+          </Box>
+          
         </Box>
-      </Box>
-
-      <Box>
-        <Heading
-          level={5}
-          margin={{
-            "horizontal": "none",
-            "top": "medium",
-            "bottom": "xsmall",
-          }}>
-            Time
-            { timesSelected.length === 0 &&
-              <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTimes}>
-                Select all
-              </Anchor>
-            }
-
-            { timesSelected.length >= 1 &&
-              <Anchor size="xsmall" margin="small" as="a" onClick={clearTimes}>
-                Clear All
-              </Anchor>
-            }
-        </Heading>
-
-        <Box direction="row" align="center" gap="small" >     
-          <Button
-            label="Time 0"
-            primary={props.variableValue.time0_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                time0_selected: !props.variableValue.time0_selected
-              });
-            }}
-            size="small"
-          />
-          <Button
-            label="Time 1"
-            primary={props.variableValue.time1_selected}
-            onClick={() => {
-              props.setVariableValue({
-                ...props.variableValue,
-                time1_selected: !props.variableValue.time1_selected
-              });
-            }}
-            size="small"
-          />
-        </Box>
-        
-      </Box>
+        </>
+      }   
 
       <Box
         align="center"
