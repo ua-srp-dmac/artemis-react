@@ -31,23 +31,6 @@ import {
 
 export default function CalculatorComponent(props) {
 
-  console.log(props)
-
-  // const [treatment1_selected, set_treatment1_selected] = React.useState(false);
-  // const [treatment2_selected, set_treatment2_selected] = React.useState(false);
-  // const [treatment3_selected, set_treatment3_selected] = React.useState(false);
-  // const [treatment4_selected, set_treatment4_selected] = React.useState(false);
-  // const [treatment5_selected, set_treatment5_selected] = React.useState(false);
-  // const [treatment6_selected, set_treatment6_selected] = React.useState(false);
-
-  // const [time0_selected, set_time0_selected] = React.useState(false);
-  // const [time1_selected, set_time1_selected] = React.useState(false);
-
-  // const [depth1_selected, set_depth1_selected] = React.useState(false);
-  // const [depth2_selected, set_depth2_selected] = React.useState(false);
-  // const [depth3_selected, set_depth3_selected] = React.useState(false);
-  // const [depth4_selected, set_depth4_selected] = React.useState(false);
-
   const treatments = [
     '15% CS',
     '15% C',
@@ -225,19 +208,6 @@ export default function CalculatorComponent(props) {
         }}>
           Assign Variables
       </Heading>
-
-      {/* <Heading
-        level={4}
-        margin={{
-          "horizontal": "none",
-          "top": "small",
-          "bottom": "xsmall",
-        }}
-        color="#00739D">
-          Variable {props.selectedVariable}
-      </Heading>  */}
-
-
 
       <Box pad={{vertical: "small"}}>
         <TextInput

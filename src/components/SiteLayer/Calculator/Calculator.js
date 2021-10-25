@@ -3,19 +3,12 @@ import React, {createRef, useContext, useState, useEffect} from 'react';
 
 import axios from 'axios';
 
-import EquationEditor from "equation-editor-react";
+
 import 'mathquill/build/mathquill.css';
-import ReactSelect from 'react-select';
-import { addStyles, EditableMathField } from 'react-mathquill'
-import MathExpression from 'math-expressions';
-import algebra from 'algebra.js';
 import math from 'mathjs';
 
-import 'katex/dist/katex.min.css';
-import { InlineMath, BlockMath } from 'react-katex';
 
-
-import MathDrop from "./MathDrop";
+import EquationEditor from "./EquationEditor";
 import EditVariable from "./EditVariable";
 import classNames from "classnames";
 
@@ -44,22 +37,30 @@ import {
 
 export default function CalculatorComponent() {
 
-  const [equationLatex, setEquationLatex] = useState("");
-  const [equationText, setEquationText] = useState("");
-  const [text, setText] = useState('')
-  const [useLatexInput, setUseLatexInput] = useState(false);
-  const [latexDisplay, setLatexDisplay] = useState("");
+    // Use Latex input field (Mathquill)
+    const [useLatexInput, setUseLatexInput] = useState(false);
 
+    // Latex equation
+    const [equationLatex, setEquationLatex] = useState("");
+    // Mathquill equation
+    const [latexText, setLatexText] = useState('')
+  
+    // simple equation editor input
+    const [equationSimple, setEquationSimple] = useState("");
+    // Latex display for simple equation editor
+    const [latexDisplay, setLatexDisplay] = useState("");
+
+  // watch for changes to simple equation text editor and update latex display
   useEffect(() => {
     try {
-      let latex = math.parse(equationText).toTex()   
+      let latex = math.parse(equationSimple).toTex()   
       if (latex !== 'undefined') {
         setLatexDisplay(latex);
       }
     } catch(error) {
       console.log(error)
     }
-  },[equationText]) // <-- here put the parameter to listen
+  },[equationSimple]) // <-- here put the parameter to listen
 
   const treatments = [
     '15% CS',
@@ -183,11 +184,6 @@ export default function CalculatorComponent() {
   });
 
   const [selectedVariable, setSelectedVariable] = useState(1)
-  
-  function updateEquation1(symbol) {
-    text.write(symbol)
-    text.keystroke('Enter');
-  }
 
   function selectVariable(index) {
 
@@ -465,199 +461,19 @@ export default function CalculatorComponent() {
             pad="small"
             margin={{left: "large"}}>
             
-            <Heading
-              level={4}
-              margin={{
-                "horizontal": "none",
-                "top": "xsmall",
-                "bottom": "xsmall",
-              }}>
-                Build Equation
-                
-            </Heading> 
             
-            <Box pad={{vertical: "medium"}}>
-              <CheckBox label={
-                  <>
-                    <Text>Latex Editor</Text>
-                    <Tip content={
-                        <Box
-                          pad="small"
-                          gap="small"
-                          width={{ max: 'small' }}
-                          round="small"
-                          background="background-front"
-                          responsive={false}
-                        >
-                          <Text weight="bold">Latex Editor</Text>
-                          <Text size="small">
-                            Use the Latex Editor if you need special operations like sum or product.
-                          </Text>
-                        </Box>
-                      }
-                        dropProps={{ align: { left: 'right' } }}>
-                      <Button icon={<CircleInformation size="medium" />} />
-                    </Tip>
-                  </>
-                }
-                checked={useLatexInput}
-                onChange={(event) => setUseLatexInput(event.target.checked)}
-                toggle
-              />
-    
-            </Box>
-
-            <Box >
-              { useLatexInput === false &&
-                <> 
-                <TextInput
-                  placeholder="Enter equation"
-                  value={equationText}
-                  onChange={event => setEquationText(event.target.value)}
-                />
-
-                { latexDisplay.length > 0 && equationText.length > 0 &&
-                  <BlockMath math={latexDisplay}/>
-                }
-
-                { latexDisplay.length === 0 && 
-                  <Box pad="small"></Box>
-                }
-                
-                </>
-              }
-              
-              { useLatexInput === true && 
-                <>
-                <EditableMathField
-                  // className="mathquill-example-field"
-                  latex={equationLatex}
-                  onChange={(mathField) => {
-                    setEquationLatex(mathField.latex())
-                    // setText(mathField.text())
-                    console.log('Editable mathfield changed:', mathField.latex())
-                  }}
-                  mathquillDidMount={(mathField) => {
-                    setText(mathField)
-                  }}
-                />
-                {/* <Box pad={{vertical: "medium"}}>
-                  <MathDrop updateEquation1={updateEquation1}></MathDrop>
-                </Box> */}
-
-                <Box pad="small">
-      
-                  <Box direction="row" justify="between" align="center">
-                    
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("+")}}
-                      label={<InlineMath math="+"/>}
-                      margin="xsmall">
-                    </Button>
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("-")}}
-                      label={<InlineMath math="-"/>}
-                      margin="xsmall">
-                    </Button>
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("^{}")}}
-                      label={<InlineMath math="x^y"/>}
-                      margin="xsmall">
-                    </Button>
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("^{}")}}
-                      label={<InlineMath math="\log"/>}
-                      margin="xsmall">
-                    </Button>
-
-                  </Box>
-
-                  <Box direction="row" justify="between" align="center">
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("\\times") }}
-                      label={<InlineMath math="\times"/>}
-                      margin="xsmall">
-                    </Button>
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("\\frac{}{}") }}
-                      label={<InlineMath math="\div"/>}
-                      margin="xsmall">
-                    </Button>
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("\\sum") }}
-                      label={<InlineMath math="\sum"/>}
-                      margin="xsmall">
-                    </Button>
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("\\sum") }}
-                      label={<InlineMath math="\ln"/>}
-                      margin="xsmall">
-                    </Button>
-
-                  </Box>
-
-                  <Box direction="row" justify="between" align="center">
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("\\times") }}
-                      label={<InlineMath math="x!"/>}
-                      margin="xsmall">
-                    </Button>
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("\\frac{}{}") }}
-                      label={<InlineMath math="e"/>}
-                      margin="xsmall">
-                    </Button>
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("\\sum") }}
-                      label={<InlineMath math="("/>}
-                      margin="xsmall">
-                    </Button>
-
-                    <Button
-                      size="medium"
-                      onClick={() => {updateEquation1("\\sum") }}
-                      label={<InlineMath math=")"/>}
-                      margin="xsmall">
-                    </Button>
-
-                  </Box>
-
-                </Box>
-                </>
-              }
-            </Box>
-            
-            <Box
-              align="center"
-              pad="large">
-              <Button
-                label="Calculate"
-                color="neutral-1"
-                primary
-              />
-            </Box>
-
+            <EquationEditor
+              useLatexInput={useLatexInput}
+              setUseLatexInput={setUseLatexInput} 
+              equationLatex={equationLatex}
+              setEquationLatex={setEquationLatex}
+              latexText={latexText}
+              setLatexText={setLatexText} 
+              equationSimple={equationSimple}
+              setEquationSimple={setEquationSimple}
+              latexDisplay={latexDisplay}
+              setLatexDisplay={setLatexDisplay}>
+            </EquationEditor>
             
           </Box>
         </Grid>
