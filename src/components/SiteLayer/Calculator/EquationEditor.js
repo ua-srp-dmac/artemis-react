@@ -287,37 +287,76 @@ export default function CalculatorComponent(props) {
           <Box pad="small">
 
             <Box direction="row-responsive" justify="between" align="center">
-              
-              
+              <Grid 
+                columns={{
+                  count: 5,
+                  size: 'auto',
+                }}
+                rows={{
+                  count: 6,
+                  size: 'auto',
+                }}
+                gap="xsmall">
 
-            <Grid 
-              columns={{
-                count: 5,
-                size: 'auto',
-              }}
-              rows={{
-                count: 6,
-                size: 'auto',
-              }}
-              gap="xsmall">
+              {calculatorButtons.map((button, i) => {
+                return (
+                  <>
+                    <Button
+                      size="medium"
+                      onClick={() => {pressButton(button)}}
+                      label={parse(button.symbol)}
+                      >
+                    </Button>
 
-            {calculatorButtons.map((button, i) => {
-              return (
-                <>
-                  <Button
-                    size="medium"
-                    onClick={() => {pressButton(button)}}
-                    label={parse(button.symbol)}
-                    >
-                  </Button>
-
-                </>
-              )
-            })}
-            </Grid>
+                  </>
+                )
+              })}
+              </Grid>
             </Box>
-
           </Box>
+
+          { }
+
+          <Box pad="small">
+
+          <Heading
+            level={4}
+            margin={{
+              "horizontal": "none",
+              "top": "xsmall",
+              "bottom": "xsmall",
+            }}>
+              Variables
+          </Heading> 
+
+            <Box direction="row-responsive" justify="between" align="center">
+              <Grid 
+                columns={{
+                  count: 5,
+                  size: 'auto',
+                }}
+                rows={{
+                  count: 6,
+                  size: 'auto',
+                }}
+                gap="xsmall">
+
+              {props.variableButtons.map((button, i) => {
+                return (
+                  <>
+                    <Button
+                      size="medium"
+                      onClick={() => {pressButton(button)}}
+                      label={parse(button.name)}
+                      >
+                    </Button>
+                  </>
+                )
+              })}
+              </Grid>
+            </Box>
+          </Box>
+          
           
           </>
         }

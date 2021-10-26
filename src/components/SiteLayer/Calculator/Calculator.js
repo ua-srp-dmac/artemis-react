@@ -34,6 +34,7 @@ import {
 import {
   BarChart, Add, AddCircle, Favorite, Calculator, Edit, Checkmark, CircleInformation, Select, Cubes
 } from 'grommet-icons';
+import { stratify } from 'd3-hierarchy';
 
 export default function CalculatorComponent() {
 
@@ -90,6 +91,7 @@ export default function CalculatorComponent() {
   };
 
   const [variables, setVariables] = useState([1]);
+
 
   const [variable1_name, setVariable1_name] = useState("");
   const [variable2_name, setVariable2_name] = useState("");
@@ -192,7 +194,18 @@ export default function CalculatorComponent() {
       setSelectedVariable(index);
     }
   }
-    
+
+  let variableButtons = []
+
+  for (var i = 0; i < variables.length; i++) {
+    variableButtons.push({
+      name: eval('variable' + (i+1) + '_name'),
+      type: "variable"
+    })
+  }
+
+  console.log(variableButtons)
+
   return (
     
       <Grid
@@ -457,6 +470,9 @@ export default function CalculatorComponent() {
             
             
             <EquationEditor
+
+              variables={variables}
+              variableButtons={variableButtons}
               useLatexInput={useLatexInput}
               setUseLatexInput={setUseLatexInput} 
               equationLatex={equationLatex}
