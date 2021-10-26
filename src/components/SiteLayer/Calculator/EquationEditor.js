@@ -33,16 +33,27 @@ export default function CalculatorComponent(props) {
 
   const [operations, setOperations] = useState([]);
   const [formula, setFormula] = useState([]);
-
-  let data = {
-    operations: [],
-    formula: []
-  } 
+  const [latexDisplay, setLatexDisplay] = useState("");
 
   function updateLatexText(symbol) {
     props.latexText.write(symbol)
     props.latexText.keystroke('Enter');
   }
+
+  useEffect(() => {
+    let newFormula = operations.join("");
+    console.log(newFormula)
+    
+    try {
+      let latex = math.parse(newFormula).toTex()   
+      if (latex !== 'undefined') {
+        setLatexDisplay(latex);
+        console.log(latex)
+      }
+    } catch(error) {
+      console.log(error)
+    }
+  },[operations]) // <-- here put the parameter to listen
 
 
   function pressButton(button) {
@@ -60,8 +71,6 @@ export default function CalculatorComponent(props) {
     else if (button.type == 'math_function') {
 
       let symbol, formula;
-
-      console.log(button)
 
       if (button.name == 'factorial') {
           symbol = "!";
@@ -133,7 +142,6 @@ export default function CalculatorComponent(props) {
         [...prevState, button.formula]
       ));
     }
-
 
     props.setEquationSimple(operations.join(''))
 
@@ -268,11 +276,11 @@ export default function CalculatorComponent(props) {
             onChange={event => props.setEquationSimple(event.target.value)}
           />
 
-          { props.latexDisplay.length > 0 && props.equationSimple.length > 0 &&
-            <BlockMath math={props.latexDisplay}/>
+          { latexDisplay.length > 0 && operations.length > 0 &&
+            <BlockMath math={latexDisplay}/>
           }
 
-          { props.latexDisplay.length === 0 && 
+          { latexDisplay.length === 0 && 
             <Box pad="small"></Box>
           }
 

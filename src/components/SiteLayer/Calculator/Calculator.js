@@ -48,22 +48,13 @@ export default function CalculatorComponent() {
     // simple equation editor input
     const [equationSimple, setEquationSimple] = useState("");
     // Latex display for simple equation editor
-    const [latexDisplay, setLatexDisplay] = useState("");
+    
 
     // const [operation, setOperation] = useState([]);
     // const [formula, setFormula] = useState([]);
 
   // watch for changes to simple equation text editor and update latex display
-  useEffect(() => {
-    try {
-      let latex = math.parse(equationSimple).toTex()   
-      if (latex !== 'undefined') {
-        setLatexDisplay(latex);
-      }
-    } catch(error) {
-      console.log(error)
-    }
-  },[equationSimple]) // <-- here put the parameter to listen
+
 
   const treatments = [
     '15% CS',
@@ -474,8 +465,8 @@ export default function CalculatorComponent() {
               setLatexText={setLatexText} 
               equationSimple={equationSimple}
               setEquationSimple={setEquationSimple}
-              latexDisplay={latexDisplay}
-              setLatexDisplay={setLatexDisplay}
+              // latexDisplay={latexDisplay}
+              // setLatexDisplay={setLatexDisplay}
               // operation={operation}
               // setOperation={setOperation}
               // formula={formula}
