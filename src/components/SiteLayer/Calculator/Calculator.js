@@ -50,6 +50,9 @@ export default function CalculatorComponent() {
     // Latex display for simple equation editor
     const [latexDisplay, setLatexDisplay] = useState("");
 
+    // const [operation, setOperation] = useState([]);
+    // const [formula, setFormula] = useState([]);
+
   // watch for changes to simple equation text editor and update latex display
   useEffect(() => {
     try {
@@ -472,7 +475,12 @@ export default function CalculatorComponent() {
               equationSimple={equationSimple}
               setEquationSimple={setEquationSimple}
               latexDisplay={latexDisplay}
-              setLatexDisplay={setLatexDisplay}>
+              setLatexDisplay={setLatexDisplay}
+              // operation={operation}
+              // setOperation={setOperation}
+              // formula={formula}
+              // setFormula={setFormula}
+              >
             </EquationEditor>
             
           </Box>

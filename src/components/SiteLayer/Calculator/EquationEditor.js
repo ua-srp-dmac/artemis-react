@@ -10,7 +10,8 @@ import 'katex/dist/katex.min.css';
 import { addStyles, EditableMathField } from 'react-mathquill'
 
 import { InlineMath, BlockMath } from 'react-katex';
-import { calculatorButtons } from "./CalculatorButtons";
+import { calculatorButtons, POWER, FACTORIAL, OPERATORS } from "./CalculatorButtons";
+import parse from 'html-react-parser';
 
 import {
   Box,
@@ -29,13 +30,186 @@ import {
 
 export default function CalculatorComponent(props) {
 
-  let operation = []
-  let formula = []
+
+  const [operations, setOperations] = useState([]);
+  const [formula, setFormula] = useState([]);
+
+  let data = {
+    operations: [],
+    formula: []
+  } 
 
   function updateLatexText(symbol) {
     props.latexText.write(symbol)
     props.latexText.keystroke('Enter');
   }
+
+
+  function pressButton(button) {
+    
+    if (button.type == 'operator' || button.type == 'number') {
+
+        setOperations((prevState) => (
+          [...prevState, button.symbol]
+        ));
+        setFormula((prevState) => (
+          [...prevState, button.formula]
+        ));
+    }
+
+    else if (button.type == 'math_function') {
+
+      let symbol, formula;
+
+      console.log(button)
+
+      if (button.name == 'factorial') {
+          symbol = "!";
+          formula = button.formula;
+
+          setOperations((prevState) => (
+            [...prevState, symbol]
+          ));
+          setFormula((prevState) => (
+            [...prevState, formula]
+          ));
+      } else if (button.name == 'power') {
+          symbol = "^("
+          formula = button.formula
+
+          setOperations((prevState) => (
+            [...prevState, symbol]
+          ));
+          setFormula((prevState) => (
+            [...prevState, formula]
+          ));
+      } else if (button.name == 'square') {
+          symbol = "^("
+          formula = button.formula
+
+          setOperations((prevState) => (
+            [...prevState, symbol, "2)"]
+          ));
+          setFormula((prevState) => (
+            [...prevState, formula, "2)"]
+          ));
+
+      } else {
+          symbol = button.symbol + "("
+          formula = button.formula + "("
+
+          setOperations((prevState) => (
+            [...prevState, symbol]
+          ));
+          setFormula((prevState) => (
+            [...prevState, formula]
+          ));
+      }
+    }
+
+    else if (button.type == 'key') {
+      if (button.name == 'clear') {
+        setOperations([]);
+        setFormula([]);
+
+      } else if (button.name == 'delete') {
+
+        setOperations(operations.filter(function(o, i) { 
+          return i !== operations.length - 1
+        }));
+        setFormula(formula.filter(function(o, i) { 
+          return i !== formula.length - 1
+        }));
+      } 
+    }
+
+    // when someone presses "=",so when the "=" is pressed by the user,so that must evaluate the result and print it in the div element as shown ↓
+    else if (button.type == 'equal') {
+
+      setOperations((prevState) => (
+        [...prevState, button.symbol]
+      ));
+      setFormula((prevState) => (
+        [...prevState, button.formula]
+      ));
+    }
+
+
+    props.setEquationSimple(operations.join(''))
+
+  }
+
+  // function calculate() {
+    
+  //   formula_str = data.formula.join('')
+
+  //   // powersearch result will find the indices where the "^" was present,as in case of formula string there was a problem,it would be like : 4mathpow10,which is wrong,so we need to replace that with mathpow(4,10),so we need to update that!,so for that we need the indices of "^",same is the case with "!"
+
+  //   let POWER_SEARCH_RESULT = search(data.formula, POWER)
+
+  //   let FACTORIAL_SEARCH_RESULT = search(data.formula, FACTORIAL)
+
+  //   // console.log(POWER_SEARCH_RESULT)
+
+
+  //   // powerbasegetter function,this function will return the bases which are to be used as exponents!
+
+  //   const BASES = powerbasegetter(data.formula, POWER_SEARCH_RESULT)
+
+  //   // after getting the bases,we're gonna replace those bases,originally it was like : 4pow10 so after getting the bases,the bases list will be having 4 as in this case as the i/p is 4pow10,so we will change this 4pow10 to pow(4,10) which is exaclty what we want!
+
+  //   console.log(BASES)
+
+  //   // this for loop will replace all the power strings having strings like 4pow10 to pow(4,10)..
+
+  //   BASES.forEach(base => {
+  //       let toreplace = base + POWER
+  //       let replacement = "Math.pow(" + base + ",";
+
+  //       formula_str = formula_str.replace(toreplace, replacement)
+  //           // console.log(formula_str)
+  //   })
+
+
+  //   // fixing the factorial count
+
+  //   const NUMBERS = factorialnumgetter(data.formula, FACTORIAL_SEARCH_RESULT)
+
+  //   // console.log(NUMBERS)
+
+  //   // replacing the factorial
+  //   NUMBERS.forEach(number => {
+  //       // console.log(number.toReplace)
+  //       // console.log(number.replacement)
+  //       formula_str = formula_str.replace(number.toReplace,
+  //           number.replacement)
+  //       console.log(formula_str)
+  //   })
+
+  //   // this try-catch block is used to check whether the computation is possible or not,so always the try block will be executed the first and if that block throws an error,it is caught by the catch block and the error is checked which type is it and all!
+
+  //   let result
+
+  //   try {
+  //       result = eval(formula_str)
+
+  //   } catch (error) {
+  //       if (error instanceof SyntaxError) {
+  //           result = "SyntaxError"
+  //           updateOutputresult(result)
+  //           return
+  //       }
+  //   }
+
+  //   // storing the curretly calculated expression,so that i can use it for further use!
+
+  //   ans = result
+  //   data.operations = [result]
+  //   data.formula = [result]
+
+  //   updateOutputresult(result)
+  //   return
+  // }
 
   
     
@@ -67,7 +241,7 @@ export default function CalculatorComponent(props) {
                   >
                     <Text weight="bold">Latex Editor</Text>
                     <Text size="small">
-                      Use the Latex Editor if you need special operations like sum or product.
+                      Use the Latex Editor if you need special operationss like sum or product.
                     </Text>
                   </Box>
                 }
@@ -90,7 +264,7 @@ export default function CalculatorComponent(props) {
           <> 
           <TextInput
             placeholder="Enter equation"
-            value={props.equationSimple}
+            value={operations.join('')}
             onChange={event => props.setEquationSimple(event.target.value)}
           />
 
@@ -124,8 +298,8 @@ export default function CalculatorComponent(props) {
                 <>
                   <Button
                     size="medium"
-                    onClick={() => {updateLatexText("-")}}
-                    label={button.symbol}
+                    onClick={() => {pressButton(button)}}
+                    label={parse(button.symbol)}
                     >
                   </Button>
 
