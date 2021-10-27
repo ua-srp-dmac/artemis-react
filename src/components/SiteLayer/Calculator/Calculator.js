@@ -339,14 +339,18 @@ export default function CalculatorComponent(props) {
       for (const varName in variableVectors) {
         let vector = variableVectors[varName];
         for (var i = 0; i < vector.length; i++) {
-          let result;
+          let result = Object.assign({}, vector[i]);
+          console.log(result)
+
           let formulaCopy = formula_str.slice();
-          formulaCopy = formulaCopy.replace(varName, vector[i].element_amount);
-          console.log(varName)
+          formulaCopy = formulaCopy.replaceAll(varName, vector[i].element_amount);
+          
           console.log(formulaCopy)
           
           try {
-            let result = eval(formulaCopy)
+            
+            let ans = eval(formulaCopy)
+            result['solution'] = ans
             solutions.push(result);
           } catch (error) {
             if (error instanceof SyntaxError) {
@@ -873,7 +877,11 @@ export default function CalculatorComponent(props) {
         }}>
           Solution
       </Heading>
-      {solution}
+      {solution.map((d, i) => {
+        return (
+          <Text>{d.solution}</Text>
+        )
+      })}
       </Box>
     </Box>
 
