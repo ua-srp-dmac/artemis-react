@@ -271,8 +271,8 @@ export default function CalculatorComponent(props) {
                 return (
                   <>
                     <Button
-
-                      
+                      color="#3594B5"
+                      primary
                       size="medium"
                       onClick={() => {pressButton(button)}}
                       label={button.name ? parse(button.name) : 'Var ' + (i+1)}
