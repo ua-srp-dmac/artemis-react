@@ -47,7 +47,7 @@ export default function CalculatorComponent(props) {
         [...prevState, button.formula]
       ));
     }
-    
+
     else if (button.type == 'e') {
       props.setOperations((prevState) => (
         [...prevState, button.symbol]
@@ -226,9 +226,11 @@ export default function CalculatorComponent(props) {
                 return (
                   <>
                     <Button
+                      color={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(button.formula) ? '#AEC9D1' : button.formula === '=' ? '#3594B5' : "#C7D9DE"}
                       size="medium"
                       onClick={() => {pressButton(button)}}
                       label={parse(button.symbol)}
+                      primary
                       >
                     </Button>
 
@@ -269,6 +271,8 @@ export default function CalculatorComponent(props) {
                 return (
                   <>
                     <Button
+
+                      
                       size="medium"
                       onClick={() => {pressButton(button)}}
                       label={button.name ? parse(button.name) : 'Var ' + (i+1)}
