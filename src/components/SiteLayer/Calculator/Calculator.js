@@ -352,9 +352,7 @@ function gamma(n) { // accurate to about 15 decimal places
 
     // search for elements containingf
     let POWER_SEARCH_RESULT = search(formula, POWER)
-    let FACTORIAL_SEARCH_RESULT = search(formula, FACTORIAL)
-
-    console.log(FACTORIAL_SEARCH_RESULT)
+    
 
     const BASES = powerbasegetter(formula, POWER_SEARCH_RESULT)
     console.log(BASES)
@@ -369,7 +367,8 @@ function gamma(n) { // accurate to about 15 decimal places
         // console.log(formula_str)
     })
 
-    const NUMBERS = factorialnumgetter(data.formula, FACTORIAL_SEARCH_RESULT)
+    let FACTORIAL_SEARCH_RESULT = search(formula, FACTORIAL)
+    const NUMBERS = factorialnumgetter(formula, FACTORIAL_SEARCH_RESULT)
 
     console.log(NUMBERS)
 

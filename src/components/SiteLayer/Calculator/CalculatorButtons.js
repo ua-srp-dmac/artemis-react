@@ -1,5 +1,5 @@
 export const POWER = "POWER(",
-      FACTORIAL = "FACTORIAL("
+      FACTORIAL = "FACTORIAL"
 
 export function search(array, keyword) {
   let search_res = []
@@ -79,14 +79,14 @@ export function factorialnumgetter(formula, FACTORIAL_SEARCH_RESULT) {
 
       let next_input = formula[next_index]
 
-      if (next_index == FACTORIAL) {
+      if (next_input == FACTORIAL) {
           factorial_sequence += 1
           return
       }
 
       // if there was a factorial sequence we need to get the index of the very first fact function
 
-      let first_fact_index = fact_index - factorial_sequence
+      let first_fact_index = fact_index - factorial_sequence;
 
       let prev_idx = first_fact_index - 1
 
@@ -95,16 +95,16 @@ export function factorialnumgetter(formula, FACTORIAL_SEARCH_RESULT) {
       while (prev_idx >= 0) {
 
           if (formula[prev_idx] == '(') {
-              paren_count -= 1
+              paren_count = paren_count-1
           }
           if (formula[prev_idx] == ')') {
-              paren_count += 1
+              paren_count = paren_count+ 1
           }
 
           let is_operator = false
 
           OPERATORS.forEach(OPERATOR => {
-              if (formula[prev_idx] == OPERATOR) {
+              if (formula[prev_idx] === OPERATOR) {
                   is_operator = true
               }
           })
@@ -115,7 +115,7 @@ export function factorialnumgetter(formula, FACTORIAL_SEARCH_RESULT) {
 
           number.unshift(formula[prev_idx])
 
-          prev_idx--;
+          prev_idx = prev_idx -1;
 
 
       }
@@ -127,7 +127,7 @@ export function factorialnumgetter(formula, FACTORIAL_SEARCH_RESULT) {
 
       let toreplace = number_str + FACTORIAL.repeat(times)
 
-      let replacement = factorial.repeat(times) + number_str + close_paren
+      let replacement = factorial.repeat(times) + number_str + close_paren.repeat(times)
 
       // pushing the modified object and at the reciving end of the function i'll replace the toreplace with the replacement!
 
@@ -135,11 +135,11 @@ export function factorialnumgetter(formula, FACTORIAL_SEARCH_RESULT) {
           toReplace: toreplace,
           replacement: replacement
       })
-
-
       // reset the factorial sequence
 
       factorial_sequence = 0
+
+      
   })
 
   return numbers
