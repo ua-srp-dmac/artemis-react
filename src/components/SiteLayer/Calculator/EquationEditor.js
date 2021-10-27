@@ -47,6 +47,15 @@ export default function CalculatorComponent(props) {
         [...prevState, button.formula]
       ));
     }
+    
+    else if (button.type == 'e') {
+      props.setOperations((prevState) => (
+        [...prevState, button.symbol]
+      ));
+      props.setFormula((prevState) => (
+        [...prevState, button.formula]
+      ));
+    }
 
     else if (button.type == 'variable') {
 

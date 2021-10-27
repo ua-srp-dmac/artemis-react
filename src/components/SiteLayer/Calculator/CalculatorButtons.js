@@ -264,7 +264,7 @@ export const calculatorButtons = [
   name: "e",
   symbol: "e",
   formula: "Math.E",
-  type: "number"
+  type: "e"
 },
 {
   name: "1",
@@ -296,16 +296,17 @@ export const calculatorButtons = [
   formula: POWER,
   type: "math_function"
 },
-{
-  name: "0",
-  symbol: "0",
-  formula: 0,
-  type: "number"
-},
+
 {
   name: "comma",
   symbol: ".",
   formula: ".",
+  type: "number"
+},
+{
+  name: "0",
+  symbol: "0",
+  formula: 0,
   type: "number"
 },
 {
