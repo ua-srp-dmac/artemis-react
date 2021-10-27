@@ -208,7 +208,7 @@ export default function CalculatorComponent(props) {
                   size: 'auto',
                 }}
                 rows={{
-                  count: 6,
+                  count: 5,
                   size: 'auto',
                 }}
                 gap="xsmall">
@@ -247,11 +247,11 @@ export default function CalculatorComponent(props) {
             <Box direction="row-responsive" justify="between" align="center">
               <Grid 
                 columns={{
-                  count: 5,
+                  count: 3,
                   size: 'auto',
                 }}
                 rows={{
-                  count: 6,
+                  count: 2,
                   size: 'auto',
                 }}
                 gap="xsmall">
@@ -262,7 +262,7 @@ export default function CalculatorComponent(props) {
                     <Button
                       size="medium"
                       onClick={() => {pressButton(button)}}
-                      label={parse(button.name)}
+                      label={button.name ? parse(button.name) : 'Var ' + (i+1)}
                       >
                     </Button>
                   </>
