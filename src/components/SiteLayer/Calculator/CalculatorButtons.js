@@ -1,6 +1,152 @@
 export const POWER = "POWER(",
       FACTORIAL = "FACTORIAL("
 
+export function search(array, keyword) {
+  let search_res = []
+
+  array.forEach((element, index) => {
+      if (element == keyword) {
+          search_res.push(index)
+      }
+  })
+
+  return search_res
+}
+
+export function powerbasegetter(formula, POWER_SEARCH_RESULT) {
+
+  // here i will store all the bases !
+
+  let powers_base = []
+
+  POWER_SEARCH_RESULT.forEach(power_index => {
+      let base = []
+
+      let paren_count = 0
+
+      let prev_idx = power_index - 1
+
+      while (prev_idx >= 0) {
+
+          if (formula[prev_idx] == '(') {
+              paren_count -= 1
+          }
+          if (formula[prev_idx] == ')') {
+              paren_count += 1
+          }
+
+          let is_operator = false
+
+          OPERATORS.forEach(OPERATOR => {
+              if (formula[prev_idx] == OPERATOR) {
+                  is_operator = true
+              }
+          })
+
+          let is_power = formula[prev_idx] == POWER
+
+          if ((is_operator && paren_count == 0) || is_power) {
+              break;
+          }
+
+          base.unshift(formula[prev_idx])
+
+          prev_idx--;
+
+
+      }
+
+      powers_base.push(base.join(''))
+  })
+
+  return powers_base
+}
+
+export function factorialnumgetter(formula, FACTORIAL_SEARCH_RESULT) {
+
+  // store all the numbers in this array
+  let numbers = []
+
+  let factorial_sequence = 0
+
+  FACTORIAL_SEARCH_RESULT.forEach(fact_index => {
+
+      // store the current number in this array
+
+      let number = []
+
+      let next_index = fact_index + 1;
+
+      let next_input = formula[next_index]
+
+      if (next_index == FACTORIAL) {
+          factorial_sequence += 1
+          return
+      }
+
+      // if there was a factorial sequence we need to get the index of the very first fact function
+
+      let first_fact_index = fact_index - factorial_sequence
+
+      let prev_idx = first_fact_index - 1
+
+      let paren_count = 0
+
+      while (prev_idx >= 0) {
+
+          if (formula[prev_idx] == '(') {
+              paren_count -= 1
+          }
+          if (formula[prev_idx] == ')') {
+              paren_count += 1
+          }
+
+          let is_operator = false
+
+          OPERATORS.forEach(OPERATOR => {
+              if (formula[prev_idx] == OPERATOR) {
+                  is_operator = true
+              }
+          })
+
+          if (is_operator && paren_count == 0) {
+              break;
+          }
+
+          number.unshift(formula[prev_idx])
+
+          prev_idx--;
+
+
+      }
+
+      let number_str = number.join('')
+      const factorial = "factorial(",
+          close_paren = ')'
+      let times = factorial_sequence + 1
+
+      let toreplace = number_str + FACTORIAL.repeat(times)
+
+      let replacement = factorial.repeat(times) + number_str + close_paren
+
+      // pushing the modified object and at the reciving end of the function i'll replace the toreplace with the replacement!
+
+      numbers.push({
+          toReplace: toreplace,
+          replacement: replacement
+      })
+
+
+      // reset the factorial sequence
+
+      factorial_sequence = 0
+  })
+
+  return numbers
+
+
+}
+
 export const OPERATORS = ["+", "-", "*", "/"]
 
 export const calculatorButtons = [
