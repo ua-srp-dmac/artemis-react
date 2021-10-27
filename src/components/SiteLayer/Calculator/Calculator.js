@@ -244,46 +244,88 @@ export default function CalculatorComponent(props) {
     setShowSolution(true);
 
     let variableVectors = {}
+    let solutionVar = ""
 
-    for (var i; i<variables.length; i++) {
-      let variableName = eval('variable' + (i+1) + '_names');
-      let variableData = data.filter()
-    }
+    for (var i=0; i < variables.length; i++) {
     
-    let formula_str = formula.join('')
+      let variableName = eval('variable' + (i+1) + '_name');
+      let variableData = eval('variable' + (i+1) + '_value');
+
+      if (variableData.isSolution) {
+        solutionVar = variableName;
+      } else {
+
+        let selectedTreatments = [];
+        let selectedDepths = [];
+        let selectedTimes = [];
+        let selectedElements = variableData.elementsSelected.map(e => e.value);
+
+        for (var j=1; j <= 6; j++) {
+          if (variableData['treatment' + j + '_selected']) {
+            selectedTreatments.push(j);
+          }
+        }
+
+        for (var j=1; j <= 4; j++) {
+          if (variableData['depth' + j + '_selected']) {
+            selectedDepths.push(depths1[j-1]);
+          }
+        }
+
+        for (var j=0; j <= 1; j++) {
+          if (variableData['time' + j + '_selected']) {
+            selectedTimes.push(j);
+          }
+        }
+        // console.log(selectedTreatments)
+        // console.log(selectedDepths)
+        // console.log(selectedTimes)
+        // console.log(selectedElements)
+
+        variableVectors[variableName] = data.filter(function(d, i) { 
+          return (
+            selectedElements.includes(d.element[0]) &&
+            selectedDepths.includes(d.depth[0]) &&
+            selectedTreatments.includes(d.treatment) &&
+            selectedTimes.includes(d.time)
+          );
+        })
+      }
+    }
+
+    console.log(variableVectors)
+
+    let formula_str;
+
+    if (formula[0]===solutionVar && formula[1] === "=") {
+      formula_str = formula.join('').substring(2)
+    } else {
+      formula_str = formula.join('')
+    }
+
+    console.log(formula_str)
 
     // search for elements containingf
     let POWER_SEARCH_RESULT = search(formula, POWER)
     let FACTORIAL_SEARCH_RESULT = search(formula, FACTORIAL)
 
-
     const BASES = powerbasegetter(formula, POWER_SEARCH_RESULT)
 
-    // after getting the bases,we're gonna replace those bases,originally it was like : 4pow10 so after getting the bases,the bases list will be having 4 as in this case as the i/p is 4pow10,so we will change this 4pow10 to pow(4,10) which is exaclty what we want!
-
-    console.log(BASES)
-
-    // this for loop will replace all the power strings having strings like 4pow10 to pow(4,10)..
+    // 4pow10 --> pow(4,10) 
 
     BASES.forEach(base => {
         let toreplace = base + POWER
         let replacement = "Math.pow(" + base + ",";
 
         formula_str = formula_str.replace(toreplace, replacement)
-            // console.log(formula_str)
+        // console.log(formula_str)
     })
 
-
     // fixing the factorial count
-
     const NUMBERS = factorialnumgetter(data.formula, FACTORIAL_SEARCH_RESULT)
-
-    // console.log(NUMBERS)
 
     // replacing the factorial
     NUMBERS.forEach(number => {
-        // console.log(number.toReplace)
-        // console.log(number.replacement)
         formula_str = formula_str.replace(number.toReplace,
             number.replacement)
         console.log(formula_str)
@@ -291,27 +333,35 @@ export default function CalculatorComponent(props) {
 
     // this try-catch block is used to check whether the computation is possible or not,so always the try block will be executed the first and if that block throws an error,it is caught by the catch block and the error is checked which type is it and all!
 
-    let result
+    let solutions = [];
 
-    try {
-        result = eval(formula_str)
+    
+      for (const varName in variableVectors) {
+        let vector = variableVectors[varName];
+        for (var i = 0; i < vector.length; i++) {
+          let result;
+          let formulaCopy = formula_str.slice();
+          formulaCopy = formulaCopy.replace(varName, vector[i].element_amount);
+          console.log(varName)
+          console.log(formulaCopy)
+          
+          try {
+            let result = eval(formulaCopy)
+            solutions.push(result);
+          } catch (error) {
+            if (error instanceof SyntaxError) {
+              let result = "SyntaxError"
+              solutions.push(result);
+            }
+          }
 
-    } catch (error) {
-        if (error instanceof SyntaxError) {
-            result = "SyntaxError"
-            setSolution(result)
-            return
-        }
-    }
+        }   
+      }
 
-    // storing the curretly calculated expression,so that i can use it for further use!
+    console.log(solutions); 
+    setSolution(solutions)
+    
 
-    let ans = result
-    data.operations = [result]
-    data.formula = [result]
-
-    setSolution(result)
-    return
   }
 
   return (
