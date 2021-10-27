@@ -238,6 +238,49 @@ export default function CalculatorComponent(props) {
     })
   }
 
+  function factorial(number) {
+
+    // if the number is decimal like 0.5! or so then call the gamma function
+
+    if (number % 1 != 0) {
+
+        return gamma(number + 1)
+
+    }
+
+    if (number == 0 || number == 1) {
+        return 1
+    }
+
+    let result = 1
+
+    for (let i = 1; i <= number; i++) {
+        result *= i
+    }
+    if (result == Infinity) {
+        return Infinity
+    }
+
+    return result
+}
+
+function gamma(n) { // accurate to about 15 decimal places
+  //some magic constants 
+  var g = 7, // g represents the precision desired, p is the values of p[i] to plug into Lanczos' formula
+      p = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  if (n < 0.5) {
+      return Math.PI / Math.sin(n * Math.PI) / gamma(1 - n);
+  } else {
+      n--;
+      var x = p[0];
+      for (var i = 1; i < g + 2; i++) {
+          x += p[i] / (n + i);
+      }
+      var t = n + g + 0.5;
+      return Math.sqrt(2 * Math.PI) * Math.pow(t, (n + 0.5)) * Math.exp(-t) * x;
+  }
+}
+
 
   function calculate(formula) {
      
@@ -299,17 +342,22 @@ export default function CalculatorComponent(props) {
 
     if (formula[0]===solutionVar && formula[1] === "=") {
       formula_str = formula.join('').substring(2)
+      formula.splice(0, 2);
     } else {
       formula_str = formula.join('')
     }
 
     console.log(formula_str)
+    console.log(formula)
 
     // search for elements containingf
     let POWER_SEARCH_RESULT = search(formula, POWER)
     let FACTORIAL_SEARCH_RESULT = search(formula, FACTORIAL)
 
+    console.log(FACTORIAL_SEARCH_RESULT)
+
     const BASES = powerbasegetter(formula, POWER_SEARCH_RESULT)
+    console.log(BASES)
 
     // 4pow10 --> pow(4,10) 
 
@@ -321,26 +369,42 @@ export default function CalculatorComponent(props) {
         // console.log(formula_str)
     })
 
-    // fixing the factorial count
     const NUMBERS = factorialnumgetter(data.formula, FACTORIAL_SEARCH_RESULT)
+
+    console.log(NUMBERS)
 
     // replacing the factorial
     NUMBERS.forEach(number => {
+        // console.log(number.toReplace)
+        // console.log(number.replacement)
         formula_str = formula_str.replace(number.toReplace,
             number.replacement)
         console.log(formula_str)
     })
 
+
     // this try-catch block is used to check whether the computation is possible or not,so always the try block will be executed the first and if that block throws an error,it is caught by the catch block and the error is checked which type is it and all!
 
     let solutions = [];
+
+    if (Object.keys(variableVectors).length === 0) {
+      try {  
+        let result = eval(formula_str)
+        solutions.push({solution: result});
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          let result = "SyntaxError"
+          solutions.push({solution: result});
+        }
+      }
+    } else {
 
     
       for (const varName in variableVectors) {
         let vector = variableVectors[varName];
         for (var i = 0; i < vector.length; i++) {
           let result = Object.assign({}, vector[i]);
-          console.log(result)
+          // console.log(result)
 
           let formulaCopy = formula_str.slice();
           formulaCopy = formulaCopy.replaceAll(varName, vector[i].element_amount);
@@ -361,6 +425,7 @@ export default function CalculatorComponent(props) {
 
         }   
       }
+    }
 
     console.log(solutions); 
     setSolution(solutions)
