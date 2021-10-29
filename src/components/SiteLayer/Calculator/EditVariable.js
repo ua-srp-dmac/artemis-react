@@ -209,13 +209,22 @@ export default function CalculatorComponent(props) {
           Assign Variables
       </Heading>
 
-      <Box pad={{vertical: "small"}}>
+      {/* <Box pad={{bottom: "xsmall"}}> */}
+        <Heading
+          level={5}
+          margin={{
+            "horizontal": "none",
+            "bottom": "xsmall",
+            "top": "xsmall"
+          }}>
+            Name <Text color={props.variableName.length===0 ? "red": ""}>*</Text>
+        </Heading>
         <TextInput
           placeholder="Enter variable name"
           value={props.variableName}
           onChange={event => props.setVariableName(event.target.value)}
         />
-      </Box>
+      {/* </Box> */}
 
       <Box pad={{vertical: "small"}}>
         <CheckBox
@@ -237,7 +246,7 @@ export default function CalculatorComponent(props) {
             "top": "xsmall",
             "bottom": "xsmall",
           }}>
-            Element
+            Element <Text color={props.variableValue.elementsSelected.length===0 ? "red": ""}>*</Text>
         </Heading>
 
         <ReactSelect
@@ -263,7 +272,7 @@ export default function CalculatorComponent(props) {
               "top": "medium",
               "bottom": "xsmall",
             }}>
-              Treatment
+              Treatment <Text color={treatmentsSelected.length === 0 ? "red": ""}>*</Text>
               { treatmentsSelected.length === 0 &&
                 <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTreatments}>
                   Select all
@@ -359,7 +368,7 @@ export default function CalculatorComponent(props) {
               "top": "medium",
               "bottom": "xsmall",
             }}>
-              Depth
+              Depth <Text color={depthsSelected.length === 0 ? "red": ""}>*</Text>
 
               { depthsSelected.length === 0 &&
                 <Anchor size="xsmall" margin="small" as="a" onClick={selectAllDepths}>
@@ -430,7 +439,7 @@ export default function CalculatorComponent(props) {
               "top": "medium",
               "bottom": "xsmall",
             }}>
-              Time
+              Time <Text color={timesSelected.length === 0 ? "red": ""}>*</Text>
               { timesSelected.length === 0 &&
                 <Anchor size="xsmall" margin="small" as="a" onClick={selectAllTimes}>
                   Select all
