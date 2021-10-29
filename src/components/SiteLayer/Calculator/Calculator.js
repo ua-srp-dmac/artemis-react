@@ -347,8 +347,10 @@ function gamma(n) { // accurate to about 15 decimal places
 
     if (formula[0]=== solutionVar && formula[1] === "=") {
       console.log('here')
-      formula_str = formula.join('').substring(2)
       formula.splice(0, 2);
+      console.log(formula)
+      formula_str = formula.join('')
+      
     } else {
       formula_str = formula.join('')
     }
