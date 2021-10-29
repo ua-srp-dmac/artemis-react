@@ -77,11 +77,11 @@ function SiteLayer(props) {
               <Subplot site={props.showSite}></Subplot>
             </Box>
           </Tab> */}
-          <Tab title="Scatterplot">
+          {/* <Tab title="Scatterplot">
             <Box pad="small">
               <Scatterplot site={props.showSite}></Scatterplot>
             </Box>
-          </Tab>
+          </Tab> */}
 
           <Tab title="Calculator">
             <Box pad="small">

@@ -158,7 +158,7 @@ export default function CalculatorComponent(props) {
           Build Equation
       </Heading> 
             
-      <Box pad={{vertical: "medium"}}>
+      {/* <Box pad={{vertical: "medium"}}>
         <CheckBox label={
             <>
               <Text>Latex Editor</Text>
@@ -187,11 +187,11 @@ export default function CalculatorComponent(props) {
           toggle
         />
 
-      </Box>
+      </Box> */}
       
 
       {/* simple equation editor */}
-      <Box>
+      <Box pad={{top: "medium"}}>
         { props.useLatexInput === false &&
           <> 
           <TextInput
