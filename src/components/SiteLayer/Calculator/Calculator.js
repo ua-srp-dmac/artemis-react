@@ -134,6 +134,7 @@ export default function CalculatorComponent(props) {
   const [variable5_name, setVariable5_name] = useState("");
 
   const [variable1_value, setVariable1_value] = useState({
+    isSolution: false,
     elementsSelected: [],
     treatment1_selected: false,
     treatment2_selected: false,
@@ -150,6 +151,7 @@ export default function CalculatorComponent(props) {
   });
 
   const [variable2_value, setVariable2_value] = useState({
+    isSolution: false,
     elementsSelected: [],
     treatment1_selected: false,
     treatment2_selected: false,
@@ -166,6 +168,7 @@ export default function CalculatorComponent(props) {
   });
   
   const [variable3_value, setVariable3_value] = useState({
+    isSolution: false,
     elementsSelected: [],
     treatment1_selected: false,
     treatment2_selected: false,
@@ -182,6 +185,7 @@ export default function CalculatorComponent(props) {
   });
   
   const [variable4_value, setVariable4_value] = useState({
+    isSolution: false,
     elementsSelected: [],
     treatment1_selected: false,
     treatment2_selected: false,
@@ -198,6 +202,7 @@ export default function CalculatorComponent(props) {
   });
   
   const [variable5_value, setVariable5_value] = useState({
+    isSolution: false,
     elementsSelected: [],
     treatment1_selected: false,
     treatment2_selected: false,
@@ -340,7 +345,8 @@ function gamma(n) { // accurate to about 15 decimal places
 
     let formula_str;
 
-    if (formula[0]===solutionVar && formula[1] === "=") {
+    if (formula[0]=== solutionVar && formula[1] === "=") {
+      console.log('here')
       formula_str = formula.join('').substring(2)
       formula.splice(0, 2);
     } else {
@@ -620,7 +626,7 @@ function gamma(n) { // accurate to about 15 decimal places
                 </>
               }
 
-              { variables.length < 8 && 
+              { variables.length < 5 && 
                 <>
                   <Card pad="small"
                     margin="small"
