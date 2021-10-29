@@ -45,7 +45,7 @@ export default function CalculatorComponent(props) {
     .then((response) => {
       const data = response.data.points;
       setData(data)
-      console.log(data);
+      // console.log(data);
     })
     .catch(error => console.log(error));
   }
@@ -477,6 +477,8 @@ function gamma(n) { // accurate to about 15 decimal places
                 <>
                 {variables.map((index, i) => {
 
+                  let varValue = eval('variable' + (i+1) + '_value')
+
                   let treatmentsSelected = []
                   let depthsSelected = []
                   let timesSelected = []
@@ -501,7 +503,30 @@ function gamma(n) { // accurate to about 15 decimal places
                   if (eval('variable' + (i+1) + '_value.time1_selected')) {
                     timesSelected.push("Time 1");
                   }
+                  
+                  let errors = [];
 
+                  if (eval("variable" + index + "_name").length === 0) {
+                    errors.push('Name');
+                  }
+
+                  if (elementsSelected.length === 0) {
+                    errors.push('Element');
+                  }
+
+                  if (treatmentsSelected.length === 0) {
+                    errors.push('Treatment');
+                  }
+
+                  if (depthsSelected.length === 0) {
+                    errors.push('Depth');
+                  }
+
+                  if (timesSelected.length === 0) {
+                    errors.push('Time');
+                  }
+
+                  
                   return (
                     <Card key={index}
                       pad="small"
@@ -523,6 +548,7 @@ function gamma(n) { // accurate to about 15 decimal places
 
                       {
                         <>
+                          
                           <CardHeader>
                             <Text weight="bold">
                               { eval("variable" + index + "_name").length === 0 ? 
@@ -536,6 +562,32 @@ function gamma(n) { // accurate to about 15 decimal places
 
                           </CardHeader>
                           <CardBody>
+
+                            {errors.length > 0 && selectedVariable !== index && !varValue.isSolution &&
+                              <Box pad={{top: "xsmall"}}>
+                              <Text color="red" size="small" weight="bold">
+                                Missing required fields:
+                              </Text>
+                              <Text size="xsmall" color="red">
+                                {errors.map((e, i) => { 
+                                  return(
+                                  <>
+                                  {i === errors.length-1 ?
+                                    <>
+                                      {e}
+                                    </>
+                                  :
+                                    <>
+                                      {e},&nbsp;
+                                    </>
+                                  }
+                                  </>);
+                                })
+                                }
+
+                              </Text>
+                              </Box>
+                            }
 
                             {eval('variable' + (i+1) + '_value.isSolution') &&
                               <Box pad={{top: "xsmall"}}>
