@@ -50,7 +50,7 @@ export default function PlotBuilder(props) {
   const [treatment6_selected, set_treatment6_selected] = React.useState(false);
 
   const [time0_selected, set_time0_selected] = React.useState(false);
-  const [time1_selected, set_time1_selected] = React.useState(false);
+  // const [time1_selected, set_time1_selected] = React.useState(false);
 
   const [depth1_selected, set_depth1_selected] = React.useState(false);
   const [depth2_selected, set_depth2_selected] = React.useState(false);
@@ -129,9 +129,9 @@ export default function PlotBuilder(props) {
     timesSelected.push(0);
   }
   
-  if (time1_selected) {
-    timesSelected.push(1);
-  }
+  // if (time1_selected) {
+  //   timesSelected.push(1);
+  // }
 
   var replicatePlots = [];
 
@@ -216,12 +216,12 @@ export default function PlotBuilder(props) {
 
   function selectAllTimes() {
     set_time0_selected(true);
-    set_time1_selected(true);
+    // set_time1_selected(true);
   }
 
   function clearTimes() {
     set_time0_selected(false);
-    set_time1_selected(false);
+    // set_time1_selected(false);
   }
 
     
