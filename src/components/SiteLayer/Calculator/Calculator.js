@@ -344,25 +344,25 @@ function gamma(n) { // accurate to about 15 decimal places
     console.log(variableVectors)
 
     let formula_str;
+    let formula_copy;
 
     if (formula[0]=== solutionVar && formula[1] === "=") {
-      console.log('here')
-      formula.splice(0, 2);
-      console.log(formula)
-      formula_str = formula.join('')
+      formula_copy = formula.slice(2);
+      formula_str = formula_copy.join('')
       
     } else {
       formula_str = formula.join('')
+      formula_copy = formula.slice()
     }
 
     console.log(formula_str)
-    console.log(formula)
+    console.log(formula_copy)
 
     // search for elements containingf
-    let POWER_SEARCH_RESULT = search(formula, POWER)
+    let POWER_SEARCH_RESULT = search(formula_copy, POWER)
     
 
-    const BASES = powerbasegetter(formula, POWER_SEARCH_RESULT)
+    const BASES = powerbasegetter(formula_copy, POWER_SEARCH_RESULT)
     console.log(BASES)
 
     // 4pow10 --> pow(4,10) 
@@ -375,8 +375,8 @@ function gamma(n) { // accurate to about 15 decimal places
         // console.log(formula_str)
     })
 
-    let FACTORIAL_SEARCH_RESULT = search(formula, FACTORIAL)
-    const NUMBERS = factorialnumgetter(formula, FACTORIAL_SEARCH_RESULT)
+    let FACTORIAL_SEARCH_RESULT = search(formula_copy, FACTORIAL)
+    const NUMBERS = factorialnumgetter(formula_copy, FACTORIAL_SEARCH_RESULT)
 
     console.log(NUMBERS)
 
