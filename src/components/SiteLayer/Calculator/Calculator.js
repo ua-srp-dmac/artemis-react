@@ -133,91 +133,12 @@ export default function CalculatorComponent(props) {
   const [variable4_name, setVariable4_name] = useState("");
   const [variable5_name, setVariable5_name] = useState("");
 
-  const [variable1_value, setVariable1_value] = useState({
-    isSolution: false,
-    elementsSelected: [],
-    treatment1_selected: false,
-    treatment2_selected: false,
-    treatment3_selected: false,
-    treatment4_selected: false,
-    treatment5_selected: false,
-    treatment6_selected: false,
-    time0_selected: false,
-    time1_selected: false,
-    depth1_selected: false,
-    depth2_selected: false,
-    depth3_selected: false,
-    depth4_selected: false,
-  });
-
-  const [variable2_value, setVariable2_value] = useState({
-    isSolution: false,
-    elementsSelected: [],
-    treatment1_selected: false,
-    treatment2_selected: false,
-    treatment3_selected: false,
-    treatment4_selected: false,
-    treatment5_selected: false,
-    treatment6_selected: false,
-    time0_selected: false,
-    time1_selected: false,
-    depth1_selected: false,
-    depth2_selected: false,
-    depth3_selected: false,
-    depth4_selected: false,
-  });
+  const [variable1_value, setVariable1_value] = useState({...initialVariableValue});
+  const [variable2_value, setVariable2_value] = useState({...initialVariableValue});
+  const [variable3_value, setVariable3_value] = useState({...initialVariableValue});
+  const [variable4_value, setVariable4_value] = useState({...initialVariableValue});
+  const [variable5_value, setVariable5_value] = useState({...initialVariableValue});
   
-  const [variable3_value, setVariable3_value] = useState({
-    isSolution: false,
-    elementsSelected: [],
-    treatment1_selected: false,
-    treatment2_selected: false,
-    treatment3_selected: false,
-    treatment4_selected: false,
-    treatment5_selected: false,
-    treatment6_selected: false,
-    time0_selected: false,
-    time1_selected: false,
-    depth1_selected: false,
-    depth2_selected: false,
-    depth3_selected: false,
-    depth4_selected: false,
-  });
-  
-  const [variable4_value, setVariable4_value] = useState({
-    isSolution: false,
-    elementsSelected: [],
-    treatment1_selected: false,
-    treatment2_selected: false,
-    treatment3_selected: false,
-    treatment4_selected: false,
-    treatment5_selected: false,
-    treatment6_selected: false,
-    time0_selected: false,
-    time1_selected: false,
-    depth1_selected: false,
-    depth2_selected: false,
-    depth3_selected: false,
-    depth4_selected: false,
-  });
-  
-  const [variable5_value, setVariable5_value] = useState({
-    isSolution: false,
-    elementsSelected: [],
-    treatment1_selected: false,
-    treatment2_selected: false,
-    treatment3_selected: false,
-    treatment4_selected: false,
-    treatment5_selected: false,
-    treatment6_selected: false,
-    time0_selected: false,
-    time1_selected: false,
-    depth1_selected: false,
-    depth2_selected: false,
-    depth3_selected: false,
-    depth4_selected: false,
-  });
-
   const [selectedVariable, setSelectedVariable] = useState(1)
 
   function selectVariable(index) {
