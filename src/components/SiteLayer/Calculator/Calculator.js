@@ -50,10 +50,14 @@ export default function CalculatorComponent(props) {
   React.useEffect(() => {
     getData();
   }, []);
+
+  // site data points
+  const [data, setData] = React.useState(null);
   
+  // calculator solution
   const [solution, setSolution] = React.useState({});
   const [showSolution, setShowSolution] = React.useState(false);
-  const [data, setData] = React.useState(null)
+  
   
   // Use Latex input field (Mathquill)
   const [useLatexInput, setUseLatexInput] = useState(false);
@@ -85,8 +89,6 @@ export default function CalculatorComponent(props) {
     }
   },[operations])
 
-
-  
 
   const treatments = [
     '15% CS',
@@ -175,8 +177,7 @@ export default function CalculatorComponent(props) {
 
   function updateVariableSummary(index) {
 
-
-    let variableData = eval('variable' + index + '_value');
+    var variableData = eval('variable' + index + '_value');
     
     let treatmentsSelected = [];
     let depthsSelected = [];
@@ -185,7 +186,7 @@ export default function CalculatorComponent(props) {
 
     for (let i = 1; i <= 6; i++) {
       if (variableData['treatment' + i + '_selected']) {
-        treatmentsSelected.push(treatments[i-1]);
+        treatmentsSelected.push(i);
       }
     }
 
@@ -277,45 +278,17 @@ export default function CalculatorComponent(props) {
     for (var i = 0; i < variables.length; i++) {
     
       let variableName = eval('variable' + (i+1) + '_name');
-      let variableData = eval('variable' + (i+1) + '_value');
+      let variableSummary = eval('variable' + (i+1) + '_summary');
 
-      if (variableData.isSolution) {
+      if (variableSummary.isSolution) {
         solutionVar = variableName;
       } else {
-
-        let selectedTreatments = [];
-        let selectedDepths = [];
-        let selectedTimes = [];
-        let selectedElements = variableData.elementsSelected.map(e => e.value);
-
-        for (var j=1; j <= 6; j++) {
-          if (variableData['treatment' + j + '_selected']) {
-            selectedTreatments.push(j);
-          }
-        }
-
-        for (var j=1; j <= 4; j++) {
-          if (variableData['depth' + j + '_selected']) {
-            selectedDepths.push(depths1[j-1]);
-          }
-        }
-
-        for (var j=0; j <= 1; j++) {
-          if (variableData['time' + j + '_selected']) {
-            selectedTimes.push(j);
-          }
-        }
-        // console.log(selectedTreatments)
-        // console.log(selectedDepths)
-        // console.log(selectedTimes)
-        // console.log(selectedElements)
-
         variableVectors[variableName] = data.filter(function(d, i) { 
           return (
-            selectedElements.includes(d.element[0]) &&
-            selectedDepths.includes(d.depth[0]) &&
-            selectedTreatments.includes(d.treatment) &&
-            selectedTimes.includes(d.time)
+            variableSummary.elementsSelected.includes(d.element[0]) &&
+            variableSummary.depthsSelected.includes(d.depth[0]) &&
+            variableSummary.treatmentsSelected.includes(d.treatment) &&
+            variableSummary.timesSelected.includes(d.time)
           );
         })
       }
@@ -340,12 +313,8 @@ export default function CalculatorComponent(props) {
 
     // search for elements containingf
     let POWER_SEARCH_RESULT = search(formula_copy, POWER)
-    
-
     const BASES = powerbasegetter(formula_copy, POWER_SEARCH_RESULT)
     console.log(BASES)
-
-    // 4pow10 --> pow(4,10) 
 
     BASES.forEach(base => {
         let toreplace = base + POWER
@@ -370,10 +339,10 @@ export default function CalculatorComponent(props) {
     })
 
 
-    // this try-catch block is used to check whether the computation is possible or not,so always the try block will be executed the first and if that block throws an error,it is caught by the catch block and the error is checked which type is it and all!
 
     let solutions = [];
 
+    // if no variables in formula, evaluate expression immediately
     if (Object.keys(variableVectors).length === 0) {
       try {  
         let result = eval(formula_str)
@@ -384,15 +353,14 @@ export default function CalculatorComponent(props) {
           solutions.push({solution: result});
         }
       }
+    // otherwise, substitute variable values before evaluating
     } else {
-
-    
       for (const varName in variableVectors) {
         let vector = variableVectors[varName];
+
+        // iterate through each vector element
         for (var i = 0; i < vector.length; i++) {
           let result = Object.assign({}, vector[i]);
-          // console.log(result)
-
           let formulaCopy = formula_str.slice();
           formulaCopy = formulaCopy.replaceAll(varName, vector[i].element_amount);
           
@@ -558,7 +526,7 @@ export default function CalculatorComponent(props) {
                                 { treatmentsSelected.map((treatment, k) => {
                                     return (
                                       <>
-                                        {treatment} { k !== treatmentsSelected.length - 1 && <>&#8226;&nbsp;</>}
+                                        {treatments[treatment-1]} { k !== treatmentsSelected.length - 1 && <>&#8226;&nbsp;</>}
                                       </>);
                                   })
                                 }
