@@ -1,16 +1,12 @@
 
-import React, {createRef, useContext, useState, useEffect} from 'react';
-
-import axios from 'axios';
+import React from 'react';
 
 import 'mathquill/build/mathquill.css';
-import math from 'mathjs';
-
 import 'katex/dist/katex.min.css';
-import { addStyles, EditableMathField } from 'react-mathquill'
+import { EditableMathField } from 'react-mathquill'
 
 import { InlineMath, BlockMath } from 'react-katex';
-import { calculatorButtons, POWER, FACTORIAL, OPERATORS } from "./CalculatorButtons";
+import { calculatorButtons } from './Buttons';
 import parse from 'html-react-parser';
 
 import {

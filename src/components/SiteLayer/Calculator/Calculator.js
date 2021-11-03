@@ -1,42 +1,40 @@
 
-import React, {createRef, useContext, useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
-
-import { calculatorButtons, POWER, FACTORIAL, OPERATORS, search, powerbasegetter, factorialnumgetter } from "./CalculatorButtons";
-
 import 'mathquill/build/mathquill.css';
 import math from 'mathjs';
-import { InlineMath, BlockMath } from 'react-katex';
-
+import { BlockMath } from 'react-katex';
 
 import EquationEditor from "./EquationEditor";
 import EditVariable from "./EditVariable";
 import classNames from "classnames";
 
 import {
+  POWER,
+  FACTORIAL,
+  search,
+  powerbasegetter,
+  factorialnumgetter,
+  factorial,
+} from "./CalculatorHelpers";
+
+import {
   Box,
   Button,
-  Layer,
   Grid,
   Text,
-  Anchor,
   Card,
   CardHeader,
-  CardFooter,
   CardBody,
   Heading,
-  ResponsiveContext,
-  TextInput,
-  RadioButtonGroup,
-  CheckBox,
-  Tip
 } from 'grommet';
 
 import {
-  BarChart, Add, AddCircle, Favorite, Calculator, Edit, Checkmark, CircleInformation, Select, Cubes
+  Add,
+  Select,
 } from 'grommet-icons';
-import { stratify } from 'd3-hierarchy';
+
 
 export default function CalculatorComponent(props) {
 
@@ -45,19 +43,18 @@ export default function CalculatorComponent(props) {
     .then((response) => {
       const data = response.data.points;
       setData(data)
-      // console.log(data);
     })
     .catch(error => console.log(error));
   }
+
+  React.useEffect(() => {
+    getData();
+  }, []);
   
   const [solution, setSolution] = React.useState({});
   const [showSolution, setShowSolution] = React.useState(false);
   const [data, setData] = React.useState(null)
   
-  React.useEffect(() => {
-    getData();
-  }, []);
-
   // Use Latex input field (Mathquill)
   const [useLatexInput, setUseLatexInput] = useState(false);
 
@@ -75,21 +72,21 @@ export default function CalculatorComponent(props) {
   const [formula, setFormula] = useState([]);
 
   // watch for changes to simple equation text editor and update latex display
-
   useEffect(() => {
     let newFormula = operations.join("");
-    console.log(newFormula)
     
     try {
       let latex = math.parse(newFormula).toTex()   
       if (latex !== 'undefined') {
         setLatexDisplay(latex);
-        console.log(latex)
       }
     } catch(error) {
       console.log(error)
     }
-  },[operations]) // <-- here put the parameter to listen
+  },[operations])
+
+
+  
 
   const treatments = [
     '15% CS',
@@ -124,8 +121,18 @@ export default function CalculatorComponent(props) {
     depth4_selected: false,
   };
 
-  const [variables, setVariables] = useState([1]);
+  const initialVariableSummary = {
+    isSolution: false,
+    elementsSelected: [],
+    treatmentsSelected: [],
+    depthsSelected: [],
+    timesSelected: [],
+    errors: [],
+    name: ""
+  }
 
+
+  const [variables, setVariables] = useState([1]);
 
   const [variable1_name, setVariable1_name] = useState("");
   const [variable2_name, setVariable2_name] = useState("");
@@ -138,6 +145,99 @@ export default function CalculatorComponent(props) {
   const [variable3_value, setVariable3_value] = useState({...initialVariableValue});
   const [variable4_value, setVariable4_value] = useState({...initialVariableValue});
   const [variable5_value, setVariable5_value] = useState({...initialVariableValue});
+
+  const [variable1_summary, setVariable1_summary] = useState({...initialVariableSummary});
+  const [variable2_summary, setVariable2_summary] = useState({...initialVariableSummary});
+  const [variable3_summary, setVariable3_summary] = useState({...initialVariableSummary});
+  const [variable4_summary, setVariable4_summary] = useState({...initialVariableSummary});
+  const [variable5_summary, setVariable5_summary] = useState({...initialVariableSummary});
+
+  useEffect(() => {
+    updateVariableSummary(1);
+  },[variable1_value]);
+
+  useEffect(() => {
+    updateVariableSummary(2);
+  },[variable2_value]);
+
+  useEffect(() => {
+    updateVariableSummary(3);
+  },[variable3_value]);
+
+  useEffect(() => {
+    updateVariableSummary(4);
+  },[variable4_value]);
+
+  useEffect(() => {
+    updateVariableSummary(5);
+  },[variable5_value]);
+
+
+  function updateVariableSummary(index) {
+
+
+    let variableData = eval('variable' + index + '_value');
+    
+    let treatmentsSelected = [];
+    let depthsSelected = [];
+    let timesSelected = [];
+    let elementsSelected = variableData.elementsSelected.map(e => e.value);
+
+    for (let i = 1; i <= 6; i++) {
+      if (variableData['treatment' + i + '_selected']) {
+        treatmentsSelected.push(treatments[i-1]);
+      }
+    }
+
+    for (let i = 1; i <= 4; i++) {
+      if (variableData['depth' + i + '_selected']) {
+        depthsSelected.push(depths1[i-1]);
+      }
+    }
+
+    for (let i = 0; i <= 1; i++) {
+      if (variableData['time' + i + '_selected']) {
+        timesSelected.push(i);
+      }
+    }
+
+    let errors = []
+
+    if (eval("variable" + index + "_name").length === 0) {
+      errors.push('Name');
+    }
+
+    if (elementsSelected.length === 0) {
+      errors.push('Element');
+    }
+
+    if (treatmentsSelected.length === 0) {
+      errors.push('Treatment');
+    }
+
+    if (depthsSelected.length === 0) {
+      errors.push('Depth');
+    }
+
+    if (timesSelected.length === 0) {
+      errors.push('Time');
+    }
+
+    let variableSummary = {
+      name: eval('variable' + index + '_name'),
+      treatmentsSelected: treatmentsSelected,
+      depthsSelected: depthsSelected,
+      timesSelected: timesSelected,
+      elementsSelected: elementsSelected,
+      isSolution: variableData.isSolution,
+      errors: errors
+    };
+
+    console.log(variableSummary)
+
+    eval('setVariable' + index + '_summary')(variableSummary);
+
+  }
   
   const [selectedVariable, setSelectedVariable] = useState(1)
 
@@ -164,58 +264,17 @@ export default function CalculatorComponent(props) {
     })
   }
 
-  function factorial(number) {
-
-    // if the number is decimal like 0.5! or so then call the gamma function
-
-    if (number % 1 != 0) {
-
-        return gamma(number + 1)
-
-    }
-
-    if (number == 0 || number == 1) {
-        return 1
-    }
-
-    let result = 1
-
-    for (let i = 1; i <= number; i++) {
-        result *= i
-    }
-    if (result == Infinity) {
-        return Infinity
-    }
-
-    return result
-}
-
-function gamma(n) { // accurate to about 15 decimal places
-  //some magic constants 
-  var g = 7, // g represents the precision desired, p is the values of p[i] to plug into Lanczos' formula
-      p = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
-  if (n < 0.5) {
-      return Math.PI / Math.sin(n * Math.PI) / gamma(1 - n);
-  } else {
-      n--;
-      var x = p[0];
-      for (var i = 1; i < g + 2; i++) {
-          x += p[i] / (n + i);
-      }
-      var t = n + g + 0.5;
-      return Math.sqrt(2 * Math.PI) * Math.pow(t, (n + 0.5)) * Math.exp(-t) * x;
-  }
-}
-
-
   function calculate(formula) {
      
     setShowSolution(true);
 
+    // object to store corresponding vectors for variables
     let variableVectors = {}
+    
+    // name of variable to solve for
     let solutionVar = ""
 
-    for (var i=0; i < variables.length; i++) {
+    for (var i = 0; i < variables.length; i++) {
     
       let variableName = eval('variable' + (i+1) + '_name');
       let variableData = eval('variable' + (i+1) + '_value');
@@ -396,102 +455,54 @@ function gamma(n) { // accurate to about 15 decimal places
 
               { variables.length > 0 && 
                 <>
-                {variables.map((index, i) => {
+                  { variables.map((index, i) => {
 
-                  let varValue = eval('variable' + (i+1) + '_value')
+                    let varSummary = eval('variable' + (i+1) + '_summary');
+                    let elementsSelected = varSummary.elementsSelected;
+                    let treatmentsSelected = varSummary.treatmentsSelected;
+                    let depthsSelected = varSummary.depthsSelected;
+                    let timesSelected = varSummary.timesSelected;
+                    let isSolution = varSummary.isSolution;
+                    let name = varSummary.name;
+                    let errors = varSummary.errors;
+                    
+                    return (
+                      <Card key={index}
+                        pad="small"
+                        margin="small" 
+                        gap="medium"
+                        border={{
+                          color: selectedVariable === index ? "#00739D" : "#D3D3D3",
+                          size: selectedVariable === index ? "medium" : "small" ,
+                          side: "all"
+                        }}   
+                        onClick={() => {
+                          setSelectedVariable(index);
+                        }}
+                        className={classNames({
+                          activeSegment: selectedVariable === index,
+                        })}>
+    
+                        <CardHeader>
+                          <Text weight="bold">
+                            { name.length === 0 ? 
+                              <>Variable {index}</> 
+                            : 
+                              eval("variable" + index + "_name")
+                            }
+                          </Text>
+                        </CardHeader>
+                        
+                        <CardBody>
 
-                  let treatmentsSelected = []
-                  let depthsSelected = []
-                  let timesSelected = []
-                  let elementsSelected = eval('variable' + (i + 1).toString() + '_value.elementsSelected');
-
-                  for (let j = 0; j < treatments.length; j++ ) {
-                    if (eval('variable' + (i+1) + '_value.treatment' + (j + 1).toString() + '_selected')) {
-                      treatmentsSelected.push(treatments[j]);
-                    }
-                  }
-
-                  for (let j = 0; j < depths1.length; j++ ) {
-                    if (eval('variable' + (i+1) + '_value.depth' + (j + 1).toString() + '_selected')) {
-                      depthsSelected.push(depths1[j]);
-                    }
-                  }
-
-                  if (eval('variable' + (i+1) + '_value.time0_selected')) {
-                    timesSelected.push("Time 0");
-                  }
-
-                  if (eval('variable' + (i+1) + '_value.time1_selected')) {
-                    timesSelected.push("Time 1");
-                  }
-                  
-                  let errors = [];
-
-                  if (eval("variable" + index + "_name").length === 0) {
-                    errors.push('Name');
-                  }
-
-                  if (elementsSelected.length === 0) {
-                    errors.push('Element');
-                  }
-
-                  if (treatmentsSelected.length === 0) {
-                    errors.push('Treatment');
-                  }
-
-                  if (depthsSelected.length === 0) {
-                    errors.push('Depth');
-                  }
-
-                  if (timesSelected.length === 0) {
-                    errors.push('Time');
-                  }
-
-                  
-                  return (
-                    <Card key={index}
-                      pad="small"
-                      margin="small" 
-                      gap="medium"
-                      // border="medium"
-                      border={{
-                        color: selectedVariable === index ? "#00739D" : "#D3D3D3",
-                        size: selectedVariable === index ? "medium" : "small" ,
-                        // style: "dashed",
-                        side: "all"
-                      }}   
-                      onClick={() => {
-                        setSelectedVariable(index);
-                      }}
-                      className={classNames({
-                        activeSegment: selectedVariable === index,
-                      })}>
-
-                      {
-                        <>
-                          
-                          <CardHeader>
-                            <Text weight="bold">
-                              { eval("variable" + index + "_name").length === 0 ? 
-                              
-                                <>Variable {index}</> 
-                                : 
-
-                                eval("variable" + index + "_name")
-                              
-                              }</Text>
-
-                          </CardHeader>
-                          <CardBody>
-
-                            {errors.length > 0 && selectedVariable !== index && !varValue.isSolution &&
-                              <Box pad={{top: "xsmall"}}>
-                              <Text color="red" size="small" weight="bold">
-                                Missing required fields:
-                              </Text>
-                              <Text size="xsmall" color="red">
-                                {errors.map((e, i) => { 
-                                  return(
+                          {errors.length > 0 && selectedVariable !== index && !isSolution &&
+                            <Box pad={{top: "xsmall"}}>
+                            <Text color="red" size="small" weight="bold">
+                              Missing required fields:
+                            </Text>
+                            <Text size="xsmall" color="red">
+                              { errors.map((e, i) => { 
+                                return (
                                   <>
                                   {i === errors.length-1 ?
                                     <>
@@ -502,102 +513,100 @@ function gamma(n) { // accurate to about 15 decimal places
                                       {e},&nbsp;
                                     </>
                                   }
-                                  </>);
-                                })
-                                }
+                                  </>
+                                );
+                              })
+                              }
 
-                              </Text>
-                              </Box>
-                            }
+                            </Text>
+                            </Box>
+                          }
 
-                            {eval('variable' + (i+1) + '_value.isSolution') &&
+                          { isSolution &&
+                            <Box pad={{top: "xsmall"}}>
+                              <Text size="small" weight="bold" color="green">Solution</Text>
+                            </Box>
+                          }
+
+                          { elementsSelected.length > 0 &&
+                            <>
                               <Box pad={{top: "xsmall"}}>
-                                <Text size="small" weight="bold" color="green">Solution</Text>
-                              </Box>
-                            }
-
-                            { elementsSelected.length > 0 &&
-                              <>
-                                <Box pad={{top: "xsmall"}}>
-                                  <Text size="small" weight="bold">
-                                    Elements &nbsp; 
-                                    <Text weight="normal" size="small">
-                                    { elementsSelected.map((element, k) => {
-                                      return (<>
-                                        {element.label} { k !== elementsSelected.length - 1 && <>&#8226;&nbsp;</>}
-                                        </>);
-                                      })
-                                    }
-                                    </Text>
-                                    
+                                <Text size="small" weight="bold">
+                                  Elements &nbsp; 
+                                  <Text weight="normal" size="small">
+                                  { elementsSelected.map((element, k) => {
+                                      return (
+                                        <>
+                                          {element} { k !== elementsSelected.length - 1 && <>&#8226;&nbsp;</>}
+                                        </>
+                                      );
+                                    })
+                                  }
                                   </Text>
-                    
-                                  
-                            
-                                </Box>
-                                
-                                
-                              </>
-                            }
-
-                            { treatmentsSelected.length > 0 &&
-                              <>
-                                <Box pad={{top: "xsmall"}}>
-                                  <Text size="small" weight="bold">Treatments</Text>
-                                </Box>
-                                
-                                <Text size="xsmall">
-                                  { treatmentsSelected.map((treatment, k) => {
-                                      return (<>
-                                      {treatment} { k !== treatmentsSelected.length - 1 && <>&#8226;&nbsp;</>}
-                                      </>);
-                                    })
-                                  }
                                 </Text>
-                              </>
-                            }
+                              </Box>
+                            </>
+                          }
 
-                            { depthsSelected.length > 0 &&
-                              <>
-                                <Box pad={{top: "xsmall"}}>
-                                  <Text size="small" weight="bold">Depths</Text>
-                                </Box>
-                                
-                                <Text size="xsmall">
-                                  { depthsSelected.map((depth, k) => {
-                                      return (<>
-                                      {depth} { k !== depthsSelected.length - 1 && <>&#8226;&nbsp;</>}
+                          { treatmentsSelected.length > 0 &&
+                            <>
+                              <Box pad={{top: "xsmall"}}>
+                                <Text size="small" weight="bold">Treatments</Text>
+                              </Box>
+                              
+                              <Text size="xsmall">
+                                { treatmentsSelected.map((treatment, k) => {
+                                    return (
+                                      <>
+                                        {treatment} { k !== treatmentsSelected.length - 1 && <>&#8226;&nbsp;</>}
                                       </>);
-                                    })
-                                  }
-                                </Text>
-                              </>
-                            }
+                                  })
+                                }
+                              </Text>
+                            </>
+                          }
 
-                            { timesSelected.length > 0 &&
-                              <>
-                                <Box pad={{top: "xsmall"}}>
-                                  <Text size="small" weight="bold">Times</Text>
-                                </Box>
-                                
-                                <Text size="xsmall">
-                                  { timesSelected.map((time, k) => {
-                                      return (<>
-                                      {time} { k !== timesSelected.length - 1 && <>&#8226;&nbsp;</>}
+                          { depthsSelected.length > 0 &&
+                            <>
+                              <Box pad={{top: "xsmall"}}>
+                                <Text size="small" weight="bold">Depths</Text>
+                              </Box>
+                              
+                              <Text size="xsmall">
+                                { depthsSelected.map((depth, k) => {
+                                    return (
+                                      <>
+                                        {depth} { k !== depthsSelected.length - 1 && <>&#8226;&nbsp;</>}
                                       </>);
-                                    })
-                                  }
-                                </Text>
-                              </>
-                            }
-                            
-                          </CardBody>
-                        </>
-                      }
+                                  })
+                                }
+                              </Text>
+                            </>
+                          }
 
-                    </Card>
-                  ) 
-                })}
+                          { timesSelected.length > 0 &&
+                            <>
+                              <Box pad={{top: "xsmall"}}>
+                                <Text size="small" weight="bold">Times</Text>
+                              </Box>
+                              
+                              <Text size="xsmall">
+                                { timesSelected.map((time, k) => {
+                                    return (
+                                      <>
+                                        {time} { k !== timesSelected.length - 1 && <>&#8226;&nbsp;</>}
+                                      </>
+                                    );
+                                  })
+                                }
+                              </Text>
+                            </>
+                          }
+                          
+                        </CardBody>
+                      </Card>
+                    ); 
+                  })}
                 </>
               }
 
