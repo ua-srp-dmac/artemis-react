@@ -482,7 +482,7 @@ export default function CalculatorComponent(props) {
         </>
       }
 
-      { props.variableSummary.errors.length > 0 &&
+      { props.variableSummary.errors.length > 0 && !props.variableSummary.isSolution &&
         <Box
           pad={{top: "medium"}}>   
           <Text size="small" color="red" weight="bold">Missing input for:</Text>
@@ -514,6 +514,16 @@ export default function CalculatorComponent(props) {
           pad={{top: "medium"}}>
         
           <Text size="small" weight="bold" color="red">Error: Input must be a vector.</Text>
+
+        </Box>
+      }
+
+      { props.vectorLengthMatch === false && 
+        <Box
+          // align="center"
+          pad={{top: "medium"}}>
+        
+          <Text size="small" weight="bold" color="red">Error: Vectors must be the same size.</Text>
 
         </Box>
       }

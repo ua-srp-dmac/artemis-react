@@ -128,12 +128,17 @@ export default function CalculatorComponent(props) {
     treatmentsSelected: [],
     depthsSelected: [],
     timesSelected: [],
+    numElements: 0,
+    numTreatments: 0,
+    numDepths: 0,
+    numTimes: 0,
     errors: [],
     name: ""
   }
 
   const [variables, setVariables] = useState([1]);
-
+  const [vectorLengthMatch, setVectorLengthMatch] = useState(true);
+  
   const [variable1_name, setVariable1_name] = useState("");
   const [variable2_name, setVariable2_name] = useState("");
   const [variable3_name, setVariable3_name] = useState("");
@@ -172,7 +177,62 @@ export default function CalculatorComponent(props) {
     updateVariableSummary(5);
   },[variable5_value]);
 
-  
+  useEffect(() => {
+    checkVectorLength();
+  },[
+    variable1_summary,
+    variable2_summary,
+    variable3_summary,
+    variable4_summary,
+    variable5_summary
+  ]);
+
+  function checkVectorLength() {
+
+    let match = true;
+
+    console.log('no errors');
+
+    for (let i = 0; i < variables.length; i++) {
+      for (let j = 0; j < variables.length; j++) {
+        if (i !== j ) {
+
+          let var1 = eval('variable' + (i + 1) + '_summary');
+          let var2 = eval('variable' + (j + 1) + '_summary');
+
+          if ((!var1.isSolution || var1.errors.length === 0) && (!var2.isSolution || var2.errors.length === 0)) {
+            console.log('comparing')
+            if (
+              (var1.elementsSelected.length === 1 &&
+              var1.depthsSelected.length === 1 &&
+              var1.treatmentsSelected.length === 1 &&
+              var1.timesSelected.length === 1) ||
+              (var2.elementsSelected.length === 1 &&
+                var2.depthsSelected.length === 1 &&
+                var2.treatmentsSelected.length === 1 &&
+                var2.timesSelected.length === 1)
+            ) {
+              console.log('vector')
+            } else {
+              if (
+                var1.elementsSelected.length === var2.elementsSelected.length &&
+                var1.treatmentsSelected.length === var2.treatmentsSelected.length &&
+                var1.depthsSelected.length === var2.depthsSelected.length &&
+                var1.timesSelected.length === var2.timesSelected.length
+              ) {
+                console.log('match')
+              } else {
+                console.log('not a match');
+                match = false;
+              }
+            }
+          }
+          
+        }
+      }
+      setVectorLengthMatch(match);
+    }
+  }
 
 
   function updateVariableSummary(index) {
@@ -247,6 +307,10 @@ export default function CalculatorComponent(props) {
       depthsSelected: depthsSelected,
       timesSelected: timesSelected,
       elementsSelected: elementsSelected,
+      numElements: elementsSelected.length,
+      numTreatments: treatmentsSelected.length,
+      numDepths: depthsSelected.length,
+      numTimes: timesSelected.length,
       isSolution: variableData.isSolution,
       errors: errors,
       isVector: isVector
@@ -255,6 +319,8 @@ export default function CalculatorComponent(props) {
     eval('setVariable' + index + '_summary')(variableSummary);
 
   }
+
+  
   
   const [selectedVariable, setSelectedVariable] = useState(1)
 
@@ -446,8 +512,16 @@ export default function CalculatorComponent(props) {
 
               </Heading>
 
+
+
               { variables.length > 0 && 
                 <>
+                  { !vectorLengthMatch &&
+                    <Text color="red" size="small" weight="bold">
+                      Error: Vectors must be same length.
+                    </Text>
+                  }
+
                   { variables.map((index, i) => {
 
                     let varSummary = eval('variable' + (i+1) + '_summary');
@@ -673,6 +747,7 @@ export default function CalculatorComponent(props) {
 
               { selectedVariable !== null && 
                 <EditVariable
+                  vectorLengthMatch={vectorLengthMatch}
                   selectedVariable={selectedVariable}
                   setSelectedVariable={setSelectedVariable}
                   variableName={eval("variable" + selectedVariable + "_name")}
@@ -716,14 +791,9 @@ export default function CalculatorComponent(props) {
                 setFormula={setFormula}
                 >
               </EquationEditor>
-              
             </Box>
           </Grid>
-
-            
-    
         </Box>
-
       </Grid>
     }
 
