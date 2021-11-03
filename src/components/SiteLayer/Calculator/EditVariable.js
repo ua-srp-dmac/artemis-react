@@ -480,16 +480,53 @@ export default function CalculatorComponent(props) {
           
         </Box>
         </>
-      }   
+      }
+
+      { props.variableSummary.errors.length > 0 &&
+        <Box
+          pad={{top: "medium"}}>   
+          <Text size="small" color="red" weight="bold">Missing input for:</Text>
+          <Text size="small" color="red">
+            { props.variableSummary.errors.map((e, i) => { 
+              return (
+                <>
+                {i === props.variableSummary.errors.length-1 ?
+                  <>
+                    {e}
+                  </>
+                :
+                  <>
+                    {e},&nbsp;
+                  </>
+                }
+                </>
+              );
+            })
+            }
+
+          </Text>
+        </Box>
+      }
+
+      { props.variableSummary.isVector === false && props.variableSummary.errors.length === 0 &&
+        <Box
+          // align="center"
+          pad={{top: "medium"}}>
+        
+          <Text size="small" weight="bold" color="red">Error: Input must be a vector.</Text>
+
+        </Box>
+      }
 
       <Box
         align="center"
-        pad="large">
+        pad="medium">
       
         <Button label="Save"
           icon={<Checkmark color="plain" />}
           hoverIndicator
           onClick={() => props.setSelectedVariable(null)}
+          disabled={ props.variableSummary.isVector == false || props.variableSummary.errors.length }
         />
 
       </Box>

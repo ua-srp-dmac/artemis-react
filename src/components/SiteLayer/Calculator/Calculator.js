@@ -172,6 +172,8 @@ export default function CalculatorComponent(props) {
     updateVariableSummary(5);
   },[variable5_value]);
 
+  
+
 
   function updateVariableSummary(index) {
 
@@ -201,6 +203,7 @@ export default function CalculatorComponent(props) {
     }
 
     let errors = []
+    let multipleSelected = []
 
     if (eval("variable" + index + "_name").length === 0) {
       errors.push('Name');
@@ -208,18 +211,34 @@ export default function CalculatorComponent(props) {
 
     if (elementsSelected.length === 0) {
       errors.push('Element');
+    } else if (elementsSelected.length > 1) {
+      multipleSelected.push('Element');
     }
 
     if (treatmentsSelected.length === 0) {
       errors.push('Treatment');
+    } else if (treatmentsSelected.length > 1) {
+      multipleSelected.push('Treatment');
     }
 
     if (depthsSelected.length === 0) {
       errors.push('Depth');
+    } else if (depthsSelected.length > 1) {
+      multipleSelected.push('Depth');
     }
 
     if (timesSelected.length === 0) {
       errors.push('Time');
+    } else if (timesSelected.length > 1) {
+      multipleSelected.push('Time');
+    }
+
+    let isVector;
+
+    if (multipleSelected.length > 1) {
+      isVector = false;
+    } else {
+      isVector = true;
     }
 
     let variableSummary = {
@@ -229,7 +248,8 @@ export default function CalculatorComponent(props) {
       timesSelected: timesSelected,
       elementsSelected: elementsSelected,
       isSolution: variableData.isSolution,
-      errors: errors
+      errors: errors,
+      isVector: isVector
     };
 
     eval('setVariable' + index + '_summary')(variableSummary);
@@ -374,8 +394,7 @@ export default function CalculatorComponent(props) {
         console.log(formulaStringCopy);
         
         try {
-          let ans = eval(formulaStringCopy);
-          result['solution'] = ans;
+          result['solution'] = eval(formulaStringCopy);
           solutions.push(result);
         } catch (error) {
           if (error instanceof SyntaxError) {
@@ -439,6 +458,7 @@ export default function CalculatorComponent(props) {
                     let isSolution = varSummary.isSolution;
                     let name = varSummary.name;
                     let errors = varSummary.errors;
+                    let isVector = varSummary.isVector;
                     
                     return (
                       <Card key={index}
@@ -470,7 +490,9 @@ export default function CalculatorComponent(props) {
                         <CardBody>
 
                           {errors.length > 0 && selectedVariable !== index && !isSolution &&
-                            <Box pad={{top: "xsmall"}}>
+                            <Box 
+                            pad={{top: "xsmall"}}
+                            >
                             <Text color="red" size="small" weight="bold">
                               Missing required fields:
                             </Text>
@@ -493,6 +515,17 @@ export default function CalculatorComponent(props) {
                               }
 
                             </Text>
+                            </Box>
+                          }
+
+                          {errors.length === 0 && !isSolution && !isVector &&
+                            <Box pad={{top: "none"}}>
+                            <Text color="red" size="small" weight="bold">
+                              Error: Variable must be a vector.
+                            </Text>
+                            {/* <Text size="xsmall" color="red">
+                              
+                            </Text> */}
                             </Box>
                           }
 
@@ -644,6 +677,7 @@ export default function CalculatorComponent(props) {
                   setSelectedVariable={setSelectedVariable}
                   variableName={eval("variable" + selectedVariable + "_name")}
                   variableValue={eval("variable" + selectedVariable + "_value")}
+                  variableSummary={eval("variable" + selectedVariable + "_summary")}
                   setVariableName={eval("setVariable" + selectedVariable + "_name")}
                   setVariableValue={eval("setVariable" + selectedVariable + "_value")}>
                 </EditVariable>
