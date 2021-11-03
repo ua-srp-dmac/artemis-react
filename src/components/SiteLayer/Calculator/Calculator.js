@@ -89,7 +89,6 @@ export default function CalculatorComponent(props) {
     }
   },[operations])
 
-
   const treatments = [
     '15% CS',
     '15% C',
@@ -132,7 +131,6 @@ export default function CalculatorComponent(props) {
     errors: [],
     name: ""
   }
-
 
   const [variables, setVariables] = useState([1]);
 
@@ -234,8 +232,6 @@ export default function CalculatorComponent(props) {
       errors: errors
     };
 
-    console.log(variableSummary)
-
     eval('setVariable' + index + '_summary')(variableSummary);
 
   }
@@ -299,10 +295,9 @@ export default function CalculatorComponent(props) {
     let formula_str;
     let formula_copy;
 
-    if (formula[0]=== solutionVar && formula[1] === "=") {
+    if (formula[0] === solutionVar && formula[1] === "=") {
       formula_copy = formula.slice(2);
       formula_str = formula_copy.join('')
-      
     } else {
       formula_str = formula.join('')
       formula_copy = formula.slice()
@@ -321,7 +316,6 @@ export default function CalculatorComponent(props) {
         let replacement = "Math.pow(" + base + ",";
 
         formula_str = formula_str.replace(toreplace, replacement)
-        // console.log(formula_str)
     })
 
     let FACTORIAL_SEARCH_RESULT = search(formula_copy, FACTORIAL)
@@ -331,14 +325,10 @@ export default function CalculatorComponent(props) {
 
     // replacing the factorial
     NUMBERS.forEach(number => {
-        // console.log(number.toReplace)
-        // console.log(number.replacement)
         formula_str = formula_str.replace(number.toReplace,
             number.replacement)
         console.log(formula_str)
     })
-
-
 
     let solutions = [];
 
@@ -355,31 +345,47 @@ export default function CalculatorComponent(props) {
       }
     // otherwise, substitute variable values before evaluating
     } else {
+
+      let maxVectorLength = 0;
+
       for (const varName in variableVectors) {
-        let vector = variableVectors[varName];
-
-        // iterate through each vector element
-        for (var i = 0; i < vector.length; i++) {
-          let result = Object.assign({}, vector[i]);
-          let formulaCopy = formula_str.slice();
-          formulaCopy = formulaCopy.replaceAll(varName, vector[i].element_amount);
-          
-          console.log(formulaCopy)
-          
-          try {
-            
-            let ans = eval(formulaCopy)
-            result['solution'] = ans
-            solutions.push(result);
-          } catch (error) {
-            if (error instanceof SyntaxError) {
-              let result = "SyntaxError"
-              solutions.push(result);
-            }
-          }
-
-        }   
+        if (variableVectors[varName].length > maxVectorLength) {
+          maxVectorLength = variableVectors[varName].length;
+        }
       }
+      
+      // iterate through each vector element
+      for (var i = 0; i < maxVectorLength; i++) {
+
+        let result = {};
+        let formulaStringCopy = formula_str.slice();
+        
+        for (const varName in variableVectors) {
+          let vector = variableVectors[varName];
+          if (vector.length === 1) {
+            result[varName] = vector[0];
+            formulaStringCopy = formulaStringCopy.replaceAll(varName, vector[0].element_amount);  
+          } else {
+            result[varName] = vector[i]
+            formulaStringCopy = formulaStringCopy.replaceAll(varName, vector[i].element_amount);
+          }
+        }
+
+        console.log(formulaStringCopy);
+        
+        try {
+          let ans = eval(formulaStringCopy);
+          result['solution'] = ans;
+          solutions.push(result);
+        } catch (error) {
+          if (error instanceof SyntaxError) {
+            let result = "SyntaxError"
+            solutions.push(result);
+          }
+        }
+
+      }   
+      
     }
 
     console.log(solutions); 
