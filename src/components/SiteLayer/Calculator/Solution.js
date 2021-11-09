@@ -35,6 +35,16 @@ export default function Solution(props) {
         header: <Text>{varSummary.name}</Text>,
         primary: true,
       });
+      columns.push({
+        property: varSummary.name + '_description',
+        header: <Text></Text>,
+        primary: true,
+        render: (datum) => (
+          <Text size="small">
+              { datum[varSummary.name + '_description'] }
+          </Text>
+        ),
+      });
     }
   }
 
@@ -46,11 +56,18 @@ export default function Solution(props) {
       let varValue = solution[i][variable];
       newData[variable] = varValue['element_amount'];
       let description = "";
-      for (const param in varValue) {
-        if (param !== 'element_amount') {
-          description += varValue[param] + " • "
+      // for (const param in varValue) {
+      Object.entries(varValue).forEach(([key, value], index) => {
+        if (key !== 'element_amount') {
+          if (index < Object.entries(varValue).length -1) {
+            description += value + " • "
+          } else {
+            description += value
+          }
+          
         }
-      }
+      })
+    
       newData[variable + '_description'] = description;
     }
     solutionData.push(newData)
