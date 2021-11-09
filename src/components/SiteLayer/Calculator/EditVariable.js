@@ -518,7 +518,7 @@ export default function CalculatorComponent(props) {
         </Box>
       }
 
-      { props.vectorLengthMatch === false && 
+      { props.vectorLengthMatch === false &&  props.variableSummary.isVector && 
         <Box
           // align="center"
           pad={{top: "medium"}}>

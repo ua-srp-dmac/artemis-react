@@ -8,6 +8,7 @@ import { BlockMath } from 'react-katex';
 
 import EquationEditor from "./EquationEditor";
 import EditVariable from "./EditVariable";
+import Solution from './Solution';
 import classNames from "classnames";
 
 import {
@@ -55,7 +56,7 @@ export default function CalculatorComponent(props) {
   const [data, setData] = React.useState(null);
   
   // calculator solution
-  const [solution, setSolution] = React.useState({});
+  const [solution, setSolution] = React.useState(null);
   const [showSolution, setShowSolution] = React.useState(false);
   
   
@@ -452,7 +453,7 @@ export default function CalculatorComponent(props) {
             result[varName] = vector[0];
             formulaStringCopy = formulaStringCopy.replaceAll(varName, vector[0].element_amount);  
           } else {
-            result[varName] = vector[i]
+            result[varName] = vector[i];
             formulaStringCopy = formulaStringCopy.replaceAll(varName, vector[i].element_amount);
           }
         }
@@ -460,7 +461,8 @@ export default function CalculatorComponent(props) {
         console.log(formulaStringCopy);
         
         try {
-          result['solution'] = eval(formulaStringCopy);
+          result[solutionVar] = {};
+          result[solutionVar]['element_amount'] = eval(formulaStringCopy);
           solutions.push(result);
         } catch (error) {
           if (error instanceof SyntaxError) {
@@ -473,7 +475,7 @@ export default function CalculatorComponent(props) {
       
     }
 
-    console.log(solutions); 
+    // console.log(solutions); 
     setSolution(solutions)
     
 
@@ -1009,11 +1011,21 @@ export default function CalculatorComponent(props) {
         }}>
           Solution
       </Heading>
-      {solution.map((d, i) => {
-        return (
-          <Text>{d.solution}</Text>
-        )
-      })}
+      { solution &&
+
+      
+        <Solution
+          solution={solution}
+          variables={variables}
+          variable1_summary = {variable1_summary}
+          variable2_summary = {variable2_summary}
+          variable3_summary = {variable3_summary}
+          variable4_summary = {variable4_summary}
+          variable5_summary = {variable5_summary}
+        >
+          
+        </Solution>
+      } 
       </Box>
     </Box>
 
