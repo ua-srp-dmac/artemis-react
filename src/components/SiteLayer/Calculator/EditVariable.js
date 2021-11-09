@@ -1,32 +1,20 @@
 
-import React, {createRef, useContext, useState, useEffect} from 'react';
-
-import axios from 'axios';
+import React from 'react';
 import ReactSelect from 'react-select';
-
-import classNames from "classnames";
 
 import {
   Box,
   Button,
-  Layer,
-  Grid,
   Text,
   Anchor,
-  Card,
-  CardHeader,
-  CardFooter,
-  CardBody,
   Heading,
-  ResponsiveContext,
   TextInput,
-  RadioButtonGroup,
   CheckBox,
   Tip
 } from 'grommet';
 
 import {
-  BarChart, Add, AddCircle, Favorite, Calculator, Edit, Checkmark, CircleInformation, Select, Cubes
+  Checkmark
 } from 'grommet-icons';
 
 export default function CalculatorComponent(props) {

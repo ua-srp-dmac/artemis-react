@@ -6,7 +6,7 @@ import 'katex/dist/katex.min.css';
 import { EditableMathField } from 'react-mathquill'
 
 import { InlineMath, BlockMath } from 'react-katex';
-import { calculatorButtons } from './Buttons';
+import { calculatorButtons, latexButtons } from './Buttons';
 import parse from 'html-react-parser';
 
 import {
@@ -27,9 +27,13 @@ import {
 export default function CalculatorComponent(props) {
 
 
-  function updateLatexText(symbol) {
-    props.latexText.write(symbol)
-    props.latexText.keystroke('Enter');
+  function updateLatexText(button) {
+    if (button.type === 'key') {
+      props.latexText.keystroke(button.formula)
+    } else {
+      props.latexText.typedText(button.formula)
+    }
+    
   }
 
 
@@ -186,8 +190,10 @@ export default function CalculatorComponent(props) {
       </Box>
       
 
-      {/* simple equation editor */}
+      
       <Box pad={{top: "medium"}}>
+
+        {/* simple equation editor */}
         { props.useLatexInput === false &&
           <> 
           <TextInput
@@ -236,8 +242,6 @@ export default function CalculatorComponent(props) {
               </Grid>
             </Box>
           </Box>
-
-          { }
 
           <Box pad="small">
 
@@ -297,10 +301,48 @@ export default function CalculatorComponent(props) {
             mathquillDidMount={(mathField) => {
               props.setLatexText(mathField)
             }}
+            config={{
+              substituteTextarea: function() {
+                return document.createElement('textarea');
+              },}}
           />
 
+          <Box pad={{vertical: "medium"}}>
 
-          <Box pad="small">
+            <Box direction="row-responsive" justify="between" align="center">
+              <Grid 
+                columns={{
+                  count: 5,
+                  size: 'auto',
+                }}
+                rows={{
+                  count: 5,
+                  size: 'auto',
+                }}
+                gap="xsmall">
+
+              { latexButtons.map((button, i) => {
+                return (
+                  <>
+                    <Button
+                      color={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(button.formula) ? '#AEC9D1' : button.formula === '=' ? '#3594B5' : "#C7D9DE"}
+                      size="medium"
+                      // onClick={() => {pressButton(button)}}
+                      onClick={() => {updateLatexText(button)}}
+                      label={parse(button.symbol)}
+                      primary
+                      >
+                    </Button>
+
+                  </>
+                )
+              })}
+              </Grid>
+            </Box>
+          </Box>
+
+
+          {/* <Box pad="small">
 
             <Box direction="row" justify="between" align="center">
               
@@ -398,7 +440,7 @@ export default function CalculatorComponent(props) {
 
             </Box>
 
-          </Box>
+          </Box> */}
           </>
         }
       </Box>
