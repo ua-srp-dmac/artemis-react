@@ -160,23 +160,24 @@ export default function CalculatorComponent(props) {
 
   useEffect(() => {
     updateVariableSummary(1);
-  },[variable1_value]);
+  },[variable1_value, variable1_name]);
 
   useEffect(() => {
     updateVariableSummary(2);
-  },[variable2_value]);
+  },[variable2_value, variable2_name]);
 
   useEffect(() => {
     updateVariableSummary(3);
-  },[variable3_value]);
+  },[variable3_value, variable3_name]);
 
   useEffect(() => {
     updateVariableSummary(4);
-  },[variable4_value]);
+  },[variable4_value, variable4_name]);
 
   useEffect(() => {
     updateVariableSummary(5);
-  },[variable5_value]);
+  },[variable5_value, variable5_name]);
+
 
   useEffect(() => {
     checkVectorLength();
