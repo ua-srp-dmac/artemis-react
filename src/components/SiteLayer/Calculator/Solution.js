@@ -69,7 +69,7 @@ export default function Solution(props) {
       
       Object.entries(varValue).forEach(([key, value], index) => {
         if (key !== 'element_amount') {
-          if (key == 'treatment') {
+          if (key === 'treatment') {
             if (index < Object.entries(varValue).length -1) {
               description += treatments[value - 1] + " • "
             } else {
@@ -80,6 +80,12 @@ export default function Solution(props) {
               description += "Time " + value + " • "
             } else {
               description += "Time " + value
+            }
+          } else if (key === 'replicate') {
+            if (index < Object.entries(varValue).length -1) {
+              description += "Rep " + value + " • "
+            } else {
+              description += "Rep " + value
             }
           } else  {
             if (index < Object.entries(varValue).length -1) {
