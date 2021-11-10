@@ -15,6 +15,16 @@ export default function Solution(props) {
 
   let solution = props.solution;
 
+  const treatments = [
+    '15% CS',
+    '15% C',
+    '20% CS',
+    '20% C',
+    '10% CS',
+    'control'
+  ];
+
+
   // console.log(solution)
 
   // create columns array
@@ -56,14 +66,30 @@ export default function Solution(props) {
       let varValue = solution[i][variable];
       newData[variable] = varValue['element_amount'];
       let description = "";
+      console.log(varValue)
       // for (const param in varValue) {
       Object.entries(varValue).forEach(([key, value], index) => {
         if (key !== 'element_amount') {
-          if (index < Object.entries(varValue).length -1) {
-            description += value + " • "
-          } else {
-            description += value
+          if (key == 'treatment') {
+            if (index < Object.entries(varValue).length -1) {
+              description += treatments[value - 1] + " • "
+            } else {
+              description += treatments[value - 1]
+            }
+          } else if (key === 'time') {
+            if (index < Object.entries(varValue).length -1) {
+              description += "Time " + value + " • "
+            } else {
+              description += "Time " + value
+            }
+          } else  {
+            if (index < Object.entries(varValue).length -1) {
+              description += value + " • "
+            } else {
+              description += value
+            }
           }
+          
           
         }
       })
