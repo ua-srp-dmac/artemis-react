@@ -225,7 +225,7 @@ export const latexButtons = [
   {
     name: "4",
     symbol: "4",
-    formula: 4,
+    formula: "4",
     type: "number"
   },
   {
@@ -249,7 +249,7 @@ export const latexButtons = [
   {
     name: "e",
     symbol: "e",
-    formula: "e",
+    formula: "E",
     type: "e"
   },
   {
@@ -306,6 +306,18 @@ export const latexButtons = [
     symbol: "+",
     formula: "+",
     type: "operator"
+  },
+  {
+    name: "sum",
+    symbol: "Σ",
+    formula: "\\sum_{i=}^{}",
+    type: "sum"
+  },
+  {
+    name: "product",
+    symbol: "Π",
+    formula: "\\sum_{i=}^{}",
+    type: "sum"
   }
 ];
   

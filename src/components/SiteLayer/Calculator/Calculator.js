@@ -5,6 +5,7 @@ import axios from 'axios';
 import 'mathquill/build/mathquill.css';
 import math from 'mathjs';
 import { BlockMath } from 'react-katex';
+import evaluatex from 'evaluatex/dist/evaluatex';
 
 import EquationEditor from "./EquationEditor";
 import EditVariable from "./EditVariable";
@@ -478,7 +479,55 @@ export default function CalculatorComponent(props) {
 
     // console.log(solutions); 
     setSolution(solutions)
+  }
+
+  function calculateLatex() {
     
+    setShowSolution(true);
+
+    // object to store corresponding vectors for variables
+    let variableVectors = {}
+    
+    // name of variable to solve for
+    let solutionVar = ""
+
+    for (var i = 0; i < variables.length; i++) {
+    
+      let variableName = eval('variable' + (i+1) + '_name');
+      let variableSummary = eval('variable' + (i+1) + '_summary');
+
+      if (variableSummary.isSolution) {
+        solutionVar = variableName;
+      } else {
+        variableVectors[variableName] = data.filter(function(d, i) { 
+          return (
+            variableSummary.elementsSelected.includes(d.element[0]) &&
+            variableSummary.depthsSelected.includes(d.depth[0]) &&
+            variableSummary.treatmentsSelected.includes(d.treatment) &&
+            variableSummary.timesSelected.includes(d.time)
+          );
+        })
+      }
+    }
+
+    console.log(variableVectors)
+
+    let formula_str;
+    let formula_copy;
+
+    console.log(equationLatex)
+    console.log(latexText)
+
+    if (equationLatex.charAt(0) === solutionVar && equationLatex.charAt(1) === "=") {
+      formula_str = equationLatex.substring(2);
+    } else {
+      formula_str = equationLatex;
+    }
+
+    var fn = evaluatex(formula_str)
+    var result = fn({})
+    console.log(result)
+
 
   }
 
@@ -792,6 +841,7 @@ export default function CalculatorComponent(props) {
                 setOperations={setOperations}
                 formula={formula}
                 setFormula={setFormula}
+                calculateLatex={calculateLatex}
                 >
               </EquationEditor>
             </Box>

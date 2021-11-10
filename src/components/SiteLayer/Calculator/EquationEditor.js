@@ -30,6 +30,9 @@ export default function CalculatorComponent(props) {
   function updateLatexText(button) {
     if (button.type === 'key') {
       props.latexText.keystroke(button.formula)
+    } 
+    else if (button.type === "sum") {
+      props.latexText.write(button.formula)
     } else {
       props.latexText.typedText(button.formula)
     }
@@ -292,155 +295,54 @@ export default function CalculatorComponent(props) {
         {/* Latex equation editor */}
         { props.useLatexInput === true && 
           <>
-          <EditableMathField
-            latex={props.equationLatex}
-            onChange={(mathField) => {
-              props.setEquationLatex(mathField.latex())
-              console.log('Editable mathfield changed:', mathField.latex())
-            }}
-            mathquillDidMount={(mathField) => {
-              props.setLatexText(mathField)
-            }}
-            config={{
-              substituteTextarea: function() {
-                return document.createElement('textarea');
-              },}}
-          />
+            <EditableMathField
+              latex={props.equationLatex}
+              onChange={(mathField) => {
+                props.setEquationLatex(mathField.latex())
+                console.log('Editable mathfield changed:', mathField.latex())
+              }}
+              mathquillDidMount={(mathField) => {
+                props.setLatexText(mathField)
+              }}
+              config={{
+                substituteTextarea: function() {
+                  return document.createElement('textarea');
+                },}}
+            />
 
-          <Box pad={{vertical: "medium"}}>
+            <Box pad={{vertical: "medium"}}>
 
-            <Box direction="row-responsive" justify="between" align="center">
-              <Grid 
-                columns={{
-                  count: 5,
-                  size: 'auto',
-                }}
-                rows={{
-                  count: 5,
-                  size: 'auto',
-                }}
-                gap="xsmall">
+              <Box direction="row-responsive" justify="between" align="center">
+                <Grid 
+                  columns={{
+                    count: 5,
+                    size: 'auto',
+                  }}
+                  rows={{
+                    count: 5,
+                    size: 'auto',
+                  }}
+                  gap="xsmall">
 
-              { latexButtons.map((button, i) => {
-                return (
-                  <>
-                    <Button
-                      color={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(button.formula) ? '#AEC9D1' : button.formula === '=' ? '#3594B5' : "#C7D9DE"}
-                      size="medium"
-                      // onClick={() => {pressButton(button)}}
-                      onClick={() => {updateLatexText(button)}}
-                      label={parse(button.symbol)}
-                      primary
-                      >
-                    </Button>
+                { latexButtons.map((button, i) => {
+                  return (
+                    <>
+                      <Button
+                        color={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(button.formula) ? '#AEC9D1' : button.formula === '=' ? '#3594B5' : "#C7D9DE"}
+                        size="medium"
+                        // onClick={() => {pressButton(button)}}
+                        onClick={() => {updateLatexText(button)}}
+                        label={parse(button.symbol)}
+                        primary
+                        >
+                      </Button>
 
-                  </>
-                )
-              })}
-              </Grid>
+                    </>
+                  )
+                })}
+                </Grid>
+              </Box>
             </Box>
-          </Box>
-
-
-          {/* <Box pad="small">
-
-            <Box direction="row" justify="between" align="center">
-              
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("+")}}
-                label={<InlineMath math="+"/>}
-                margin="xsmall">
-              </Button>
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("-")}}
-                label={<InlineMath math="-"/>}
-                margin="xsmall">
-              </Button>
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("^{}")}}
-                label={<InlineMath math="x^y"/>}
-                margin="xsmall">
-              </Button>
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("^{}")}}
-                label={<InlineMath math="\log"/>}
-                margin="xsmall">
-              </Button>
-
-            </Box>
-
-            <Box direction="row" justify="between" align="center">
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("\\times") }}
-                label={<InlineMath math="\times"/>}
-                margin="xsmall">
-              </Button>
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("\\frac{}{}") }}
-                label={<InlineMath math="\div"/>}
-                margin="xsmall">
-              </Button>
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("\\sum") }}
-                label={<InlineMath math="\sum"/>}
-                margin="xsmall">
-              </Button>
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("\\sum") }}
-                label={<InlineMath math="\ln"/>}
-                margin="xsmall">
-              </Button>
-
-            </Box>
-
-            <Box direction="row" justify="between" align="center">
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("\\times") }}
-                label={<InlineMath math="x!"/>}
-                margin="xsmall">
-              </Button>
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("\\frac{}{}") }}
-                label={<InlineMath math="e"/>}
-                margin="xsmall">
-              </Button>
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("\\sum") }}
-                label={<InlineMath math="("/>}
-                margin="xsmall">
-              </Button>
-
-              <Button
-                size="medium"
-                onClick={() => {updateLatexText("\\sum") }}
-                label={<InlineMath math=")"/>}
-                margin="xsmall">
-              </Button>
-
-            </Box>
-
-          </Box> */}
           </>
         }
       </Box>
@@ -452,7 +354,14 @@ export default function CalculatorComponent(props) {
           label="Calculate"
           color="neutral-1"
           primary
-          onClick={() => props.calculate(props.formula)}
+          onClick={() => {
+            if (props.useLatexInput === true) {
+              props.calculateLatex(props.formula);
+            } else {
+              props.calculate(props.formula);
+            }
+            
+          }}
         />
       </Box>
 
