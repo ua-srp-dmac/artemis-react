@@ -52,7 +52,7 @@ const theme = {
 function App() {
 
   const getSites = () => {
-    axios.get('https://artemis-dev.pharmacy.arizona.edu/sites')
+    axios.get('http://localhost:8000/sites')
     .then((response) => {
       setSites(response.data);
       setLoading(false);

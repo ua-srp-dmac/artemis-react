@@ -58,16 +58,15 @@ export default function Solution(props) {
     }
   }
 
-  console.log(columns)
-
   for (let i = 0; i < props.solution.length; i++) {
     let newData = {};
     for (const variable in solution[i]) { 
+      
       let varValue = solution[i][variable];
-      newData[variable] = varValue['element_amount'];
       let description = "";
-      console.log(varValue)
-      // for (const param in varValue) {
+
+      newData[variable] = varValue['element_amount'];
+      
       Object.entries(varValue).forEach(([key, value], index) => {
         if (key !== 'element_amount') {
           if (key == 'treatment') {
@@ -89,8 +88,6 @@ export default function Solution(props) {
               description += value
             }
           }
-          
-          
         }
       })
     

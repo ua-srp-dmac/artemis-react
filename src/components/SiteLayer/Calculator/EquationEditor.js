@@ -33,6 +33,8 @@ export default function CalculatorComponent(props) {
     } 
     else if (button.type === "sum") {
       props.latexText.write(button.formula)
+    } else if (button.type === "variable") {
+      props.latexText.write(button.name)
     } else {
       props.latexText.typedText(button.formula)
     }
@@ -143,6 +145,7 @@ export default function CalculatorComponent(props) {
       props.setFormula((prevState) => (
         [...prevState, button.formula]
       ));
+      
     }
 
     props.setEquationSimple(props.operations.join(''))
@@ -248,15 +251,15 @@ export default function CalculatorComponent(props) {
 
           <Box pad="small">
 
-          <Heading
-            level={4}
-            margin={{
-              "horizontal": "none",
-              "top": "xsmall",
-              "bottom": "xsmall",
-            }}>
-              Variables
-          </Heading> 
+            <Heading
+              level={4}
+              margin={{
+                "horizontal": "none",
+                "top": "xsmall",
+                "bottom": "xsmall",
+              }}>
+                Variables
+            </Heading> 
 
             <Box direction="row-responsive" justify="between" align="center">
               <Grid 
@@ -342,6 +345,48 @@ export default function CalculatorComponent(props) {
                 })}
                 </Grid>
               </Box>
+
+              <Box pad={{top:"small"}}>
+
+                <Heading
+                  level={4}
+                  margin={{
+                    "horizontal": "none",
+                    "top": "xsmall",
+                    "bottom": "xsmall",
+                  }}>
+                    Variables
+                </Heading> 
+
+                <Box direction="row-responsive" justify="between" align="center">
+                  <Grid 
+                    columns={{
+                      count: 3,
+                      size: 'auto',
+                    }}
+                    rows={{
+                      count: 2,
+                      size: 'auto',
+                    }}
+                    gap="xsmall">
+
+                  {props.variableButtons.map((button, i) => {
+                    return (
+                      <>
+                        <Button
+                          color="#3594B5"
+                          primary
+                          size="medium"
+                          onClick={() => {updateLatexText(button)}}
+                          label={button.name ? parse(button.name) : 'Var ' + (i+1)}
+                          >
+                        </Button>
+                      </>
+                    )
+                  })}
+                  </Grid>
+                </Box>
+              </Box>
             </Box>
           </>
         }
@@ -349,7 +394,7 @@ export default function CalculatorComponent(props) {
       
       <Box
         align="center"
-        pad="large">
+        pad="medium">
         <Button
           label="Calculate"
           color="neutral-1"

@@ -41,9 +41,10 @@ import {
 export default function CalculatorComponent(props) {
 
   const getData = () => {
-    axios.get('https://artemis-dev.pharmacy.arizona.edu/site-geochem-points/' + props.site.id)
+    axios.get('http://localhost:8000/site-geochem-points/' + props.site.id)
     .then((response) => {
       const data = response.data.points;
+      console.log(data)
       setData(data)
     })
     .catch(error => console.log(error));
@@ -474,7 +475,6 @@ export default function CalculatorComponent(props) {
         }
 
       }   
-      
     }
 
     // console.log(solutions); 
@@ -524,9 +524,32 @@ export default function CalculatorComponent(props) {
       formula_str = equationLatex;
     }
 
-    var fn = evaluatex(formula_str)
-    var result = fn({})
-    console.log(result)
+    // var fn = evaluatex(formula_str)
+    // var result = fn({})
+    // console.log(result)
+
+    let requestData = {
+      "variableVector": variableVectors,
+      "latex": equationLatex,
+    }
+
+    let submission = {
+      headers: {
+        // Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      body: requestData,
+    }
+
+    return axios.get('http://localhost:8000/latex-calculator', submission)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(error => console.log(error));
+
+
+
+
 
 
   }
