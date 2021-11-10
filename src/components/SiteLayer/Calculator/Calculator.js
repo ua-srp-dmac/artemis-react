@@ -512,6 +512,14 @@ export default function CalculatorComponent(props) {
 
     console.log(variableVectors)
 
+    let maxVectorLength = 0;
+
+    for (const varName in variableVectors) {
+      if (variableVectors[varName].length > maxVectorLength) {
+        maxVectorLength = variableVectors[varName].length;
+      }
+    }
+
     let formula_str;
     let formula_copy;
 
@@ -528,9 +536,13 @@ export default function CalculatorComponent(props) {
     // var result = fn({})
     // console.log(result)
 
+    console.log(solutionVar)
+
     let requestData = {
       "variableVector": variableVectors,
       "latex": equationLatex,
+      "maxVectorLength": maxVectorLength,
+      "solutionVar": solutionVar,
     }
 
     let submission = {
@@ -538,19 +550,15 @@ export default function CalculatorComponent(props) {
         // Authorization: token,
         'Content-Type': 'application/json'
       },
-      body: requestData,
+      data: requestData,
     }
 
-    return axios.get('http://localhost:8000/latex-calculator', submission)
+    return axios.get('http://localhost:8000/latex-calculator', {params: requestData})
       .then((response) => {
-        console.log(response);
+        // console.log(response.data.solution);
+        setSolution(response.data.solution);
       })
       .catch(error => console.log(error));
-
-
-
-
-
 
   }
 
