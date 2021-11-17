@@ -38,9 +38,7 @@ export default function CalculatorComponent(props) {
     } else {
       props.latexText.typedText(button.formula)
     }
-    
   }
-
 
   function pressButton(button) {
     

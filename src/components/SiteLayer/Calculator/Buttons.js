@@ -316,7 +316,7 @@ export const latexButtons = [
   {
     name: "product",
     symbol: "Π",
-    formula: "\\sum_{i=}^{}",
+    formula: "\\prod_{i=}^{}",
     type: "sum"
   }
 ];
