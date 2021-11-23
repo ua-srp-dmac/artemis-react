@@ -520,9 +520,9 @@ export default function CalculatorComponent(props) {
 
     console.log(operations.join(''))
 
-    let equationSimple = latexDisplay
-    equationSimple = equationSimple.replace("(", "{")
-    equationSimple = equationSimple.replace(")", "}")
+    let equationSimple = operations.join('')
+    // equationSimple = equationSimple.replace("(", "{")
+    // equationSimple = equationSimple.replace(")", "}")
 
     let requestData = {
       "variableVector": variableVectors,
@@ -539,7 +539,7 @@ export default function CalculatorComponent(props) {
       data: requestData,
     }
 
-    return axios.get('http://localhost:8000/latex-calculator', {params: requestData})
+    return axios.get('http://localhost:8000/simple-calculator', {params: requestData})
       .then((response) => {
         // console.log(response.data.solution);
         setSolution(response.data.solution);
