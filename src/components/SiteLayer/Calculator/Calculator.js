@@ -481,6 +481,73 @@ export default function CalculatorComponent(props) {
     setSolution(solutions)
   }
 
+  function calculateSimple() {
+    
+    setShowSolution(true);
+
+    // object to store corresponding vectors for variables
+    let variableVectors = {}
+    
+    // name of variable to solve for
+    let solutionVar = ""
+
+    for (var i = 0; i < variables.length; i++) {
+    
+      let variableName = eval('variable' + (i+1) + '_name');
+      let variableSummary = eval('variable' + (i+1) + '_summary');
+
+      if (variableSummary.isSolution) {
+        solutionVar = variableName;
+      } else {
+        variableVectors[variableName] = data.filter(function(d, i) { 
+          return (
+            variableSummary.elementsSelected.includes(d.element[0]) &&
+            variableSummary.depthsSelected.includes(d.depth[0]) &&
+            variableSummary.treatmentsSelected.includes(d.treatment) &&
+            variableSummary.timesSelected.includes(d.time)
+          );
+        })
+      }
+    }
+
+    let maxVectorLength = 0;
+
+    for (const varName in variableVectors) {
+      if (variableVectors[varName].length > maxVectorLength) {
+        maxVectorLength = variableVectors[varName].length;
+      }
+    }
+
+    console.log(operations.join(''))
+
+    let equationSimple = latexDisplay
+    equationSimple = equationSimple.replace("(", "{")
+    equationSimple = equationSimple.replace(")", "}")
+
+    let requestData = {
+      "variableVector": variableVectors,
+      "latex": equationSimple,
+      "maxVectorLength": maxVectorLength,
+      "solutionVar": solutionVar,
+    }
+
+    let submission = {
+      headers: {
+        // Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      data: requestData,
+    }
+
+    return axios.get('http://localhost:8000/latex-calculator', {params: requestData})
+      .then((response) => {
+        // console.log(response.data.solution);
+        setSolution(response.data.solution);
+      })
+      .catch(error => console.log(error));
+
+  }
+
   function calculateLatex() {
     
     setShowSolution(true);
@@ -510,8 +577,6 @@ export default function CalculatorComponent(props) {
       }
     }
 
-    console.log(variableVectors)
-
     let maxVectorLength = 0;
 
     for (const varName in variableVectors) {
@@ -522,21 +587,6 @@ export default function CalculatorComponent(props) {
 
     let formula_str;
     let formula_copy;
-
-    console.log(equationLatex)
-    console.log(latexText)
-
-    if (equationLatex.charAt(0) === solutionVar && equationLatex.charAt(1) === "=") {
-      formula_str = equationLatex.substring(2);
-    } else {
-      formula_str = equationLatex;
-    }
-
-    // var fn = evaluatex(formula_str)
-    // var result = fn({})
-    // console.log(result)
-
-    console.log(solutionVar)
 
     let requestData = {
       "variableVector": variableVectors,
@@ -873,6 +923,7 @@ export default function CalculatorComponent(props) {
                 formula={formula}
                 setFormula={setFormula}
                 calculateLatex={calculateLatex}
+                calculateSimple={calculateSimple}
                 >
               </EquationEditor>
             </Box>
@@ -921,8 +972,11 @@ export default function CalculatorComponent(props) {
           </Box>
 
           <Box>
-            { latexDisplay.length > 0 && operations.length > 0 &&
+            { latexDisplay.length > 0 && operations.length > 0 && useLatexInput === false &&
               <BlockMath math={latexDisplay}/>
+            }
+            { latexDisplay.length > 0 && useLatexInput === true &&
+              <BlockMath math={equationLatex}/>
             }
           </Box>
 

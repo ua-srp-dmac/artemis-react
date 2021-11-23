@@ -401,7 +401,7 @@ export default function CalculatorComponent(props) {
             if (props.useLatexInput === true) {
               props.calculateLatex(props.formula);
             } else {
-              props.calculate(props.formula);
+              props.calculateSimple(props.formula);
             }
             
           }}
