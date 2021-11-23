@@ -518,11 +518,7 @@ export default function CalculatorComponent(props) {
       }
     }
 
-    console.log(operations.join(''))
-
     let equationSimple = operations.join('')
-    // equationSimple = equationSimple.replace("(", "{")
-    // equationSimple = equationSimple.replace(")", "}")
 
     let requestData = {
       "variableVector": variableVectors,
@@ -544,7 +540,10 @@ export default function CalculatorComponent(props) {
         // console.log(response.data.solution);
         setSolution(response.data.solution);
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        setSolution(null);
+        console.log(error)
+      });
 
   }
 
@@ -608,7 +607,11 @@ export default function CalculatorComponent(props) {
         // console.log(response.data.solution);
         setSolution(response.data.solution);
       })
-      .catch(error => console.log(error));
+      .catch(
+        error => {
+          setSolution(null);
+          console.log(error)
+        });
 
   }
 
@@ -1161,6 +1164,11 @@ export default function CalculatorComponent(props) {
         >
           
         </Solution>
+      } 
+      { !solution &&
+        <Text>There was an error parsing your equation.</Text>
+      
+
       } 
       </Box>
     </Box>

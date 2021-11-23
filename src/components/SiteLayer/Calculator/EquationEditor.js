@@ -29,7 +29,11 @@ export default function CalculatorComponent(props) {
 
   function updateLatexText(button) {
     if (button.type === 'key') {
-      props.latexText.keystroke(button.formula)
+      if (button.name == 'clear') {
+        props.setEquationLatex("");
+      } else {
+        props.latexText.keystroke(button.formula)
+      }
     } 
     else if (button.type === "sum") {
       props.latexText.write(button.formula)
