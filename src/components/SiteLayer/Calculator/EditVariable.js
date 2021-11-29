@@ -216,11 +216,14 @@ export default function CalculatorComponent(props) {
 
       <Box pad={{vertical: "small"}}>
         <CheckBox
-          checked={props.variableValue.isSolution}
+          checked={props.variableValues['var' + props.selectedVariable].isSolution}
           label="Solve for this variable"
-          onChange={(event) => props.setVariableValue({
-            ...props.variableValue,
-            isSolution: event.target.checked
+          onChange={(event) => props.setVariableValues({
+            ...props.variableValues,
+            ['var' + props.selectedVariable]: {
+              ...props.variableValues['var' + props.selectedVariable],
+              isSolution: event.target.checked
+            }
           })}
         />
       </Box>

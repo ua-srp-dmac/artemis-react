@@ -138,6 +138,14 @@ export default function CalculatorComponent(props) {
   const [variable4_name, setVariable4_name] = useState("");
   const [variable5_name, setVariable5_name] = useState("");
 
+  const [variableValues, setVariableValues] =  useState({
+    var1: {...initialVariableValue},
+    var2: {...initialVariableValue},
+    var3: {...initialVariableValue},
+    var4: {...initialVariableValue},
+    var5: {...initialVariableValue},
+  })
+
   const [variable1_value, setVariable1_value] = useState({...initialVariableValue});
   const [variable2_value, setVariable2_value] = useState({...initialVariableValue});
   const [variable3_value, setVariable3_value] = useState({...initialVariableValue});
@@ -152,7 +160,7 @@ export default function CalculatorComponent(props) {
 
   useEffect(() => {
     updateVariableSummary(1);
-  },[variable1_value, variable1_name]);
+  },[variableValues['var1'], variable1_name]);
 
   useEffect(() => {
     updateVariableSummary(2);
@@ -229,9 +237,14 @@ export default function CalculatorComponent(props) {
   }
 
 
+
   function updateVariableSummary(index) {
 
-    var variableData = eval('variable' + index + '_value');
+    console.log('updating')
+
+    var variableData = variableValues['var' + index];
+
+    console.log(variableData)
     
     let treatmentsSelected = [];
     let depthsSelected = [];
@@ -741,6 +754,8 @@ export default function CalculatorComponent(props) {
                   vectorLengthMatch={vectorLengthMatch}
                   selectedVariable={selectedVariable}
                   setSelectedVariable={setSelectedVariable}
+                  setVariableValues={setVariableValues}
+                  variableValues={variableValues}
                   variableName={eval("variable" + selectedVariable + "_name")}
                   variableValue={eval("variable" + selectedVariable + "_value")}
                   variableSummary={eval("variable" + selectedVariable + "_summary")}
