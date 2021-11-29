@@ -5,21 +5,11 @@ import axios from 'axios';
 import 'mathquill/build/mathquill.css';
 import math from 'mathjs';
 import { BlockMath } from 'react-katex';
-import evaluatex from 'evaluatex/dist/evaluatex';
 
 import EquationEditor from "./EquationEditor";
 import EditVariable from "./EditVariable";
 import Solution from './Solution';
 import classNames from "classnames";
-
-import {
-  POWER,
-  FACTORIAL,
-  search,
-  powerbasegetter,
-  factorialnumgetter,
-  factorial,
-} from "./CalculatorHelpers";
 
 import {
   Box,
@@ -324,8 +314,6 @@ export default function CalculatorComponent(props) {
 
   }
 
-  
-  
   const [selectedVariable, setSelectedVariable] = useState(1)
 
   function selectVariable(index) {
@@ -349,136 +337,6 @@ export default function CalculatorComponent(props) {
       name: eval('variable' + (i+1) + '_name'),
       type: "variable"
     })
-  }
-
-  function calculate(formula) {
-     
-    setShowSolution(true);
-
-    // object to store corresponding vectors for variables
-    let variableVectors = {}
-    
-    // name of variable to solve for
-    let solutionVar = ""
-
-    for (var i = 0; i < variables.length; i++) {
-    
-      let variableName = eval('variable' + (i+1) + '_name');
-      let variableSummary = eval('variable' + (i+1) + '_summary');
-
-      if (variableSummary.isSolution) {
-        solutionVar = variableName;
-      } else {
-        variableVectors[variableName] = data.filter(function(d, i) { 
-          return (
-            variableSummary.elementsSelected.includes(d.element[0]) &&
-            variableSummary.depthsSelected.includes(d.depth[0]) &&
-            variableSummary.treatmentsSelected.includes(d.treatment) &&
-            variableSummary.timesSelected.includes(d.time)
-          );
-        })
-      }
-    }
-
-    console.log(variableVectors)
-
-    let formula_str;
-    let formula_copy;
-
-    if (formula[0] === solutionVar && formula[1] === "=") {
-      formula_copy = formula.slice(2);
-      formula_str = formula_copy.join('')
-    } else {
-      formula_str = formula.join('')
-      formula_copy = formula.slice()
-    }
-
-    console.log(formula_str)
-    console.log(formula_copy)
-
-    // search for elements containingf
-    let POWER_SEARCH_RESULT = search(formula_copy, POWER)
-    const BASES = powerbasegetter(formula_copy, POWER_SEARCH_RESULT)
-    console.log(BASES)
-
-    BASES.forEach(base => {
-        let toreplace = base + POWER
-        let replacement = "Math.pow(" + base + ",";
-
-        formula_str = formula_str.replace(toreplace, replacement)
-    })
-
-    let FACTORIAL_SEARCH_RESULT = search(formula_copy, FACTORIAL)
-    const NUMBERS = factorialnumgetter(formula_copy, FACTORIAL_SEARCH_RESULT)
-
-    console.log(NUMBERS)
-
-    // replacing the factorial
-    NUMBERS.forEach(number => {
-        formula_str = formula_str.replace(number.toReplace,
-            number.replacement)
-        console.log(formula_str)
-    })
-
-    let solutions = [];
-
-    // if no variables in formula, evaluate expression immediately
-    if (Object.keys(variableVectors).length === 0) {
-      try {  
-        let result = eval(formula_str)
-        solutions.push({solution: result});
-      } catch (error) {
-        if (error instanceof SyntaxError) {
-          let result = "SyntaxError"
-          solutions.push({solution: result});
-        }
-      }
-    // otherwise, substitute variable values before evaluating
-    } else {
-
-      let maxVectorLength = 0;
-
-      for (const varName in variableVectors) {
-        if (variableVectors[varName].length > maxVectorLength) {
-          maxVectorLength = variableVectors[varName].length;
-        }
-      }
-      
-      // iterate through each vector element
-      for (var i = 0; i < maxVectorLength; i++) {
-
-        let result = {};
-        let formulaStringCopy = formula_str.slice();
-        
-        for (const varName in variableVectors) {
-          let vector = variableVectors[varName];
-          if (vector.length === 1) {
-            result[varName] = vector[0];
-            formulaStringCopy = formulaStringCopy.replaceAll(varName, vector[0].element_amount);  
-          } else {
-            result[varName] = vector[i];
-            formulaStringCopy = formulaStringCopy.replaceAll(varName, vector[i].element_amount);
-          }
-        }
-
-        console.log(formulaStringCopy);
-        
-        try {
-          result[solutionVar] = {};
-          result[solutionVar]['element_amount'] = eval(formulaStringCopy);
-          solutions.push(result);
-        } catch (error) {
-          if (error instanceof SyntaxError) {
-            let result = "SyntaxError"
-            solutions.push(result);
-          }
-        }
-
-      }   
-    }
-
-    // console.log(solutions); 
-    setSolution(solutions)
   }
 
   function calculateSimple() {
@@ -583,9 +441,6 @@ export default function CalculatorComponent(props) {
         maxVectorLength = variableVectors[varName].length;
       }
     }
-
-    let formula_str;
-    let formula_copy;
 
     let requestData = {
       "variableVector": variableVectors,
@@ -907,7 +762,6 @@ export default function CalculatorComponent(props) {
               
               
               <EquationEditor
-
                 variables={variables}
                 variableButtons={variableButtons}
                 useLatexInput={useLatexInput}
@@ -918,7 +772,6 @@ export default function CalculatorComponent(props) {
                 setLatexText={setLatexText} 
                 equationSimple={equationSimple}
                 setEquationSimple={setEquationSimple}
-                calculate={calculate}
                 latexDisplay={latexDisplay}
                 setLatexDisplay={setLatexDisplay}
                 operations={operations}
