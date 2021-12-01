@@ -3,9 +3,7 @@ import React from 'react';
 
 import {
   Box,
-  Button,
   Text,
-  Heading,
   DataTable
 } from 'grommet';
 
@@ -23,9 +21,6 @@ export default function Solution(props) {
     '10% CS',
     'control'
   ];
-
-
-  // console.log(solution)
 
   // create columns array
   let columns = [];

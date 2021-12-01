@@ -442,17 +442,17 @@ export default function CalculatorComponent(props) {
     for (var i = 0; i < variables.length; i++) {
     
       let variableName = variableValues['var' + (i+1).toString()].name;
-      let variableSummary = variableSummary['var' + (i+1).toString()];
+      let varSummary = variableSummary['var' + (i+1).toString()];
 
-      if (variableSummary.isSolution) {
+      if (varSummary.isSolution) {
         solutionVar = variableName;
       } else {
         variableVectors[variableName] = data.filter(function(d, i) { 
           return (
-            variableSummary.elementsSelected.includes(d.element[0]) &&
-            variableSummary.depthsSelected.includes(d.depth[0]) &&
-            variableSummary.treatmentsSelected.includes(d.treatment) &&
-            variableSummary.timesSelected.includes(d.time)
+            varSummary.elementsSelected.includes(d.element[0]) &&
+            varSummary.depthsSelected.includes(d.depth[0]) &&
+            varSummary.treatmentsSelected.includes(d.treatment) &&
+            varSummary.timesSelected.includes(d.time)
           );
         })
       }
