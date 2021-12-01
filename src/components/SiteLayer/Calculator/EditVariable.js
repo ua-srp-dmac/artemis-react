@@ -226,12 +226,15 @@ export default function CalculatorComponent(props) {
             "bottom": "xsmall",
             "top": "xsmall"
           }}>
-            Name <Text color={props.variableName.length===0 ? "red": ""}>*</Text>
+            Name <Text color={props.variableValue.name === 0 ? "red": ""}>*</Text>
         </Heading>
         <TextInput
           placeholder="Enter variable name"
-          value={props.variableName}
-          onChange={event => props.setVariableName(event.target.value)}
+          value={props.variableValue.name}
+          onChange={(event) => props.updateVariableValue(
+            'name',
+            event.target.value
+          )}
         />
       {/* </Box> */}
 

@@ -99,6 +99,7 @@ export default function CalculatorComponent(props) {
   ];
 
   const initialVariableValue = {
+    name:"",
     isSolution: false,
     elementsSelected: [],
     treatment1_selected: false,
@@ -131,12 +132,6 @@ export default function CalculatorComponent(props) {
 
   const [variables, setVariables] = useState([1]);
   const [vectorLengthMatch, setVectorLengthMatch] = useState(true);
-  
-  const [variable1_name, setVariable1_name] = useState("");
-  const [variable2_name, setVariable2_name] = useState("");
-  const [variable3_name, setVariable3_name] = useState("");
-  const [variable4_name, setVariable4_name] = useState("");
-  const [variable5_name, setVariable5_name] = useState("");
 
   const [variableValues, setVariableValues] = useState({
     var1: {...initialVariableValue},
@@ -154,23 +149,23 @@ export default function CalculatorComponent(props) {
 
   useEffect(() => {
     updateVariableSummary(1);
-  },[variableValues['var1'], variable1_name]);
+  },[variableValues['var1']]);
 
   useEffect(() => {
     updateVariableSummary(2);
-  },[variableValues['var2'], variable2_name]);
+  },[variableValues['var2']]);
 
   useEffect(() => {
     updateVariableSummary(3);
-  },[variableValues['var3'], variable3_name]);
+  },[variableValues['var3']]);
 
   useEffect(() => {
     updateVariableSummary(4);
-  },[variableValues['var4'], variable4_name]);
+  },[variableValues['var4']]);
 
   useEffect(() => {
     updateVariableSummary(5);
-  },[variableValues['var5'], variable5_name]);
+  },[variableValues['var5']]);
 
 
   useEffect(() => {
@@ -276,7 +271,7 @@ export default function CalculatorComponent(props) {
     let errors = []
     let multipleSelected = []
 
-    if (eval("variable" + index + "_name").length === 0) {
+    if (variableData.name.length === 0) {
       errors.push('Name');
     }
 
@@ -313,7 +308,7 @@ export default function CalculatorComponent(props) {
     }
 
     let variableSummary = {
-      name: eval('variable' + index + '_name'),
+      name: variableData.name,
       treatmentsSelected: treatmentsSelected,
       depthsSelected: depthsSelected,
       timesSelected: timesSelected,
@@ -351,7 +346,7 @@ export default function CalculatorComponent(props) {
 
   for (var i = 0; i < variables.length; i++) {
     variableButtons.push({
-      name: eval('variable' + (i+1) + '_name'),
+      name: variableValues['var' + (i+1).toString()].name,
       type: "variable"
     })
   }
@@ -368,7 +363,7 @@ export default function CalculatorComponent(props) {
 
     for (var i = 0; i < variables.length; i++) {
     
-      let variableName = eval('variable' + (i+1) + '_name');
+      let variableName = variableValues['var' + (i+1).toString()].name;
       let variableSummary = eval('variable' + (i+1) + '_summary');
 
       if (variableSummary.isSolution) {
@@ -434,7 +429,7 @@ export default function CalculatorComponent(props) {
 
     for (var i = 0; i < variables.length; i++) {
     
-      let variableName = eval('variable' + (i+1) + '_name');
+      let variableName = variableValues['var' + (i+1).toString()].name;
       let variableSummary = eval('variable' + (i+1) + '_summary');
 
       if (variableSummary.isSolution) {
@@ -564,7 +559,7 @@ export default function CalculatorComponent(props) {
                             { name.length === 0 ? 
                               <>Variable {index}</> 
                             : 
-                              eval("variable" + index + "_name")
+                              varSummary.name
                             }
                           </Text>
                         </CardHeader>
@@ -762,9 +757,7 @@ export default function CalculatorComponent(props) {
                   setVariableValues={setVariableValues}
                   updateVariableValue={updateVariableValue}
                   variableValue={variableValues['var' + selectedVariable]}
-                  variableName={eval("variable" + selectedVariable + "_name")}
-                  variableSummary={eval("variable" + selectedVariable + "_summary")}
-                  setVariableName={eval("setVariable" + selectedVariable + "_name")}>
+                  variableSummary={eval("variable" + selectedVariable + "_summary")}>
                 </EditVariable>
               }
 
@@ -903,12 +896,12 @@ export default function CalculatorComponent(props) {
                     <>
                       <CardHeader>
                         <Text weight="bold">
-                          { eval("variable" + index + "_name").length === 0 ? 
+                          { variableValue.name.length === 0 ? 
                           
                             <>Variable {index}</> 
                             : 
 
-                            eval("variable" + index + "_name")
+                            variableValue.name
                           
                           }</Text>
 
