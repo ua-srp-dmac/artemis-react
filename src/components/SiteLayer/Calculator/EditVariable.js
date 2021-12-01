@@ -104,13 +104,13 @@ export default function CalculatorComponent(props) {
   let timesSelected = []
 
   for (let i = 0; i < treatments.length; i++ ) {
-    if (eval('props.variableValue.treatment' + (i + 1).toString() + '_selected')) {
+    if (props.variableValue['treatment' + (i + 1).toString() + '_selected']) {
       treatmentsSelected.push('treatment' + (i + 1).toString());
     }
   }
 
   for (let i = 0; i < depths1.length; i++ ) {
-    if (eval('props.variableValue.depth' + (i + 1).toString() + '_selected')) {
+    if (props.variableValue['depth' + (i + 1).toString() + '_selected']) {
       depthsSelected.push(depths1[i]);
     }
   }
@@ -216,7 +216,7 @@ export default function CalculatorComponent(props) {
 
       <Box pad={{vertical: "small"}}>
         <CheckBox
-          checked={props.variableValues['var' + props.selectedVariable].isSolution}
+          checked={props.variableValue.isSolution}
           label="Solve for this variable"
           onChange={(event) => props.setVariableValues({
             ...props.variableValues,

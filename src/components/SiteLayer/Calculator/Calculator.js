@@ -138,7 +138,7 @@ export default function CalculatorComponent(props) {
   const [variable4_name, setVariable4_name] = useState("");
   const [variable5_name, setVariable5_name] = useState("");
 
-  const [variableValues, setVariableValues] =  useState({
+  const [variableValues, setVariableValues] = useState({
     var1: {...initialVariableValue},
     var2: {...initialVariableValue},
     var3: {...initialVariableValue},
@@ -188,6 +188,16 @@ export default function CalculatorComponent(props) {
     variable4_summary,
     variable5_summary
   ]);
+
+  function updateVariableValue(attribute, value) {
+    setVariableValues({
+      ...variableValues,
+      ['var' + selectedVariable]: {
+        ...variableValues['var' + selectedVariable],
+        [attribute]: value
+      }
+    })
+  }
 
   function checkVectorLength() {
 
@@ -756,11 +766,11 @@ export default function CalculatorComponent(props) {
                   setSelectedVariable={setSelectedVariable}
                   setVariableValues={setVariableValues}
                   variableValues={variableValues}
+                  updateVariableValue={updateVariableValue}
+                  variableValue={variableValues['var' + selectedVariable]}
                   variableName={eval("variable" + selectedVariable + "_name")}
-                  variableValue={eval("variable" + selectedVariable + "_value")}
                   variableSummary={eval("variable" + selectedVariable + "_summary")}
-                  setVariableName={eval("setVariable" + selectedVariable + "_name")}
-                  setVariableValue={eval("setVariable" + selectedVariable + "_value")}>
+                  setVariableName={eval("setVariable" + selectedVariable + "_name")}>
                 </EditVariable>
               }
 
