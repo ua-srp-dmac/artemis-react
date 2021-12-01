@@ -118,6 +118,7 @@ export default function CalculatorComponent(props) {
 
   const initialVariableSummary = {
     isSolution: false,
+    isVector: null,
     elementsSelected: [],
     treatmentsSelected: [],
     depthsSelected: [],
@@ -139,6 +140,14 @@ export default function CalculatorComponent(props) {
     var3: {...initialVariableValue},
     var4: {...initialVariableValue},
     var5: {...initialVariableValue},
+  })
+
+  const [variableSummary, setVariableSummary] = useState({
+    var1: {...initialVariableSummary},
+    var2: {...initialVariableSummary},
+    var3: {...initialVariableSummary},
+    var4: {...initialVariableSummary},
+    var5: {...initialVariableSummary},
   })
 
   const [variable1_summary, setVariable1_summary] = useState({...initialVariableSummary});
@@ -171,12 +180,12 @@ export default function CalculatorComponent(props) {
   useEffect(() => {
     checkVectorLength();
   },[
-    variable1_summary,
-    variable2_summary,
-    variable3_summary,
-    variable4_summary,
-    variable5_summary
-  ]);
+    variableSummary['var1'],
+    variableSummary['var2'],
+    variableSummary['var3'],
+    variableSummary['var4'],
+    variableSummary['var5']
+  ])
 
   function updateVariableValue(attribute, value) {
     setVariableValues({
@@ -198,8 +207,8 @@ export default function CalculatorComponent(props) {
       for (let j = 0; j < variables.length; j++) {
         if (i !== j ) {
 
-          let var1 = eval('variable' + (i + 1) + '_summary');
-          let var2 = eval('variable' + (j + 1) + '_summary');
+          let var1 = variableSummary['var' + (i+1).toString()];
+          let var2 = variableSummary['var' + (j+1).toString()];
 
           if ((!var1.isSolution || var1.errors.length === 0) && (!var2.isSolution || var2.errors.length === 0)) {
             console.log('comparing')
@@ -301,13 +310,13 @@ export default function CalculatorComponent(props) {
 
     let isVector;
 
-    if (multipleSelected.length > 1) {
+    if (multipleSelected.length > 1 ) {
       isVector = false;
     } else {
       isVector = true;
     }
 
-    let variableSummary = {
+    let newVariableSummary = {
       name: variableData.name,
       treatmentsSelected: treatmentsSelected,
       depthsSelected: depthsSelected,
@@ -322,7 +331,10 @@ export default function CalculatorComponent(props) {
       isVector: isVector
     };
 
-    eval('setVariable' + index + '_summary')(variableSummary);
+    setVariableSummary({
+      ...variableSummary,
+      ['var' + index]: newVariableSummary
+    })
 
   }
 
@@ -364,17 +376,17 @@ export default function CalculatorComponent(props) {
     for (var i = 0; i < variables.length; i++) {
     
       let variableName = variableValues['var' + (i+1).toString()].name;
-      let variableSummary = eval('variable' + (i+1) + '_summary');
+      let varSummary = variableSummary['var' + (i+1).toString()];
 
-      if (variableSummary.isSolution) {
+      if (varSummary.isSolution) {
         solutionVar = variableName;
       } else {
         variableVectors[variableName] = data.filter(function(d, i) { 
           return (
-            variableSummary.elementsSelected.includes(d.element[0]) &&
-            variableSummary.depthsSelected.includes(d.depth[0]) &&
-            variableSummary.treatmentsSelected.includes(d.treatment) &&
-            variableSummary.timesSelected.includes(d.time)
+            varSummary.elementsSelected.includes(d.element[0]) &&
+            varSummary.depthsSelected.includes(d.depth[0]) &&
+            varSummary.treatmentsSelected.includes(d.treatment) &&
+            varSummary.timesSelected.includes(d.time)
           );
         })
       }
@@ -430,7 +442,7 @@ export default function CalculatorComponent(props) {
     for (var i = 0; i < variables.length; i++) {
     
       let variableName = variableValues['var' + (i+1).toString()].name;
-      let variableSummary = eval('variable' + (i+1) + '_summary');
+      let variableSummary = variableSummary['var' + (i+1).toString()];
 
       if (variableSummary.isSolution) {
         solutionVar = variableName;
@@ -527,7 +539,7 @@ export default function CalculatorComponent(props) {
 
                   { variables.map((index, i) => {
 
-                    let varSummary = eval('variable' + (i+1) + '_summary');
+                    let varSummary = variableSummary['var' + (i+1).toString()];
                     let elementsSelected = varSummary.elementsSelected;
                     let treatmentsSelected = varSummary.treatmentsSelected;
                     let depthsSelected = varSummary.depthsSelected;
@@ -595,7 +607,7 @@ export default function CalculatorComponent(props) {
                             </Box>
                           }
 
-                          {errors.length === 0 && !isSolution && !isVector &&
+                          {errors.length === 0 && !isSolution && isVector === false &&
                             <Box pad={{top: "none"}}>
                             <Text color="red" size="small" weight="bold">
                               Error: Variable must be a vector.
@@ -757,7 +769,7 @@ export default function CalculatorComponent(props) {
                   setVariableValues={setVariableValues}
                   updateVariableValue={updateVariableValue}
                   variableValue={variableValues['var' + selectedVariable]}
-                  variableSummary={eval("variable" + selectedVariable + "_summary")}>
+                  variableSummary={variableSummary['var' + selectedVariable]}>
                 </EditVariable>
               }
 
@@ -1023,11 +1035,7 @@ export default function CalculatorComponent(props) {
         <Solution
           solution={solution}
           variables={variables}
-          variable1_summary = {variable1_summary}
-          variable2_summary = {variable2_summary}
-          variable3_summary = {variable3_summary}
-          variable4_summary = {variable4_summary}
-          variable5_summary = {variable5_summary}
+          variableSummary = {variableSummary}
         >
           
         </Solution>

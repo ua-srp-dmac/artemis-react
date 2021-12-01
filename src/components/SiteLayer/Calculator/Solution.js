@@ -32,7 +32,7 @@ export default function Solution(props) {
   let solutionData = [];
 
   for (let i = 0; i < props.variables.length; i++) {
-    let varSummary = props['variable' + (i+1) + '_summary'];
+    let varSummary = props.variableSummary['var' + (i+1).toString()];
     if (varSummary.isSolution) {
       columns.push({
         property: varSummary.name,
