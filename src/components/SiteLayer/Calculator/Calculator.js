@@ -146,12 +146,6 @@ export default function CalculatorComponent(props) {
     var5: {...initialVariableValue},
   })
 
-  const [variable1_value, setVariable1_value] = useState({...initialVariableValue});
-  const [variable2_value, setVariable2_value] = useState({...initialVariableValue});
-  const [variable3_value, setVariable3_value] = useState({...initialVariableValue});
-  const [variable4_value, setVariable4_value] = useState({...initialVariableValue});
-  const [variable5_value, setVariable5_value] = useState({...initialVariableValue});
-
   const [variable1_summary, setVariable1_summary] = useState({...initialVariableSummary});
   const [variable2_summary, setVariable2_summary] = useState({...initialVariableSummary});
   const [variable3_summary, setVariable3_summary] = useState({...initialVariableSummary});
@@ -164,19 +158,19 @@ export default function CalculatorComponent(props) {
 
   useEffect(() => {
     updateVariableSummary(2);
-  },[variable2_value, variable2_name]);
+  },[variableValues['var2'], variable2_name]);
 
   useEffect(() => {
     updateVariableSummary(3);
-  },[variable3_value, variable3_name]);
+  },[variableValues['var3'], variable3_name]);
 
   useEffect(() => {
     updateVariableSummary(4);
-  },[variable4_value, variable4_name]);
+  },[variableValues['var4'], variable4_name]);
 
   useEffect(() => {
     updateVariableSummary(5);
-  },[variable5_value, variable5_name]);
+  },[variableValues['var5'], variable5_name]);
 
 
   useEffect(() => {
@@ -865,28 +859,30 @@ export default function CalculatorComponent(props) {
             <>
             {variables.map((index, i) => {
 
+              let variableValue = variableValues['var' + (i + 1).toString()];
+
               let treatmentsSelected = []
               let depthsSelected = []
               let timesSelected = []
-              let elementsSelected = eval('variable' + (i + 1).toString() + '_value.elementsSelected');
+              let elementsSelected = variableValue.elementsSelected;
 
               for (let j = 0; j < treatments.length; j++ ) {
-                if (eval('variable' + (i+1) + '_value.treatment' + (j + 1).toString() + '_selected')) {
+                if (variableValue['treatment' + (j + 1).toString() + '_selected']) {
                   treatmentsSelected.push(treatments[j]);
                 }
               }
 
               for (let j = 0; j < depths1.length; j++ ) {
-                if (eval('variable' + (i+1) + '_value.depth' + (j + 1).toString() + '_selected')) {
+                if (variableValue['depth' + (j + 1).toString() + '_selected']) {
                   depthsSelected.push(depths1[j]);
                 }
               }
 
-              if (eval('variable' + (i+1) + '_value.time0_selected')) {
+              if (variableValue['time0_selected']) {
                 timesSelected.push("Time 0");
               }
 
-              if (eval('variable' + (i+1) + '_value.time1_selected')) {
+              if (variableValue['time1_selected']) {
                 timesSelected.push("Time 1");
               }
 
@@ -919,7 +915,7 @@ export default function CalculatorComponent(props) {
                       </CardHeader>
                       <CardBody>
 
-                        {eval('variable' + (i+1) + '_value.isSolution') &&
+                        { variableValue.isSolution &&
                           <Box pad={{top: "xsmall"}}>
                             <Text size="small" weight="bold" color="green">Solution</Text>
                           </Box>
