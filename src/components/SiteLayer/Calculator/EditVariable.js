@@ -124,63 +124,84 @@ export default function CalculatorComponent(props) {
   }
 
   function selectAllTreatments() {
-    props.setVariableValue({
-      ...props.variableValue,
-      treatment1_selected: true,
-      treatment2_selected: true,
-      treatment3_selected: true,
-      treatment4_selected: true,
-      treatment5_selected: true,
-      treatment6_selected: true,
-    });
+
+    props.setVariableValues({
+      ...props.variableValues,
+      ['var' + props.selectedVariable]: {
+        ...props.variableValues['var' + props.selectedVariable],
+        treatment1_selected: true,
+        treatment2_selected: true,
+        treatment3_selected: true,
+        treatment4_selected: true,
+        treatment5_selected: true,
+        treatment6_selected: true,
+      }
+    })
   }
 
   function clearTreatments() {
-    props.setVariableValue({
-      ...props.variableValue,
-      treatment1_selected: false,
-      treatment2_selected: false,
-      treatment3_selected: false,
-      treatment4_selected: false,
-      treatment5_selected: false,
-      treatment6_selected: false,
-    });
+    props.setVariableValues({
+      ...props.variableValues,
+      ['var' + props.selectedVariable]: {
+        ...props.variableValues['var' + props.selectedVariable],
+        treatment1_selected: false,
+        treatment2_selected: false,
+        treatment3_selected: false,
+        treatment4_selected: false,
+        treatment5_selected: false,
+        treatment6_selected: false,
+      }
+    })
   }
 
   function selectAllDepths() {
-    props.setVariableValue({
-      ...props.variableValue,
-      depth1_selected: true,
-      depth2_selected: true,
-      depth3_selected: true,
-      depth4_selected: true,
-    });
+
+    props.setVariableValues({
+      ...props.variableValues,
+      ['var' + props.selectedVariable]: {
+        ...props.variableValues['var' + props.selectedVariable],
+        depth1_selected: true,
+        depth2_selected: true,
+        depth3_selected: true,
+        depth4_selected: true,
+      }
+    })
   }
 
   function clearDepths() {
-    props.setVariableValue({
-      ...props.variableValue,
-      depth1_selected: false,
-      depth2_selected: false,
-      depth3_selected: false,
-      depth4_selected: false,
-    });
+    props.setVariableValues({
+      ...props.variableValues,
+      ['var' + props.selectedVariable]: {
+        ...props.variableValues['var' + props.selectedVariable],
+        depth1_selected: false,
+        depth2_selected: false,
+        depth3_selected: false,
+        depth4_selected: false,
+      }
+    })
   }
 
   function selectAllTimes() {
-    props.setVariableValue({
-      ...props.variableValue,
-      time0_selected: true,
-      time1_selected: true,
-    });
+
+    props.setVariableValues({
+      ...props.variableValues,
+      ['var' + props.selectedVariable]: {
+        ...props.variableValues['var' + props.selectedVariable],
+        time0_selected: true,
+        time1_selected: true,
+      }
+    })
   }
 
   function clearTimes() {
-    props.setVariableValue({
-      ...props.variableValue,
-      time0_selected: false,
-      time1_selected: false,
-    });
+    props.setVariableValues({
+      ...props.variableValues,
+      ['var' + props.selectedVariable]: {
+        ...props.variableValues['var' + props.selectedVariable],
+        time0_selected: false,
+        time1_selected: false,
+      }
+    })
   }  
     
   return (
@@ -218,13 +239,10 @@ export default function CalculatorComponent(props) {
         <CheckBox
           checked={props.variableValue.isSolution}
           label="Solve for this variable"
-          onChange={(event) => props.setVariableValues({
-            ...props.variableValues,
-            ['var' + props.selectedVariable]: {
-              ...props.variableValues['var' + props.selectedVariable],
-              isSolution: event.target.checked
-            }
-          })}
+          onChange={(event) => props.updateVariableValue(
+            'isSolution',
+            event.target.checked
+          )}
         />
       </Box>
 
@@ -246,12 +264,10 @@ export default function CalculatorComponent(props) {
           isSearchable
           options={elements}
           className="basic-multi-select"
-          onChange={ (selectedOption) => {
-            props.setVariableValue({
-              ...props.variableValue,
-              elementsSelected: selectedOption
-            });
-          }}
+          onChange={(selectedOption) => props.updateVariableValue(
+            'elementsSelected',
+            selectedOption
+          )}
           classNamePrefix="select"
         />
 
@@ -282,34 +298,28 @@ export default function CalculatorComponent(props) {
             <Button
               label="Control"
               primary={props.variableValue.treatment6_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  treatment6_selected: !props.variableValue.treatment6_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'treatment6_selected',
+                !props.variableValue.treatment6_selected
+              )}
               size="small"
             />
             <Button
               label="15% C"
               primary={props.variableValue.treatment2_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  treatment2_selected: !props.variableValue.treatment2_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'treatment2_selected',
+                !props.variableValue.treatment2_selected
+              )}
               size="small"
             />
             <Button
               label="20% C"
               primary={props.variableValue.treatment4_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  treatment4_selected: !props.variableValue.treatment4_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'treatment4_selected',
+                !props.variableValue.treatment4_selected
+              )}
               size="small"
             />
           </Box>
@@ -318,34 +328,28 @@ export default function CalculatorComponent(props) {
             <Button
               label="10% CS"
               primary={props.variableValue.treatment5_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  treatment5_selected: !props.variableValue.treatment5_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'treatment5_selected',
+                !props.variableValue.treatment5_selected
+              )}
               size="small"
             />
             <Button
               label="15% CS"
               primary={props.variableValue.treatment1_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  treatment1_selected: !props.variableValue.treatment1_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'treatment1_selected',
+                !props.variableValue.treatment1_selected
+              )}
               size="small"
             />
             <Button
               label="20% CS"
               primary={props.variableValue.treatment3_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  treatment3_selected: !props.variableValue.treatment3_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'treatment3_selected',
+                !props.variableValue.treatment3_selected
+              )}
               size="small"
             />
           </Box>
@@ -378,45 +382,37 @@ export default function CalculatorComponent(props) {
             <Button
               label="0-20"
               primary={props.variableValue.depth1_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  depth1_selected: !props.variableValue.depth1_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'depth1_selected',
+                !props.variableValue.depth1_selected
+              )}
               size="small"
             />
             <Button
               label="20-40"
               primary={props.variableValue.depth2_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  depth2_selected: !props.variableValue.depth2_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'depth2_selected',
+                !props.variableValue.depth2_selected
+              )}
               size="small"
             />
             <Button
               label="40-60"
               primary={props.variableValue.depth3_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  depth3_selected: !props.variableValue.depth3_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'depth3_selected',
+                !props.variableValue.depth3_selected
+              )}
               size="small"
             />
             <Button
               label="60-90"
               primary={props.variableValue.depth4_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  depth4_selected: !props.variableValue.depth4_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'depth4_selected',
+                !props.variableValue.depth4_selected
+              )}
               size="small"
             />
           </Box>
@@ -448,23 +444,19 @@ export default function CalculatorComponent(props) {
             <Button
               label="Time 0"
               primary={props.variableValue.time0_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  time0_selected: !props.variableValue.time0_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'time0_selected',
+                !props.variableValue.time0_selected
+              )}
               size="small"
             />
             <Button
               label="Time 1"
               primary={props.variableValue.time1_selected}
-              onClick={() => {
-                props.setVariableValue({
-                  ...props.variableValue,
-                  time1_selected: !props.variableValue.time1_selected
-                });
-              }}
+              onClick={() => props.updateVariableValue(
+                'time1_selected',
+                !props.variableValue.time1_selected
+              )}
               size="small"
             />
           </Box>
@@ -529,7 +521,6 @@ export default function CalculatorComponent(props) {
           onClick={() => props.setSelectedVariable(null)}
           disabled={ props.variableSummary.isVector == false || props.variableSummary.errors.length }
         />
-
       </Box>
     </>
   );

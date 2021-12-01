@@ -764,8 +764,8 @@ export default function CalculatorComponent(props) {
                   vectorLengthMatch={vectorLengthMatch}
                   selectedVariable={selectedVariable}
                   setSelectedVariable={setSelectedVariable}
-                  setVariableValues={setVariableValues}
                   variableValues={variableValues}
+                  setVariableValues={setVariableValues}
                   updateVariableValue={updateVariableValue}
                   variableValue={variableValues['var' + selectedVariable]}
                   variableName={eval("variable" + selectedVariable + "_name")}
