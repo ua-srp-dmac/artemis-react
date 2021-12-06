@@ -36,8 +36,25 @@ const theme = {
       background: '#FFFFFF12',
       elevation: 'none',
     },
-  }
-  
+  },
+  formField: {
+    border: {
+      side: 'all',
+    },
+    error: {
+      size: 'xsmall',
+    },
+    help: {
+      size: 'xsmall',
+    },
+    info: {
+      size: 'xsmall',
+    },
+    label: {
+      size: 'small',
+    },
+    round: '4px',
+  },
 };
 
 function App() {
@@ -94,7 +111,7 @@ function App() {
                 </NavBar>
                 <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>   
                   <Box flex align='center' justify='center'>
-                    <LoginForm></LoginForm>
+                    <LoginForm setloggedIn={setloggedIn}></LoginForm>
                   </Box>
                 </Box>
               </Box>

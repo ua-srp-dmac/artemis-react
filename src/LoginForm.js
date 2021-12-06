@@ -1,52 +1,81 @@
 import React, { useState, Component, Fragment } from "react";
 
 import { StatusGood } from 'grommet-icons';
-import { Box, Button, Grommet, Form, FormField, TextInput } from 'grommet';
+import { Box, Button, Form, FormField, TextInput, Text } from 'grommet';
+
+import axios from 'axios';
 
 function LoginForm() {
+
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [username, setUsername] = useState(true)
+  const [password, setPassword] = useState(true)
+
+  function login(props) {
+
+    setLoading(true);
+    setError(null);
+  
+    axios.post('/api/login/', {
+      username: username,
+      password: password,
+    })
+    .then(result => {
+      setLoading(false);
+      props.setLoggedIn(result.data);
+    })
+    .catch((error) => {
+      setError(error.response.data);
+      setLoading(false);
+    });
+
+  }
 
   return (
 
     <Box fill align="center" justify="center">
+      <Box width="medium" pad={{vertical: 'medium'}}>
+        <Text >
+          Please log in using your CyVerse credentials.
+        </Text>
+      </Box>
+      
       <Box width="medium">
         <Form
-          validate="blur"
-          onReset={event => console.log(event)}
-          onSubmit={({ value }) => console.log('Submit', value)}
-        >
+          onSubmit={() => login()}
+        > 
           <FormField
-            label="Name"
-            name="name"
+            label="Username"
+            name="username"
             required
-            validate={[
-              { regexp: /^[a-z]/i },
-              name => {
-                if (name && name.length === 1) return 'must be >1 character';
-                return undefined;
-              },
-              name => {
-                if (name === 'good')
-                  return {
-                    message: (
-                      <Box align="end">
-                        <StatusGood />
-                      </Box>
-                    ),
-                    status: 'info',
-                  };
-                return undefined;
-              },
-            ]}
+            // validate={[
+            //   { regexp: /^[a-z]/i },
+            //   name => {
+            //     if (name && name.length === 1) return 'must be >1 character';
+            //     return undefined;
+            //   },
+            //   name => {
+            //     if (name === 'good')
+            //       return {
+            //         message: (
+            //           <Box align="end">
+            //             <StatusGood />
+            //           </Box>
+            //         ),
+            //         status: 'info',
+            //       };
+            //     return undefined;
+            //   },
+            // ]}
           />
 
-          <FormField label="Email" name="email" required>
-            <TextInput name="email" type="email" />
+          <FormField label="Password" name="password" required>
+            <TextInput/>
           </FormField>
 
           <Box direction="row" justify="between" margin={{ top: 'medium' }}>
-            <Button label="Cancel" />
-            <Button type="reset" label="Reset" />
-            <Button type="submit" label="Update" primary />
+            <Button type="submit" label="Login" primary />
           </Box>
         </Form>
       </Box>
