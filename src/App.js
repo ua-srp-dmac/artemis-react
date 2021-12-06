@@ -1,11 +1,15 @@
 import {
   Box,
+  Grommet,
+  ResponsiveContext,
+  Heading
 } from 'grommet';
 
 import React, { useState } from "react";
 import axios from 'axios';
 
 import Main from './Main';
+import LoginForm from './LoginForm';
 
 
 const theme = {
@@ -78,8 +82,8 @@ function App() {
   
   return (
     <>
-      <Main></Main>
-      {/* { loggedIn && <Main></Main> }
+      {/* <Main></Main> */}
+      { loggedIn && <Main></Main> }
       { !loggedIn && 
         <Grommet theme={theme} full>
           <ResponsiveContext.Consumer>
@@ -90,14 +94,14 @@ function App() {
                 </NavBar>
                 <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>   
                   <Box flex align='center' justify='center'>
-                    Not authorized to view this app.
+                    <LoginForm></LoginForm>
                   </Box>
                 </Box>
               </Box>
             )}
           </ResponsiveContext.Consumer>
         </Grommet>
-      } */}
+      }
     </>
     
 
