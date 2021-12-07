@@ -51,8 +51,10 @@ const theme = {
 
 function Main() {
 
+  const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+
   const getSites = () => {
-    axios.get('http://localhost:8000/sites')
+    axios.get(`${API_ENDPOINT}/sites`)
     .then((response) => {
       setSites(response.data);
       setLoading(false);

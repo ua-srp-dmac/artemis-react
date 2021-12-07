@@ -1,8 +1,6 @@
 
 import React, {createRef, useContext, useState} from 'react';
 
-import axios from 'axios';
-
 import EquationEditor from "equation-editor-react";
 import 'mathquill/build/mathquill.css';
 import ReactSelect from 'react-select';

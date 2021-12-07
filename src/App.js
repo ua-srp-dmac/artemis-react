@@ -75,21 +75,23 @@ function App() {
 
   const getAuth = () => {
 
-    axios.get('http://localhost:8000/api/auth/')
+    const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+
+    axios.get(`${API_ENDPOINT}/api/auth/`)
       .then(result => {
-        setloggedIn(result.data);
+        setLoggedIn(result.data);
         setLoading(false);
         console.log(result)
       })
       .catch((error) => {
-        setloggedIn(false);
+        setLoggedIn(false);
         setLoading(false);
         console.log(error)
         console.log('not logged in')
     });
   }
 
-  const [loggedIn, setloggedIn] = useState(null)
+  const [loggedIn, setLoggedIn] = useState(null)
   const [loading, setLoading] = useState(true)
 
 
@@ -111,7 +113,7 @@ function App() {
                 </NavBar>
                 <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>   
                   <Box flex align='center' justify='center'>
-                    <LoginForm setloggedIn={setloggedIn}></LoginForm>
+                    <LoginForm setLoggedIn={setLoggedIn}></LoginForm>
                   </Box>
                 </Box>
               </Box>

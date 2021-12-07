@@ -30,8 +30,11 @@ import {
 
 export default function CalculatorComponent(props) {
 
+  const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+  
   const getData = () => {
-    axios.get('http://localhost:8000/site-geochem-points/' + props.site.id)
+    
+    axios.get(`${API_ENDPOINT}/site-geochem-points/` + props.site.id)
     .then((response) => {
       const data = response.data.points;
       console.log(data)
@@ -417,7 +420,7 @@ export default function CalculatorComponent(props) {
       data: requestData,
     }
 
-    return axios.get('http://localhost:8000/simple-calculator', {params: requestData})
+    return axios.get(`${API_ENDPOINT}/simple-calculator`, {params: requestData})
       .then((response) => {
         // console.log(response.data.solution);
         setSolution(response.data.solution);
@@ -481,7 +484,7 @@ export default function CalculatorComponent(props) {
       data: requestData,
     }
 
-    return axios.get('http://localhost:8000/latex-calculator', {params: requestData})
+    return axios.get(`${API_ENDPOINT}/latex-calculator`, {params: requestData})
       .then((response) => {
         // console.log(response.data.solution);
         setSolution(response.data.solution);

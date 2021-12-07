@@ -25,10 +25,11 @@ import {
 
 export default function Experiment() {
 
+  const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
   const size = useContext(ResponsiveContext);
   
   const getData = () => {
-    axios.get('site-geochem-cache/6')
+    axios.get(`${API_ENDPOINT}/site-geochem-cache/6`)
     .then((response) => {
       const data = response.data;
       setData(data)

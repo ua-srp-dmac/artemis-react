@@ -26,9 +26,10 @@ import {
 export default function Experiment(props) {
 
   const size = useContext(ResponsiveContext);
+  const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
   
   const getData = () => {
-    axios.get('https://artemis-dev.pharmacy.arizona.edu/site-geochem-points/' + props.site.id)
+    axios.get(`${API_ENDPOINT}/site-geochem-points/` + props.site.id)
     .then((response) => {
       const data = response.data.points;
       setData(data)

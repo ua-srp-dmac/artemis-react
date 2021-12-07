@@ -1,27 +1,30 @@
-import React, { useState, Component, Fragment } from "react";
+import React, { useState, } from "react";
 
-import { StatusGood } from 'grommet-icons';
 import { Box, Button, Form, FormField, TextInput, Text } from 'grommet';
 
 import axios from 'axios';
 
-function LoginForm() {
+function LoginForm(props) {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [username, setUsername] = useState(true)
-  const [password, setPassword] = useState(true)
+  const [formValue, setFormValue] = useState(true)
 
-  function login(props) {
+ 
+  const login = () => {
 
     setLoading(true);
     setError(null);
+
+    const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+
+    console.log(formValue);
   
-    axios.post('/api/login/', {
-      username: username,
-      password: password,
+    axios.post(`${API_ENDPOINT}/api/login/`, {
+      username: formValue.username,
+      password: formValue.password,
     })
-    .then(result => {
+    .then((result) => {
       setLoading(false);
       props.setLoggedIn(result.data);
     })
@@ -43,35 +46,20 @@ function LoginForm() {
       
       <Box width="medium">
         <Form
+          value={formValue}
+          onChange={nextValue => {
+            setFormValue(nextValue);
+          }}
           onSubmit={() => login()}
         > 
           <FormField
             label="Username"
             name="username"
             required
-            // validate={[
-            //   { regexp: /^[a-z]/i },
-            //   name => {
-            //     if (name && name.length === 1) return 'must be >1 character';
-            //     return undefined;
-            //   },
-            //   name => {
-            //     if (name === 'good')
-            //       return {
-            //         message: (
-            //           <Box align="end">
-            //             <StatusGood />
-            //           </Box>
-            //         ),
-            //         status: 'info',
-            //       };
-            //     return undefined;
-            //   },
-            // ]}
           />
 
           <FormField label="Password" name="password" required>
-            <TextInput/>
+            <TextInput type="password" name="password"></TextInput>
           </FormField>
 
           <Box direction="row" justify="between" margin={{ top: 'medium' }}>
